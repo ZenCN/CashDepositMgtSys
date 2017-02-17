@@ -1,0 +1,30 @@
+<div class=dashboard-page>
+    <div class=container-fluid>
+        <div class=row>
+            <div class="col-sm-3 col-md-2 sidebar">
+                <div class=text-center>
+                    <h2 class=brand>保证金
+                        <small>管理系统</small>
+                    </h2>
+                    <img src="../client/image/login/flat-avatar.png" class=user-avatar><br>
+                    <span>张三</span>&nbsp;&nbsp;
+                    <a ui-sref="login" class="btn btn-white btn-outline btn-rounded btn-sm">注销</a>
+                </div>
+                <ul class="nav nav-sidebar">
+                    <li ng-class="{active: $state.includes('generation_buckle')}">
+                        <a ui-sref="dashboard.generation_buckle">代扣 <span class=sr-only>(current)</span></a>
+                    </li>
+                    <li ng-class="{active: $state.includes('generation_gives')}">
+                        <a ui-sref="dashboard.generation_gives">代付 </a>
+                    </li>
+                    <li ng-class="{active: $state.includes('sys_settings')}">
+                        <a ui-sref="dashboard.sys_settings">系统设置 </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ui-view>
+
+            </div>
+        </div>
+    </div>
+</div>
