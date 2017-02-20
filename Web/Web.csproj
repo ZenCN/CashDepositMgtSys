@@ -225,6 +225,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Backup\保证金系统需求.zip" />
+    <Content Include="Backup\Test.xls" />
     <None Include="Client\bower_component\angular\angular.min.js.map" />
     <None Include="Client\bower_component\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <None Include="Client\bower_component\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
