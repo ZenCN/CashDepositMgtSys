@@ -12,7 +12,7 @@
             $(function() {
                 $element.fileinput({
                     language: "zh",
-                    uploadUrl: 'dt04/upload',
+                    uploadUrl: 'excel/upload',
                     allowedFileExtensions: ['xls', 'xlsx'],
                     layoutTemplates: {
                         btnBrowse: '<div tabindex="500" class="{css}"{status}>{icon}</div>',

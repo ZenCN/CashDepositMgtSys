@@ -52,6 +52,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity.cs" />
+    <Compile Include="Excel.cs" />
+    <Compile Include="Model\Agency.cs" />
+    <Compile Include="Model\DbBase.cs" />
+    <Compile Include="Model\Db.cs" />
+    <Compile Include="Model\Deducted.cs" />
+    <Compile Include="Model\Generation_buckle.cs" />
+    <Compile Include="Model\Generation_gives.cs" />
+    <Compile Include="Model\Staff.cs" />
     <Compile Include="Model\Template\agency.cs">
       <DependentUpon>CashDepositMgtSys.tt</DependentUpon>
     </Compile>
