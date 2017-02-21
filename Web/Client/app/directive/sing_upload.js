@@ -20,6 +20,10 @@
                             '<div style="width:358px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" class="file-caption-name"></div>' +
                             '</div>'
                     }
+                }).on('filebatchuploadsuccess', function(event, data) {
+                    msg(data.files.the_first().name + ' 导入成功');
+                }).on('filebatchuploadcomplete', function() {
+                    $element.fileinput('refresh');
                 });
             });
         }

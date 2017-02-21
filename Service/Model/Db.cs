@@ -11,11 +11,6 @@ namespace Service.Model
         {
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
-
         public DbSet<Agency> Agency { get; set; }
 
         public DbSet<Deducted> Deducted { get; set; }

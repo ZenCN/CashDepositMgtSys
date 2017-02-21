@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Infrastructure.Operation;
 using Infrastructure.Exception;
+using Newtonsoft.Json;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
@@ -17,9 +18,9 @@ namespace Web.Controllers
 {
     public class ExcelController : Controller
     {
-        
+        private Result result = null;
 
-        public Result Upload(HttpPostedFileBase file)
+        public string Upload(HttpPostedFileBase file)
         {
             IWorkbook workbook = null;
             ISheet sheet = null;
@@ -35,12 +36,12 @@ namespace Web.Controllers
                     file.SaveAs(filePath);
 
                     fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-                    if (filePath.IndexOf(".xlsx") > 0)   // 2007版本
+                    if (filePath.IndexOf(".xlsx") > 0) // 2007版本
                         workbook = new XSSFWorkbook(fs);
-                    else if (filePath.IndexOf(".xls") > 0)  // 2003版本
+                    else if (filePath.IndexOf(".xls") > 0) // 2003版本
                         workbook = new HSSFWorkbook(fs);
 
-                    sheet = workbook.GetSheetAt(0);  //获取第一个sheet
+                    sheet = workbook.GetSheetAt(0); //获取第一个sheet
 
                     if (sheet != null)
                     {
@@ -58,24 +59,21 @@ namespace Web.Controllers
                             Type type = buckle.GetType();
                             System.Reflection.PropertyInfo property = null;
 
-                            for (int r = startRow; r < rowCount; r++)
+                            for (int r = startRow; r <= rowCount; r++)
                             {
                                 buckle = new Generation_buckle();
                                 for (int c = 0; c < cellCount; c++)
                                 {
                                     cell = sheet.GetRow(r).GetCell(c);
-                                    if (cell.StringCellValue != null)
-                                    {
-                                        property = type.GetProperty(field[c]);
+                                    property = type.GetProperty(field[c]);
 
-                                        if (field[c] == "cash_deposit")
-                                        {
-                                            property.SetValue(buckle, cell.NumericCellValue, null);
-                                        }
-                                        else
-                                        {
-                                            property.SetValue(buckle, cell.StringCellValue, null);
-                                        }
+                                    if (cell.CellType == CellType.Numeric)
+                                    {
+                                        property.SetValue(buckle, Convert.ToDecimal(cell.NumericCellValue), null);
+                                    }
+                                    else
+                                    {
+                                        property.SetValue(buckle, cell.StringCellValue, null);
                                     }
                                 }
                                 list.Add(buckle);
@@ -83,32 +81,34 @@ namespace Web.Controllers
 
                             if (list.Any())
                             {
-                                return new Excel().ImportDataInDataBase(list);
+                                result = new Excel().ImportDataInDataBase(list);
                             }
                             else
                             {
-                                return new Result(ResultType.Error, file.FileName + " 读取不到Excel中的数据！");
+                                result = new Result(ResultType.Error, file.FileName + " 读取不到Excel中的数据！");
                             }
                         }
                         else
                         {
-                            return new Result(ResultType.Error, file.FileName + "格式不正确！");
+                            result = new Result(ResultType.Error, file.FileName + "格式不正确！");
                         }
                     }
                     else
                     {
-                        return new Result(ResultType.Error, file.FileName + " 第一个Sheet为空！");
+                        result = new Result(ResultType.Error, file.FileName + " 第一个Sheet为空！");
                     }
                 }
                 else
                 {
-                    return new Result(ResultType.Error,"找不到上传的文件，name = file");
+                    result = new Result(ResultType.Error, "找不到上传的文件，name = file");
                 }
             }
             catch (Exception ex)
             {
-                return new Result(ResultType.Error, new Message(ex).ErrorDetails);
+                result = new Result(ResultType.Error, new Message(ex).ErrorDetails);
             }
+
+            return JsonConvert.SerializeObject(result);
         }
 
         private Dictionary<int, string> GetFieldDic()

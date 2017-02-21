@@ -14,6 +14,7 @@ namespace Service
 
         public Result ImportDataInDataBase(List<Generation_buckle> list)
         {
+            db = new Db();
             Generation_buckle buckle = null;
             List<Generation_buckle> ignore  = new List<Generation_buckle>();
 
@@ -21,7 +22,7 @@ namespace Service
             {
                 foreach (Generation_buckle _this in list)
                 {
-                    buckle = db.Generation_buckle.Single(t => t.salesman_card_id == buckle.salesman_card_id);
+                    buckle = db.Generation_buckle.SingleOrDefault(t => t.salesman_card_id == _this.salesman_card_id);
 
                     if (buckle == null)
                     {
