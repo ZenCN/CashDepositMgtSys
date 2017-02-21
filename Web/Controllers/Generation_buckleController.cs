@@ -16,11 +16,22 @@ using Service.Model;
 
 namespace Web.Controllers
 {
-    public class ExcelController : Controller
+    public class Generation_buckleController : Controller
     {
         private Result result = null;
+        private Generation_buckleSvr svr = new Generation_buckleSvr();
 
-        public string Upload(HttpPostedFileBase file)
+        public string Search(int page_index, int page_size, string salesman_card_id, string salesman_name)
+        {
+            return JsonConvert.SerializeObject(svr.Search(page_index, page_size, salesman_card_id, salesman_name));
+        }
+
+        public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name)
+        {
+            svr.Export(page_index, page_size, salesman_card_id, salesman_name);
+        }
+
+        public string Import(HttpPostedFileBase file)
         {
             IWorkbook workbook = null;
             ISheet sheet = null;
@@ -81,31 +92,31 @@ namespace Web.Controllers
 
                             if (list.Any())
                             {
-                                result = new Excel().ImportDataInDataBase(list);
+                                result = svr.Import(list);
                             }
                             else
                             {
-                                result = new Result(ResultType.Error, file.FileName + " 读取不到Excel中的数据！");
+                                result = new Result(ResultType.error, file.FileName + " 读取不到Excel中的数据！");
                             }
                         }
                         else
                         {
-                            result = new Result(ResultType.Error, file.FileName + "格式不正确！");
+                            result = new Result(ResultType.error, file.FileName + "格式不正确！");
                         }
                     }
                     else
                     {
-                        result = new Result(ResultType.Error, file.FileName + " 第一个Sheet为空！");
+                        result = new Result(ResultType.error, file.FileName + " 第一个Sheet为空！");
                     }
                 }
                 else
                 {
-                    result = new Result(ResultType.Error, "找不到上传的文件，name = file");
+                    result = new Result(ResultType.error, "找不到上传的文件，name = file");
                 }
             }
             catch (Exception ex)
             {
-                result = new Result(ResultType.Error, new Message(ex).ErrorDetails);
+                result = new Result(ResultType.error, new Message(ex).ErrorDetails);
             }
 
             return JsonConvert.SerializeObject(result);

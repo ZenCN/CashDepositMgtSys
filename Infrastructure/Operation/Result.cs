@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 
 namespace Infrastructure.Operation
@@ -30,7 +31,7 @@ namespace Infrastructure.Operation
         /// <param name="resultType">业务操作结果类型</param>
         public Result(ResultType resultType)
         {
-            ResultType = resultType;
+            result = resultType.ToString();
         }
 
         /// <summary>
@@ -41,7 +42,13 @@ namespace Infrastructure.Operation
         public Result(ResultType resultType, string message)
             : this(resultType)
         {
-            Message = message;
+            msg = message;
+        }
+
+        public Result(ResultType resultType, object appendData)
+            : this(resultType)
+        {
+            extra = appendData;
         }
 
         /// <summary>
@@ -53,7 +60,7 @@ namespace Infrastructure.Operation
         public Result(ResultType resultType, string message, object appendData)
             : this(resultType, message)
         {
-            AppendData = appendData;
+            extra = appendData;
         }
 
         /// <summary>
@@ -65,7 +72,7 @@ namespace Infrastructure.Operation
         public Result(ResultType resultType, string message, string logMessage)
             : this(resultType, message)
         {
-            LogMessage = logMessage;
+            log_msg = logMessage;
         }
 
         /// <summary>
@@ -78,7 +85,7 @@ namespace Infrastructure.Operation
         public Result(ResultType resultType, string message, string logMessage, object appendData)
             : this(resultType, message, logMessage)
         {
-            AppendData = appendData;
+            extra = appendData;
         }
 
         #endregion
@@ -86,24 +93,24 @@ namespace Infrastructure.Operation
         #region 属性
 
         /// <summary>
+        ///     获取或设置 操作结果附加信息
+        /// </summary>
+        public object extra { get; set; }
+
+        /// <summary>
         ///     获取或设置 操作结果类型
         /// </summary>
-        public ResultType ResultType { get; set; }
+        public string result { get; set; }
 
         /// <summary>
         ///     获取或设置 操作返回信息
         /// </summary>
-        public string Message { get; set; }
+        public string msg { get; set; }
 
         /// <summary>
         ///     获取或设置 操作返回的日志消息，用于记录日志
         /// </summary>
-        public string LogMessage { get; set; }
-
-        /// <summary>
-        ///     获取或设置 操作结果附加信息
-        /// </summary>
-        public object AppendData { get; set; }
+        public string log_msg { get; set; }
 
         #endregion
     }

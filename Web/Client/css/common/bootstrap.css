@@ -1,4 +1,12 @@
-table th,table td {
+.padding-0 .col-xs-1, .padding-0 .col-sm-1, .padding-0 .col-md-1, .padding-0 .col-lg-1, .padding-0 .col-xs-2, .padding-0 .col-sm-2, .padding-0 .col-md-2,
+.padding-0 .col-lg-2, .padding-0 .col-xs-3, .padding-0 .col-sm-3, .padding-0 .col-md-3, .padding-0 .col-lg-3, .padding-0 .col-xs-4, .padding-0 .col-sm-4,
+.padding-0 .col-md-4, .padding-0 .col-lg-4, .padding-0 .col-xs-5, .padding-0 .col-sm-5, .padding-0 .col-md-5, .padding-0 .col-lg-5, .padding-0 .col-xs-6,
+.padding-0 .col-sm-6, .padding-0 .col-md-6, .padding-0 .col-lg-6, .padding-0 .col-xs-7, .padding-0 .col-sm-7, .padding-0 .col-md-7, .padding-0 .col-lg-7,
+.padding-0 .col-xs-8, .padding-0 .col-sm-8, .padding-0 .col-md-8, .padding-0 .col-lg-8, .padding-0 .col-xs-9, .padding-0 .col-sm-9, .padding-0 .col-md-9,
+.padding-0 .col-lg-9, .padding-0 .col-xs-10, .padding-0 .col-sm-10, .padding-0 .col-md-10, .padding-0 .col-lg-10, .padding-0 .col-xs-11, .padding-0 .col-sm-11,
+.padding-0 .col-md-11, .padding-0 .col-lg-11, .padding-0 .col-xs-12, .padding-0 .col-sm-12, .padding-0 .col-md-12, .padding-0 .col-lg-12 { padding: 0 !important; }
+
+table th, table td {
     text-align: center;
     vertical-align: middle !important;
 }
@@ -9,7 +17,7 @@ fieldset {
     border-radius: 6px;
 }
 
-fieldset legend{
+fieldset legend {
     font-size: 15px;
     color: #a78e8e;
     margin-bottom: 0;

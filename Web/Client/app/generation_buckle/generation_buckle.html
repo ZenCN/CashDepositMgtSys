@@ -12,7 +12,7 @@
                             ng-click="open_dialog('add','dk')">
                         新增
                     </button>
-                    <button type="button" class="btn btn-md btn-success" ng-click="search.from_svr()">
+                    <button type="button" class="btn btn-md btn-success" ng-click="delete()">
                         删除
                     </button>
                 </div>
@@ -20,13 +20,13 @@
             <div class="col-sm-4">
                 <div class="input-group input-group-md">
                     <span class="input-group-addon">证件号</span>
-                    <input type="text" class="form-control" ng-model="search.condition.card_id"/>
+                    <input type="text" class="form-control" ng-model="search.condition.salesman_card_id"/>
                 </div>
             </div>
             <div class="col-sm-3">
                 <div class="input-group input-group-md">
-                    <span class="input-group-addon">账户名</span>
-                    <input type="text" class="form-control" ng-model="search.condition.card_id"/>
+                    <span class="input-group-addon">姓名</span>
+                    <input type="text" class="form-control" ng-model="search.condition.salesman_name"/>
                 </div>
             </div>
             <div class="col-sm-2">
@@ -34,57 +34,104 @@
                     <button type="button" class="btn btn-md btn-primary" ng-click="search.from_svr()">
                         搜索
                     </button>
-                    <button type="button" class="btn btn-md btn-success" ng-click="search.from_svr()">
+                    <button type="button" class="btn btn-md btn-success" ng-click="export()()">
                         导出
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <div class=jumbotron>
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th style="display: none" rowspan="2" style="width: 32px;"></th>
-                <th rowspan="2">管理机构</th>
-                <th rowspan="2">代理人工号</th>
-                <th colspan="5">销售人员信息</th>
-                <th colspan="5">销售人员银行账户信息</th>
-                <th rowspan="2">金额</th>
-                <th rowspan="2">备注</th>
-            </tr>
-            <tr>
-                <th>姓名</th>
-                <th>性别</th>
-                <th>证件类别</th>
-                <th>证件号</th>
-                <th>手机号</th>
-                <th>账户名</th>
-                <th>账号</th>
-                <th>开户行</th>
-                <th>所在省</th>
-                <th>所在市</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td style="display: none"><input type="checkbox" style="width: 15px;height: 15px;"/></td>
-                <td>XX机构</td>
-                <td>1234</td>
-                <td>张三</td>
-                <td>男</td>
-                <td>身份证</td>
-                <td>431121199504285238</td>
-                <td>18684953154</td>
-                <td>张三</td>
-                <td>6222521646850154</td>
-                <td>工商银行</td>
-                <td>湖南省</td>
-                <td>长沙市</td>
-                <td>800</td>
-                <td>备注</td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="jumbotron" style="padding: 10px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th rowspan="2" style="width: 32px;"></th>
+                        <th rowspan="2">管理机构</th>
+                        <th rowspan="2">代理人工号</th>
+                        <th colspan="5">销售人员信息</th>
+                        <th colspan="5">销售人员银行账户信息</th>
+                        <th rowspan="2">金额</th>
+                        <th rowspan="2">备注</th>
+                    </tr>
+                    <tr>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>证件类别</th>
+                        <th>证件号</th>
+                        <th>手机号</th>
+                        <th>账户名</th>
+                        <th>账号</th>
+                        <th>开户行</th>
+                        <th>所在省</th>
+                        <th>所在市</th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="_this in search.result">
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="checkbox" style="width: 15px; height: 15px;" ng-model="_this.checked"/>
+                        </td>
+                        <td>{{_this.agency_code}}</td>
+                        <td>{{_this.recorder_code}}</td>
+                        <td>{{_this.salesman_name}}</td>
+                        <td>{{_this.salesman_sex}}</td>
+                        <td>{{_this.salesman_card_type}}</td>
+                        <td>{{_this.salesman_card_id}}</td>
+                        <td>{{_this.salesman_phone}}</td>
+                        <td>{{_this.salesman_bank_account_name}}</td>
+                        <td>{{_this.salesman_bank_account_number}}</td>
+                        <td>{{_this.salesman_bank_name}}</td>
+                        <td>{{_this.salesman_bank_province}}</td>
+                        <td>{{_this.salesman_bank_city}}</td>
+                        <td>{{_this.cash_deposit}}</td>
+                        <td>{{_this.remark}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="form-group padding-0">
+                    <label class="col-sm-2 control-label" style="margin-top: 5px;">每页显示</label>
+                    <div class="col-sm-3">
+                        <select ng-change="_case.search.from_server()" ng-model="page.size" class="form-control input-sm">
+                            <option value="15">15</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-4 control-label" style="margin-top: 5px;">条，共{{page.all_items.last()}}页 {{page.record_count}}条记录</label>
+                </div>
+            </div>
+            <div class="col-sm-7 text-right">
+                <ul class="pagination" style="margin: 0;">
+                    <li ng-click="page.turn_to(0)" ng-disabled="page.filtered.length == 1" class="paginate_button">
+                        <a href="javascript:void(0)">第一页</a>
+                    </li>
+                    <li ng-click="page.turn_to(page.index - 1)" ng-disabled="page.filtered.length == 1"
+                        class="paginate_button previous">
+                        <a href="javascript:void(0)">&laquo;</a>
+                    </li>
+                    <li ng-repeat="item in page.filtered track by $index" ng-click="page.turn_to(item - 1)"
+                        ng-class="{active: (page.index + 1) == item}" class="paginate_button">
+                        <a href="javascript:void(0)">
+                            {{item}}
+                        </a>
+                    </li>
+                    <li ng-click="page.turn_to(page.index + 1)" ng-disabled="page.filtered.length == 1"
+                        class="paginate_button next">
+                        <a href="javascript:void(0)">&raquo;</a>
+                    </li>
+                    <li ng-click="page.turn_to(page.all_items.length - 1)" ng-disabled="page.filtered.length == 1"
+                        class="paginate_button">
+                        <a href="javascript:void(0)">最后一页</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>

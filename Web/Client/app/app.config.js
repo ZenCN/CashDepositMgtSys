@@ -50,6 +50,7 @@
                 templateUrl: '../client/app/generation_buckle/generation_buckle.html',
                 resolve: resolve_dep([
                     '../client/app/generation_buckle/generation_buckle_ctrl.js',
+                    '../client/app/service/generation_buckle_svr.js',
                     '../client/bower_component/bootstrap-fileinput/css/fileinput.min.css',
                     '../client/bower_component/bootstrap-fileinput/js/fileinput.min.js',
                     '../client/app/directive/sing_upload.js',

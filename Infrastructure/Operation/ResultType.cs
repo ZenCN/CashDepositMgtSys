@@ -28,48 +28,48 @@ namespace Infrastructure.Operation
         ///     操作成功
         /// </summary>
         [Description("操作成功。")]
-        Success,
+        success,
 
         /// <summary>
         ///     操作取消或操作没引发任何变化
         /// </summary>
         [Description("操作没有引发任何变化，提交取消。")]
-        NoChanged,
+        no_changed,
 
         /// <summary>
         ///     参数错误
         /// </summary>
         [Description("参数错误。")]
-        ParamError,
+        param_error,
 
         /// <summary>
         ///     指定参数的数据不存在
         /// </summary>
         [Description("指定参数的数据不存在。")]
-        QueryNull,
+        query_null,
 
         /// <summary>
         ///     权限不足
         /// </summary>
         [Description("当前用户权限不足，不能继续操作。")]
-        PurviewLack,
+        purview_lack,
 
         /// <summary>
         ///     非法操作
         /// </summary>
         [Description("非法操作。")]
-        IllegalOperation,
+        illegal_operation,
 
         /// <summary>
         ///     警告
         /// </summary>
         [Description("警告")]
-        Warning,
+        warning,
 
         /// <summary>
         ///     操作引发错误
         /// </summary>
         [Description("操作引发错误。")]
-        Error,
+        error,
     }
 }

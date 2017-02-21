@@ -12,7 +12,7 @@
             $(function() {
                 $element.fileinput({
                     language: "zh",
-                    uploadUrl: 'excel/upload',
+                    uploadUrl: 'generation_buckle/import',
                     allowedFileExtensions: ['xls', 'xlsx'],
                     layoutTemplates: {
                         btnBrowse: '<div tabindex="500" class="{css}"{status}>{icon}</div>',
@@ -20,10 +20,17 @@
                             '<div style="width:358px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" class="file-caption-name"></div>' +
                             '</div>'
                     }
-                }).on('filebatchuploadsuccess', function(event, data) {
-                    msg(data.files.the_first().name + ' 导入成功');
-                }).on('filebatchuploadcomplete', function() {
-                    $element.fileinput('refresh');
+                }).on('fileuploaded', function (event, config) {
+                    var text = config.filenames.join("、") + ' 导入成功';
+
+                    if (isString(config.response.extra)) {
+                        config.response.extra = JSON.parse(config.response.extra);
+                        text += '，但是' + config.response.msg;
+                    }
+
+                    msg(text);
+                    console.log(config.response.data);
+                    //$element.fileinput('refresh');
                 });
             });
         }
