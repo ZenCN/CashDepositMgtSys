@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Generation_buckleController.cs" />
+    <Compile Include="Controllers\Generation_givesController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -128,6 +129,7 @@
     <Content Include="Client\app\login\login.html" />
     <Content Include="Client\app\login\login_ctrl.js" />
     <Content Include="Client\app\service\generation_buckle_svr.js" />
+    <Content Include="Client\app\service\generation_gives_svr.js" />
     <Content Include="Client\app\service\login_svr.js" />
     <Content Include="Client\app\sys_settings\sys_settings.html" />
     <Content Include="Client\app\sys_settings\sys_settings_ctrl.js" />
@@ -238,6 +240,7 @@
     <None Include="Client\bower_component\jquery-metis-menu\metisMenu.js.map" />
     <Content Include="packages.config" />
     <Content Include="Excel\Model.xls" />
+    <None Include="Properties\PublishProfiles\Web.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

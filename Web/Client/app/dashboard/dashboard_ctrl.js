@@ -5,9 +5,13 @@
         .module('app.layout')
         .controller('dashboard_ctrl', dashboard_ctrl);
 
-    dashboard_ctrl.$inject = ['$scope'];
+    dashboard_ctrl.$inject = ['$scope','$state'];
 
-    function dashboard_ctrl(vm) {
+    function dashboard_ctrl(vm, $state) {
+        /*if (!angular.isObject(vm.user)) {
+            $state.go('login');
+        }*/
+
         vm.page = {
             inited: false,  //是否已初始化
             index: 0,   //页号，0 表示第一页

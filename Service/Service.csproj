@@ -77,6 +77,7 @@
     <Compile Include="Entity.cs" />
     <Compile Include="Excel.cs" />
     <Compile Include="Generation_buckleSvr.cs" />
+    <Compile Include="Generation_givesSvr.cs" />
     <Compile Include="Model\Agency.cs" />
     <Compile Include="Model\DbBase.cs" />
     <Compile Include="Model\Db.cs" />

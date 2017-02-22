@@ -23,3 +23,7 @@ fieldset legend {
     margin-bottom: 0;
     width: inherit;
 }
+
+.ng-invalid-required {
+    border-color: #e48989;
+}

@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+您 Web 项目的发布/打包进程将使用此文件。您可以通过编辑此 MSBuild 文件
+来自定义该进程的行为。若要了解与此相关的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkID=208121。
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Work Directory\web</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="Backup/CashDepositMgtSys.sql">
+      <publishTime>02/17/2017 17:29:19</publishTime>
+    </File>
+    <File Include="Backup/Test.xls">
+      <publishTime>02/20/2017 17:45:40</publishTime>
+    </File>
+    <File Include="Backup/保证金系统需求.zip">
+      <publishTime>02/17/2017 17:30:12</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>02/20/2017 11:35:47</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>02/20/2017 11:35:47</publishTime>
+    </File>
+    <File Include="bin/ICSharpCode.SharpZipLib.dll">
+      <publishTime>01/03/2011 14:16:38</publishTime>
+    </File>
+    <File Include="bin/Infrastructure.dll">
+      <publishTime>02/22/2017 09:54:08</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>07/19/2012 10:59:52</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>06/13/2016 23:06:14</publishTime>
+    </File>
+    <File Include="bin/NPOI.dll">
+      <publishTime>06/01/2016 06:50:56</publishTime>
+    </File>
+    <File Include="bin/NPOI.OOXML.dll">
+      <publishTime>06/01/2016 06:50:56</publishTime>
+    </File>
+    <File Include="bin/NPOI.OpenXml4Net.dll">
+      <publishTime>06/01/2016 06:50:56</publishTime>
+    </File>
+    <File Include="bin/NPOI.OpenXmlFormats.dll">
+      <publishTime>06/01/2016 06:50:56</publishTime>
+    </File>
+    <File Include="bin/Service.dll">
+      <publishTime>02/22/2017 09:54:10</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>07/10/2012 12:03:34</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>09/25/2014 14:27:58</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>08/01/2012 09:06:22</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>07/10/2012 12:03:34</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>07/10/2012 12:03:34</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>01/05/2011 15:45:38</publishTime>
+    </File>
+    <File Include="bin/Web.dll">
+      <publishTime>02/22/2017 09:54:13</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/EntityFramework.resources.dll">
+      <publishTime>03/02/2015 09:32:38</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/EntityFramework.SqlServer.resources.dll">
+      <publishTime>03/02/2015 09:32:38</publishTime>
+    </File>
+    <File Include="Client/app/app.config.js">
+      <publishTime>02/21/2017 15:12:38</publishTime>
+    </File>
+    <File Include="Client/app/app.module.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/app.service.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/controller/datepicker_ctrl.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/controller/modal_ctrl.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/dashboard/dashboard.html">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/dashboard/dashboard_ctrl.js">
+      <publishTime>02/21/2017 15:23:07</publishTime>
+    </File>
+    <File Include="Client/app/directive/metis_menu.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/directive/sing_upload.js">
+      <publishTime>02/21/2017 15:47:12</publishTime>
+    </File>
+    <File Include="Client/app/directive/update_pwd.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/generation_buckle/generation_buckle.html">
+      <publishTime>02/21/2017 16:56:19</publishTime>
+    </File>
+    <File Include="Client/app/generation_buckle/generation_buckle_ctrl.js">
+      <publishTime>02/21/2017 17:04:42</publishTime>
+    </File>
+    <File Include="Client/app/generation_buckle/generation_buckle_record.html">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/generation_gives/generation_gives.html">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/generation_gives/generation_gives_ctrl.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/generation_gives/generation_gives_record.html">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/login/login.html">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/login/login_ctrl.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/service/generation_buckle_svr.js">
+      <publishTime>02/21/2017 14:19:04</publishTime>
+    </File>
+    <File Include="Client/app/service/login_svr.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/sys_settings/sys_settings.html">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/app/sys_settings/sys_settings_ctrl.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular-loading-bar/loading-bar.css">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular-loading-bar/loading-bar.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular-loading-bar/loading-bar.min.css">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular-loading-bar/loading-bar.min.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular-ocLazyLoad/ocLazyLoad.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular-ocLazyLoad/ocLazyLoad.min.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular-ocLazyLoad/ocLazyLoad.require.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular-ocLazyLoad/ocLazyLoad.require.min.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular-ui/angular-ui-router.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular-ui/angular-ui-router.min.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular-ui/ui-bootstrap-tpls.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular-ui/ui-bootstrap-tpls.min.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular/angular-locale_zh-cn.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular/angular.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/angular/angular.min.js">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/css/fileinput.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/css/fileinput.min.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/img/loading-sm.gif">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/img/loading.gif">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/js/fileinput.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/js/fileinput.min.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/js/locales/zh.js">
+      <publishTime>02/21/2017 11:57:46</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/js/plugins/canvas-to-blob.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/js/plugins/purify.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/js/plugins/purify.min.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/js/plugins/sortable.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/js/plugins/sortable.min.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/themes/fa/theme.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap-fileinput/themes/gly/theme.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap/css/bootstrap-theme.css">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap/css/bootstrap-theme.min.css">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap/css/bootstrap.css">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap/css/bootstrap.min.css">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap/fonts/glyphicons-halflings-regular.svg">
+      <publishTime>02/17/2017 15:57:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap/js/bootstrap.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap/js/bootstrap.min.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/bootstrap/js/npm.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/extend/common.js">
+      <publishTime>02/21/2017 11:48:55</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-cookie.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-easydialog/easydialog.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-easydialog/easydialog.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-metis-menu/metisMenu.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-metis-menu/metisMenu.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-metis-menu/metisMenu.min.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-metis-menu/metisMenu.min.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-borderless.min.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/css/tooltipster.bundle.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/css/tooltipster.bundle.min.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/css/tooltipster.core.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/css/tooltipster.core.min.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/js/plugins/tooltipster/SVG/tooltipster-SVG.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/js/plugins/tooltipster/SVG/tooltipster-SVG.min.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/js/tooltipster.bundle.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/js/tooltipster.bundle.min.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/js/tooltipster.core.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery-tooltipster/js/tooltipster.core.min.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery/jquery-1.12.4-vsdoc.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery/jquery-1.12.4.intellisense.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery/jquery-1.12.4.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/jquery/jquery-1.12.4.min.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/bower_component/md5.min.js">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/css/common/animate.css">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/css/common/bootstrap.css">
+      <publishTime>02/21/2017 15:11:18</publishTime>
+    </File>
+    <File Include="Client/css/common/main.css">
+      <publishTime>02/21/2017 16:10:10</publishTime>
+    </File>
+    <File Include="Client/image/login/flat-avatar.png">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Client/index.html">
+      <publishTime>02/17/2017 15:57:56</publishTime>
+    </File>
+    <File Include="Excel/Model.xls">
+      <publishTime>02/21/2017 16:36:12</publishTime>
+    </File>
+    <File Include="Excel/read_me.txt">
+      <publishTime>02/20/2017 10:57:40</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>02/21/2017 15:13:19</publishTime>
+    </File>
+    <File Include="git_helper.txt">
+      <publishTime>02/17/2017 17:31:58</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>02/17/2017 15:45:35</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>02/21/2017 11:04:22</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>02/22/2017 09:54:17</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

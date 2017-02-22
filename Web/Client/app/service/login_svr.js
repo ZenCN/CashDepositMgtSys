@@ -9,16 +9,11 @@
     function login_svr(svr) {
 
         return {
-            validate: validate,
-            load_units: load_units
+            validate: validate
         };
 
-        function validate(code, pwd, callback) {
-            return svr.http('login/login?areacode=' + code + '&pw=' + pwd + '&t' + Math.random(), callback);
-        };
-
-        function load_units(code, callback) {
-            return svr.http('login/getareainfo?code=' + code, callback);
+        function validate(user, callback) {
+            return svr.http('http://10.20.147.103:8080/api/json/reply/login?username=' + user.code + '&password=' + user.password + '&t' + Math.random(), callback);
         };
     }
 })();

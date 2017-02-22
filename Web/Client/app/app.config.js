@@ -63,6 +63,7 @@
                 templateUrl: '../client/app/generation_gives/generation_gives.html',
                 resolve: resolve_dep([
                     '../client/app/generation_gives/generation_gives_ctrl.js',
+                    '../client/app/service/generation_gives_svr.js',
                     '../client/app/controller/modal_ctrl.js'
                 ])
             })

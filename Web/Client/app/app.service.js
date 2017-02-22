@@ -23,7 +23,7 @@
                         if (error.data) {
                             throw msg(error.data, 5000);
                         } else {
-                            throw msg('service：' + error.config.url + '请求出错' + '，状态：' + error.status + ' ' + error.statusText);
+                            throw msg('service：' + (angular.isObject(error.config) ? error.config.url : '') + '请求出错' + '，状态：' + error.status + ' ' + error.statusText);
                         }
                     } else {
                         throw msg(error.data, 5000);
