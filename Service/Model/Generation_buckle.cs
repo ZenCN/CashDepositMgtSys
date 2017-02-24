@@ -29,6 +29,8 @@ namespace Service.Model
 
         public string salesman_phone { get; set; }
 
+        public Nullable<System.DateTime> salesman_hiredate { get; set; }
+
         public string salesman_bank_account_name { get; set; }
 
         public string salesman_bank_account_number { get; set; }
@@ -39,9 +41,7 @@ namespace Service.Model
 
         public string salesman_bank_city { get; set; }
 
-        public string salesman_subbank_name { get; set; }
-
-        public Nullable<decimal> cash_deposit { get; set; }
+        public Nullable<decimal> salesman_cash_deposit { get; set; }
 
         public string remark { get; set; }
     }

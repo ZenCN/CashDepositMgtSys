@@ -76,7 +76,7 @@
                 <div class="col-sm-6">
                     <div class="input-group">
                         <span class="input-group-addon">缴款金额</span>
-                        <input type="text" class="form-control" ng-model="model.salesman_cash_deposit" required ng-maxlength="6"/>
+                        <input type="text" class="form-control" ng-model="model.salesman_cash_deposit" ng-blur="generation_gives.compute_salesman_refunds()" required ng-maxlength="6"/>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -127,7 +127,7 @@
                 <div class="col-sm-12">
                     <div class="input-group">
                         <span class="input-group-addon">备注</span>
-                        <input type="text" class="form-control" ng-model="model.deducted.remark" />
+                        <input type="text" class="form-control" ng-model="model.deducted.remark"/>
                     </div>
                 </div>
                 <div class="col-sm-12">

@@ -39,8 +39,6 @@ namespace Service.Model
 
         public string salesman_bank_city { get; set; }
 
-        public string salesman_subbank_name { get; set; }
-
         public Nullable<decimal> salesman_cash_deposit { get; set; }
 
         public Nullable<decimal> salesman_refunds { get; set; }

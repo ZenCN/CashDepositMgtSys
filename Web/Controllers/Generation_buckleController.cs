@@ -21,6 +21,21 @@ namespace Web.Controllers
         private Result result = null;
         private Generation_buckleSvr svr = new Generation_buckleSvr();
 
+        public string ChangeRecordState(string ids, int state)
+        {
+            List<int> list = new List<int>();
+
+            var str_arr = ids.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var id in str_arr)
+            {
+                list.Add(int.Parse(id));
+            }
+
+            result = svr.ChangeRecordState(list, state);
+
+            return JsonConvert.SerializeObject(result);
+        }
+
         public string Search(int page_index, int page_size, string salesman_card_id, string salesman_name)
         {
             return JsonConvert.SerializeObject(svr.Search(page_index, page_size, salesman_card_id, salesman_name));
@@ -73,6 +88,10 @@ namespace Web.Controllers
                             for (int r = startRow; r <= rowCount; r++)
                             {
                                 buckle = new Generation_buckle();
+                                buckle.agency_code = Request.Cookies["agency_code"].Value;
+                                buckle.recorder_code = Request.Cookies["user_code"].Value;
+                                buckle.record_date = DateTime.Now;
+                                buckle.review_state = 0;
                                 for (int c = 0; c < cellCount; c++)
                                 {
                                     cell = sheet.GetRow(r).GetCell(c);
@@ -80,7 +99,14 @@ namespace Web.Controllers
 
                                     if (cell.CellType == CellType.Numeric)
                                     {
-                                        property.SetValue(buckle, Convert.ToDecimal(cell.NumericCellValue), null);
+                                        if (field[c] == "salesman_hiredate")
+                                        {
+                                            property.SetValue(buckle, cell.DateCellValue, null);
+                                        }
+                                        else
+                                        {
+                                            property.SetValue(buckle, Convert.ToDecimal(cell.NumericCellValue), null);
+                                        }
                                     }
                                     else
                                     {
@@ -131,13 +157,14 @@ namespace Web.Controllers
             dic.Add(3, "salesman_card_type");
             dic.Add(4, "salesman_card_id");
             dic.Add(5,"salesman_phone");
-            dic.Add(6, "salesman_bank_account_name");
-            dic.Add(7, "salesman_bank_account_number");
-            dic.Add(8, "salesman_bank_name");
-            dic.Add(9, "salesman_bank_province");
-            dic.Add(10, "salesman_bank_city");
-            dic.Add(11, "cash_deposit");
-            dic.Add(12, "remark");
+            dic.Add(6, "salesman_hiredate");
+            dic.Add(7, "salesman_bank_account_name");
+            dic.Add(8, "salesman_bank_account_number");
+            dic.Add(9, "salesman_bank_name");
+            dic.Add(10, "salesman_bank_province");
+            dic.Add(11, "salesman_bank_city");
+            dic.Add(12, "salesman_cash_deposit");
+            dic.Add(13, "remark");
 
             return dic;
         }

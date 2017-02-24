@@ -15,7 +15,7 @@ namespace Service
         public void Export(List<Generation_buckle> list)
         {
             HSSFWorkbook hssfworkbook;
-            using (FileStream file = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/Excel/Model.xls", FileMode.Open, FileAccess.Read))
+            using (FileStream file = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/Excel/Generation_buckle.xls", FileMode.Open, FileAccess.Read))
             {
                 hssfworkbook = new HSSFWorkbook(file);
             }
@@ -53,30 +53,36 @@ namespace Service
                 cell.CellStyle = cell_style;
 
                 cell = sheet.GetRow(strat_row + i).GetCell(6);
-                cell.SetCellValue(list[i].salesman_bank_account_name);
+                cell.SetCellValue(list[i].salesman_hiredate == null
+                    ? null
+                    : list[i].salesman_hiredate.Value.ToString("yyyy年M月d日"));
                 cell.CellStyle = cell_style;
 
                 cell = sheet.GetRow(strat_row + i).GetCell(7);
-                cell.SetCellValue(list[i].salesman_bank_account_number);
+                cell.SetCellValue(list[i].salesman_bank_account_name);
                 cell.CellStyle = cell_style;
 
                 cell = sheet.GetRow(strat_row + i).GetCell(8);
-                cell.SetCellValue(list[i].salesman_bank_name);
+                cell.SetCellValue(list[i].salesman_bank_account_number);
                 cell.CellStyle = cell_style;
 
                 cell = sheet.GetRow(strat_row + i).GetCell(9);
-                cell.SetCellValue(list[i].salesman_bank_province);
+                cell.SetCellValue(list[i].salesman_bank_name);
                 cell.CellStyle = cell_style;
 
                 cell = sheet.GetRow(strat_row + i).GetCell(10);
-                cell.SetCellValue(list[i].salesman_bank_city);
+                cell.SetCellValue(list[i].salesman_bank_province);
                 cell.CellStyle = cell_style;
 
                 cell = sheet.GetRow(strat_row + i).GetCell(11);
-                cell.SetCellValue(list[i].cash_deposit == null ? "" : list[i].cash_deposit.ToString());
+                cell.SetCellValue(list[i].salesman_bank_city);
                 cell.CellStyle = cell_style;
 
                 cell = sheet.GetRow(strat_row + i).GetCell(12);
+                cell.SetCellValue(list[i].salesman_cash_deposit == null ? "" : list[i].salesman_cash_deposit.ToString());
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(13);
                 cell.SetCellValue(list[i].remark);
                 cell.CellStyle = cell_style;
             }

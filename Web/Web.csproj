@@ -231,7 +231,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Backup\保证金系统需求.zip" />
-    <Content Include="Backup\Test.xls" />
     <None Include="Client\bower_component\angular\angular.min.js.map" />
     <None Include="Client\bower_component\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <None Include="Client\bower_component\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
@@ -239,7 +238,7 @@
     <None Include="Client\bower_component\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Client\bower_component\jquery-metis-menu\metisMenu.js.map" />
     <Content Include="packages.config" />
-    <Content Include="Excel\Model.xls" />
+    <Content Include="Excel\Generation_buckle.xls" />
     <None Include="Properties\PublishProfiles\Web.pubxml" />
   </ItemGroup>
   <PropertyGroup>

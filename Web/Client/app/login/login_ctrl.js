@@ -5,9 +5,9 @@
         .module('app.page')
         .controller('login_ctrl', login_ctrl);
 
-    login_ctrl.$inject = ['$scope', '$rootScope', 'login_svr', '$state'];
+    login_ctrl.$inject = ['$scope', 'login_svr', '$state'];
 
-    function login_ctrl(vm, $r_scope, login_svr, $state) {
+    function login_ctrl(vm, login_svr, $state) {
         vm.user = {
             code: undefined,
             password: undefined
@@ -25,38 +25,109 @@
                 return;
             }
 
-            var response = {
-                data: {
-                    "Success": true,
-                    "ResultData": {
-                        "__type": "UnifyManage.Model.MAPIUser, UnifyManage.Model",
-                        "UserId": 669,
-                        "ErpNo": "14308026",
-                        "RealName": "曾志群",
-                        "BranchNo": "430000",
-                        "BranchName": "湖南省分公司",
-                        "DeptNo": "19",
-                        "DeptName": "信息技术部",
-                        "Channel": "YG",
-                        "Channels": "YG"
-                    },
-                    "ErrInfo": ""
-                }
-            };
-
+            var response = undefined;
+            switch (vm.user.code) {
+                case '湖南':
+                    response = {
+                        data: {
+                            "Success": true,
+                            "ResultData": {
+                                "ErpNo": "14308026",
+                                "RealName": "湖南",
+                                "BranchNo": "430000",
+                                "BranchName": "湖南省分公司"
+                            },
+                            "ErrInfo": ""
+                        }
+                    };
+                    break;
+                case '株洲':
+                    response = {
+                        data: {
+                            "Success": true,
+                            "ResultData": {
+                                "ErpNo": "14354826",
+                                "RealName": "株洲",
+                                "BranchNo": "430200",
+                                "BranchName": "湖南省株洲市分公司"
+                            },
+                            "ErrInfo": ""
+                        }
+                    };
+                    break;
+                case '永州':
+                    response = {
+                        data: {
+                            "Success": true,
+                            "ResultData": {
+                                "ErpNo": "14354546",
+                                "RealName": "永州",
+                                "BranchNo": "430300",
+                                "BranchName": "湖南省永州市分公司"
+                            },
+                            "ErrInfo": ""
+                        }
+                    };
+                    break;
+                case '茶陵':
+                    response = {
+                        data: {
+                            "Success": true,
+                            "ResultData": {
+                                "ErpNo": "14372546",
+                                "RealName": "株洲茶陵",
+                                "BranchNo": "430201",
+                                "BranchName": "湖南省株洲市茶陵县分公司"
+                            },
+                            "ErrInfo": ""
+                        }
+                    };
+                    break;
+                case '祁阳1':
+                    response = {
+                        data: {
+                            "Success": true,
+                            "ResultData": {
+                                "ErpNo": "14386546",
+                                "RealName": "祁阳-1",
+                                "BranchNo": "430301",
+                                "BranchName": "湖南省永州市祁阳县分公司"
+                            },
+                            "ErrInfo": ""
+                        }
+                    };
+                    break;
+                case '祁阳2':
+                    response = {
+                        data: {
+                            "Success": true,
+                            "ResultData": {
+                                "ErpNo": "14382446",
+                                "RealName": "祁阳-2",
+                                "BranchNo": "430301",
+                                "BranchName": "湖南省永州市祁阳县分公司"
+                            },
+                            "ErrInfo": ""
+                        }
+                    };
+                    break;
+            }
+            
             if (response.data.Success) {
-                $.extend(vm.user, {
-                    name: response.data.ResultData.RealName,
-                    agency: {
-                        code: response.data.ResultData.BranchNo,
-                        name: response.data.ResultData.BranchName
-                    },
-                    dept_name: response.data.ResultData.DeptName
-                });
+                var level = undefined;
+                if (response.data.ResultData.BranchNo.slice(2) == '0000') {
+                    level = 2;
+                } else if (response.data.ResultData.BranchNo.slice(4) == '00') {
+                    level = 3;
+                } else {
+                    level = 4;
+                }
 
-                delete vm.user.password;
-                delete vm.user.$$hashKey;
-                $r_scope.user = vm.user;
+                $.cookie('user_level', level);
+                $.cookie('user_code', response.data.ResultData.ErpNo);
+                $.cookie('user_name', response.data.ResultData.RealName);
+                $.cookie('agency_code', response.data.ResultData.BranchNo);
+                $.cookie('agency_name', response.data.ResultData.BranchName);
 
                 $state.go('dashboard.generation_buckle');
             } else {

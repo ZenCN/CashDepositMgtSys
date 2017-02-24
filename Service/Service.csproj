@@ -78,6 +78,11 @@
     <Compile Include="Excel.cs" />
     <Compile Include="Generation_buckleSvr.cs" />
     <Compile Include="Generation_givesSvr.cs" />
+    <Compile Include="Migrations\201702240401019_Update.cs" />
+    <Compile Include="Migrations\201702240401019_Update.Designer.cs">
+      <DependentUpon>201702240401019_Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Agency.cs" />
     <Compile Include="Model\DbBase.cs" />
     <Compile Include="Model\Db.cs" />
@@ -85,47 +90,10 @@
     <Compile Include="Model\Generation_buckle.cs" />
     <Compile Include="Model\Generation_gives.cs" />
     <Compile Include="Model\Staff.cs" />
-    <Compile Include="Model\Template\agency.cs">
-      <DependentUpon>CashDepositMgtSys.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Template\CashDepositMgtSys.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CashDepositMgtSys.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Template\CashDepositMgtSys.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CashDepositMgtSys.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Template\CashDepositMgtSys.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CashDepositMgtSys.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Template\deducted.cs">
-      <DependentUpon>CashDepositMgtSys.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Template\generation_buckle.cs">
-      <DependentUpon>CashDepositMgtSys.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Template\generation_gives.cs">
-      <DependentUpon>CashDepositMgtSys.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Template\staff.cs">
-      <DependentUpon>CashDepositMgtSys.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="Model\Template\CashDepositMgtSys.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CashDepositMgtSys.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Model\Template\CashDepositMgtSys.edmx.diagram">
-      <DependentUpon>CashDepositMgtSys.edmx</DependentUpon>
-    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -139,18 +107,10 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="Model\Template\CashDepositMgtSys.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CashDepositMgtSys.edmx</DependentUpon>
-      <LastGenOutput>CashDepositMgtSys.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Model\Template\CashDepositMgtSys.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CashDepositMgtSys.edmx</DependentUpon>
-      <LastGenOutput>CashDepositMgtSys.cs</LastGenOutput>
-    </Content>
+    <EmbeddedResource Include="Migrations\201702240401019_Update.resx">
+      <DependentUpon>201702240401019_Update.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

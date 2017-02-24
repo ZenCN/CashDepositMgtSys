@@ -62,6 +62,8 @@
                 vm.model.deducted_items.push(vm.model.deducted);
 
                 delete vm.model.deducted;
+
+                this.compute_salesman_refunds();
             },
             delete: function () {
                 if ($.isArray(vm.model.deducted_items)) {
@@ -74,6 +76,8 @@
                     } else {
                         msg('未选择扣款项目');
                     }
+
+                    this.compute_salesman_refunds();
                 }
             },
             print: function() {
@@ -85,11 +89,13 @@
             compute_salesman_refunds: function() {
                 if (Number(vm.model.salesman_cash_deposit) > 0) {
                     var sub_amount = 0;
-                    $.each(vm.model.deducted_items, function() {
-                        sub_amount += this.amount;
-                    });
+                    if ($.isArray(vm.model.deducted_items)) {
+                        $.each(vm.model.deducted_items, function() {
+                            sub_amount = calc.addition(sub_amount, this.amount);
+                        });
+                    }
 
-                    vm.model.salesman_refunds = vm.model.salesman_cash_deposit - sub_amount;
+                    vm.model.salesman_refunds = calc.subtraction(vm.model.salesman_cash_deposit, sub_amount);
                 } else {
                     vm.model.salesman_refunds = undefined;
                 }
@@ -103,14 +109,19 @@
                     $.extend(generation_gives, {
                         recorder_code: $r_scope.user.code,
                         review_state: 0,
-                        agency_code: $r_scope.agency_code
+                        agency_code: $r_scope.user.agency.code
                     });
 
                     var deducted_items = generation_gives.deducted_items;
                     delete generation_gives.deducted_items;
 
                     svr.save(generation_gives, deducted_items, function (response) {
-                        
+                        if (response.data.result == 'success') {
+                            msg('保存成功!');
+                            $modalInstance.dismiss();
+                        } else {
+                            msg(response.data.msg);
+                        }
                     });
                 } else {
                     msg('代付信息不完整，请填完所有红色框框再保存！');

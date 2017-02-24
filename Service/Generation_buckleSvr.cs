@@ -61,7 +61,7 @@ namespace Service
             {
                 foreach (Generation_buckle _this in list)
                 {
-                    buckle = db.Generation_buckle.SingleOrDefault(t => t.salesman_card_id == _this.salesman_card_id);
+                    buckle = db.Generation_buckle.SingleOrDefault(t => t.salesman_card_id == _this.salesman_card_id && t.salesman_hiredate == _this.salesman_hiredate);
 
                     if (buckle == null)
                     {
@@ -78,9 +78,9 @@ namespace Service
                     Entity.SaveChanges(db);
 
                 if(ignore.Count > 0)
-                    return new Result(ResultType.success, "部分数据因数据库中已存在已被忽略", ignore);
+                    return new Result(ResultType.success, "但部分人员信息因已存在已被忽略导入，详见表格", ignore);
                 else
-                    return new Result(ResultType.success, "全部成功导入");
+                    return new Result(ResultType.success, "人员信息全部成功导入");
             }
             catch (Exception ex)
             {
@@ -124,6 +124,25 @@ namespace Service
             list = list.OrderByDescending(t => t.record_date).Skip(page_index * page_size).Take(page_size).ToList();
 
             new Excel().Export(list);
+        }
+
+        public Result ChangeRecordState(List<int> ids, int state)
+        {
+            db = new Db();
+
+            try
+            {
+                var buckle = db.Generation_buckle.Where(t => ids.Contains(t.id)).ToList();
+                buckle.ForEach(t => t.review_state = state);
+
+                Entity.SaveChanges(db);
+
+                return new Result(ResultType.success);
+            }
+            catch (Exception ex)
+            {
+                return new Result(ResultType.error, new Message(ex).ErrorDetails);
+            }
         }
     }
 }

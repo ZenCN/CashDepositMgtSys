@@ -27,3 +27,8 @@ fieldset legend {
 .ng-invalid-required {
     border-color: #e48989;
 }
+
+.font-red-bold {
+    color: red;
+    font-weight: bolder;
+}

@@ -5,10 +5,10 @@
         .module('app.widget')
         .directive('singleUpload', singleUpload);
 
-    //singleUpload.$inject = [];
+    singleUpload.$inject = ['svr'];
 
-    function singleUpload() {
-        return function($scope, $element, $attr) {
+    function singleUpload(svr) {
+        return function(vm, $element) {
             $(function() {
                 $element.fileinput({
                     language: "zh",
@@ -21,15 +21,24 @@
                             '</div>'
                     }
                 }).on('fileuploaded', function (event, config) {
-                    var text = config.filenames.join("、") + ' 导入成功';
 
-                    if (isString(config.response.extra)) {
-                        config.response.extra = JSON.parse(config.response.extra);
-                        text += '，但是' + config.response.msg;
+                    if (config.response.result == 'success') {
+                        var text = config.filenames.join("、") + ' 导入成功';
+
+                        if (angular.isArray(config.response.extra) && config.response.extra.length > 0) {
+                            text += '，' + config.response.msg;
+
+                            vm.search.has_repeated = true;
+                            vm.search.result = config.response.extra;
+                        }
+
+                        msg(text, 5000);
+                    } else {
+                        vm.search.has_repeated = false;
+                        throw msg(config.response.msg);
                     }
 
-                    msg(text);
-                    console.log(config.response.data);
+                    svr.apply(vm);
                     //$element.fileinput('refresh');
                 });
             });
