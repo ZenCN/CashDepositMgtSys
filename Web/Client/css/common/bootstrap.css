@@ -9,6 +9,11 @@
 table th, table td {
     text-align: center;
     vertical-align: middle !important;
+    cursor: context-menu;
+}
+
+table tr:hover td {
+    background-color: #f5f5f5;
 }
 
 fieldset {

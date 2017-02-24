@@ -90,6 +90,10 @@
                     if (response.data.result == 'success') {
                         search.result = response.data.extra.list;
 
+                        if (search.result.length == 0) {
+                            msg('未搜索到数据！');
+                        }
+
                         if (response.data.extra.page_count > 0) {
                             vm.page.all_items = [];
                             for (var i = 0; i < response.data.extra.page_count; i++) {

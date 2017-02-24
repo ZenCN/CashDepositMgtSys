@@ -23,7 +23,8 @@ namespace Web.Controllers
 
         public string Search(int page_index, int page_size, string salesman_card_id, string salesman_name)
         {
-            return JsonConvert.SerializeObject(svr.Search(page_index, page_size, salesman_card_id, salesman_name));
+            return JsonConvert.SerializeObject(svr.Search(page_index, page_size, salesman_card_id, salesman_name,
+                Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value, int.Parse(Request.Cookies["user_level"].Value)));
         }
 
         public string ChangeReviewState(string ids, int state)

@@ -20,15 +20,15 @@
                 case 0:
                     return '未处理';
                 case 1:
-                    return '已提交至审核';
+                    return '等待市级领导审核';
                 case 2:
-                    return '市级审核已通过';
+                    return '等待省级领导审核';
                 case -2:
-                    return '市级审核未通过';
+                    return '市级领导审核未通过';
                 case 3:
-                    return '省级审核已通过';
+                    return '审核已通过';
                 case -3:
-                    return '省级审核未通过';
+                    return '审核未通过';
             }
         }
 

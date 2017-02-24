@@ -43,7 +43,8 @@ namespace Service
             }
         }
 
-        public Result Search(int page_index, int page_size, string salesman_card_id, string salesman_name)
+        public Result Search(int page_index, int page_size, string salesman_card_id, string salesman_name,
+            string user_code, string agency_code, int level)
         {
             db = new Db();
 
@@ -53,27 +54,32 @@ namespace Service
                 int record_count = 0;
                 List<Generation_gives> list = null;
 
+                IQueryable<Generation_gives> query = null;
+                switch (level)
+                {
+                    case 2:
+                        query = db.Generation_gives;
+                        break;
+                    case 3:
+                        agency_code = agency_code.Substring(0, 4);
+                        query = db.Generation_gives.Where(t => t.agency_code.StartsWith(agency_code));
+                        break;
+                    default:
+                        query = db.Generation_gives.Where(t => t.agency_code == agency_code);
+                        break;
+                }
+
                 if (!string.IsNullOrEmpty(salesman_card_id))
                 {
-                    list = db.Generation_gives.Where(t => t.salesman_card_id.Contains(salesman_card_id)).ToList();
+                    query = query.Where(t => t.salesman_card_id.Contains(salesman_card_id));
                 }
 
                 if (!string.IsNullOrEmpty(salesman_name))
                 {
-                    if (list != null)
-                    {
-                        list = list.Where(t => t.salesman_name.Contains(salesman_name)).ToList();
-                    }
-                    else
-                    {
-                        list = db.Generation_gives.Where(t => t.salesman_name.Contains(salesman_name)).ToList();
-                    }
+                    query = query.Where(t => t.salesman_name.Contains(salesman_name));
                 }
 
-                if (list == null)
-                {
-                    list = db.Generation_gives.ToList();
-                }
+                list = query.ToList();
 
                 record_count = list.Count;
                 page_count = ((record_count + page_size) - 1)/page_size;

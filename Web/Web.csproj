@@ -117,9 +117,7 @@
     <Content Include="Client\app\controller\modal_ctrl.js" />
     <Content Include="Client\app\dashboard\dashboard.html" />
     <Content Include="Client\app\dashboard\dashboard_ctrl.js" />
-    <Content Include="Client\app\directive\metis_menu.js" />
     <Content Include="Client\app\directive\sing_upload.js" />
-    <Content Include="Client\app\directive\update_pwd.js" />
     <Content Include="Client\app\generation_buckle\generation_buckle.html" />
     <Content Include="Client\app\generation_buckle\generation_buckle_ctrl.js" />
     <Content Include="Client\app\generation_buckle\generation_buckle_record.html" />

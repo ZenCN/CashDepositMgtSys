@@ -42,6 +42,7 @@
                 templateUrl: '../client/app/dashboard/dashboard.html',
                 resolve: resolve_dep([
                     '../client/app/dashboard/dashboard_ctrl.js',
+                    '../client/app/controller/datepicker_ctrl.js'
                 ])
             })
             .state('dashboard.generation_buckle', {

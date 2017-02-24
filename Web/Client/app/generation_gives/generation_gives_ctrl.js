@@ -8,6 +8,30 @@
     generation_gives_ctrl.$inject = ['$scope', 'generation_gives_svr'];
 
     function generation_gives_ctrl(vm, svr) {
+        vm.export = function() {
+            msg('此功能尚未开发');
+        };
+
+        vm.select = {
+            checked: false,
+            all: function () {
+                $.each(vm.search.result, function () {
+                    if (this.review_state != 2) {
+                        this.checked = !vm.select.checked;
+                    } else {
+                        this.checked = undefined;
+                    }
+                });
+            },
+            one: function (saleman) {
+                if (saleman.review_state != 2) {
+                    saleman.checked = !saleman.checked;
+                } else {
+                    saleman.checked = undefined;
+                }
+            }
+        };
+
         vm.search = {
             condition: {
                 salesman_card_id: undefined,
@@ -39,7 +63,11 @@
                                 this.checked = false;
                                 this.review_state = state;
                             });
-                            msg('审核完成！');
+
+                            if (vm.user.level == 4)
+                                msg('提交成功！');
+                            else
+                                msg('审核完成！');
                         } else {
                             throw msg(response.data.msg);
                         }

@@ -1,87 +1,99 @@
-<div class="modal-header">
-    <h3 class="modal-title">{{modal.title}}</h3>
-</div>
-<div class="modal-body">
-    <fieldset>
-        <legend>销售人员信息</legend>
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="input-group">
-                    <span class="input-group-addon">姓名</span>
-                    <input type="text" class="form-control"/>
+<form role="form" name="form" class="form-horizontal" novalidate>
+    <div class="modal-header">
+        <h3 class="modal-title">{{model.title}}</h3>
+    </div>
+    <div class="modal-body">
+        <fieldset>
+            <legend>销售人员信息</legend>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">姓名</span>
+                        <input type="text" class="form-control" ng-model="model.salesman_name" required ng-maxlength="6"/>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">性别</span>
+                        <select class="form-control" ng-model="model.salesman_sex">
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">手机号</span>
+                        <input type="text" class="form-control" ng-model="model.salesman_phone" required ng-maxlength="15"/>
+                    </div>
                 </div>
             </div>
-            <div class="col-sm-3">
-                <div class="input-group">
-                    <span class="input-group-addon">性别</span>
-                    <select class="form-control">
-                        <option value="男" selected>男</option>
-                        <option value="女">女</option>
-                    </select>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">证件类别</span>
+                        <select class="form-control" ng-model="model.salesman_card_type">
+                            <option value="身份证">身份证</option>
+                            <option value="驾驶证">驾驶证</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="input-group" ng-controller="datepicker_ctrl">
+                        <span class="input-group-addon">入职时间</span>
+                        <input type="text" class="form-control" ng-model="model.salesman_hiredate" readonly
+                               datepicker-popup="{{format}}" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
+                               date-disabled="disabled(date, mode)" ng-click="open($event)" is-open="write_time_opened"
+                               current-text="今天" close-text="关闭" clear-text="清除">
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <span class="input-group-addon">证件号</span>
+                        <input type="text" class="form-control" ng-model="model.salesman_card_id" required ng-maxlength="20"/>
+                    </div>
                 </div>
             </div>
-            <div class="col-sm-5">
-                <div class="input-group">
-                    <span class="input-group-addon">手机号</span>
-                    <input type="text" class="form-control"/>
+        </fieldset>
+        <fieldset style="margin-top: 10px">
+            <legend>付款银行信息</legend>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">账户名</span>
+                        <input type="text" class="form-control" ng-model="model.salesman_bank_account_name" required ng-maxlength="25"/>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <span class="input-group-addon">开户行</span>
+                        <input type="text" class="form-control" ng-model="model.salesman_bank_name" required ng-maxlength="25"/>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-5">
-                <div class="input-group">
-                    <span class="input-group-addon">证件类别</span>
-                    <select class="form-control">
-                        <option selected>身份证</option>
-                    </select>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon">账号</span>
+                        <input type="text" class="form-control" ng-model="model.salesman_bank_account_number" required ng-maxlength="25"/>
+                    </div>
                 </div>
             </div>
-            <div class="col-sm-7">
-                <div class="input-group">
-                    <span class="input-group-addon">证件号</span>
-                    <input type="text" class="form-control"/>
+        </fieldset>
+        <fieldset style="margin-top: 10px">
+            <legend>保证金</legend>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">缴款金额</span>
+                        <input type="text" class="form-control" ng-model="model.salesman_cash_deposit"/>
+                    </div>
                 </div>
             </div>
-        </div>
-    </fieldset>
-    <fieldset style="margin-top: 10px">
-        <legend>付款银行信息</legend>
-        <div class="row">
-            <div class="col-sm-5">
-                <div class="input-group">
-                    <span class="input-group-addon">银行名称</span>
-                    <input type="text" class="form-control"/>
-                </div>
-            </div>
-            <div class="col-sm-7">
-                <div class="input-group">
-                    <span class="input-group-addon">开户行</span>
-                    <input type="text" class="form-control"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-10">
-                <div class="input-group">
-                    <span class="input-group-addon">银行账号</span>
-                    <input type="text" class="form-control"/>
-                </div>
-            </div>
-        </div>
-    </fieldset>
-    <fieldset style="margin-top: 10px">
-        <legend>保证金</legend>
-        <div class="row">
-            <div class="col-sm-5">
-                <div class="input-group">
-                    <span class="input-group-addon">金额</span>
-                    <input type="text" class="form-control"/>
-                </div>
-            </div>
-        </div>
-    </fieldset>
-</div>
-<div class="modal-footer">
-    <button class="btn btn-primary" ng-click="save()">保存</button>
-    <button class="btn btn-warning" ng-click="cancel()">取消</button>
-</div>
+        </fieldset>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-click="generation_buckle.save(form.$valid)">保存</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</form>

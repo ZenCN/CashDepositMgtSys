@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-sm-3">
-        <button type="button" class="btn btn-md btn-primary" ng-controller="modal_ctrl" ng-click="open_dialog('add')">
+        <button type="button" class="btn btn-md btn-primary" ng-controller="modal_ctrl" ng-if="user.level == 2" ng-click="open_dialog('add')">
             新增
         </button>
-        <div class="btn-group">
+        <div class="btn-group" ng-if="user.level == 2">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 审核
                 <span class="caret"></span>
@@ -15,7 +15,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="javascript:void(0)" ng-click="review.change_state(3)">
+                    <a href="javascript:void(0)" ng-click="review.change_state(-2)">
                         <span class="glyphicon glyphicon-ban-circle" style="color: red" aria-hidden="true"></span> 拒绝
                     </a>
                 </li>
@@ -39,7 +39,7 @@
             <button type="button" class="btn btn-md btn-primary" ng-click="search.from_svr()">
                 搜索
             </button>
-            <button type="button" class="btn btn-md btn-success" ng-click="search.from_svr()">
+            <button type="button" class="btn btn-md btn-success" ng-click="export()">
                 导出
             </button>
         </div>
@@ -51,7 +51,10 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th rowspan="2" style="width: 32px;"></th>
+                        <th rowspan="2" style="width: 32px;" ng-if="user.level == 2">
+                            <input type="checkbox" name="checkbox" style="width: 15px; height: 15px;" ng-if="search.result.length > 0 && !search.has_repeated"
+                                   ng-model="select.checked" ng-click="select.all()" />
+                        </th>
                         <th rowspan="2">管理机构</th>
                         <th rowspan="2">代理人工号</th>
                         <th colspan="5">销售人员信息</th>
@@ -75,9 +78,9 @@
                     </tr>
                 </thead>
                 <tbody ng-repeat="_this in search.result">
-                    <tr>
-                        <td>
-                            <input type="checkbox" name="checkbox" style="width: 15px; height: 15px;" ng-model="_this.checked" />
+                    <tr ng-class="{ 'font-red-bold': search.has_repeated }" ng-click="select.one(_this)">
+                        <td ng-if="user.level == 2">
+                            <input type="checkbox" name="checkbox" style="width: 15px; height: 15px;" ng-model="_this.checked" ng-if="_this.review_state != 2"/>
                         </td>
                         <td>{{_this.agency_code}}</td>
                         <td>{{_this.recorder_code}}</td>
@@ -95,8 +98,9 @@
                         <td>{{_this.salesman_refunds}}</td>
                         <td>{{_this.remark}}</td>
                         <td title="{{review.state_name(_this.review_state)}}">
-                            <span class="glyphicon glyphicon-ok" ng-if="_this.review_state == 2" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-exclamation-sign" ng-if="_this.review_state == 3" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-hourglass" ng-if="_this.review_state == 1" style="font-size: 19px;"></span>
+                            <span class="glyphicon glyphicon-ok" ng-if="_this.review_state == 2" style="font-size: 19px;"></span>
+                            <span class="glyphicon glyphicon-ban-circle" ng-if="_this.review_state == -2" style="font-size: 19px;"></span>
                         </td>
                     </tr>
                 </tbody>

@@ -1,4 +1,4 @@
-<form role="form" name="form" ng-submit="generation_gives.save(form.$valid)" class="form-horizontal" novalidate>
+<form role="form" name="form" class="form-horizontal" novalidate>
     <div class="modal-header">
         <h3 class="modal-title">{{model.title}}</h3>
     </div>
@@ -34,6 +34,7 @@
                         <span class="input-group-addon">证件类别</span>
                         <select class="form-control" ng-model="model.salesman_card_type">
                             <option value="身份证">身份证</option>
+                            <option value="驾驶证">驾驶证</option>
                         </select>
                     </div>
                 </div>
@@ -50,7 +51,7 @@
             <div class="row">
                 <div class="col-sm-5">
                     <div class="input-group">
-                        <span class="input-group-addon">银行名称</span>
+                        <span class="input-group-addon">账户名</span>
                         <input type="text" class="form-control" ng-model="model.salesman_bank_account_name" required ng-maxlength="25"/>
                     </div>
                 </div>
@@ -64,7 +65,7 @@
             <div class="row">
                 <div class="col-sm-10">
                     <div class="input-group">
-                        <span class="input-group-addon">银行账号</span>
+                        <span class="input-group-addon">账号</span>
                         <input type="text" class="form-control" ng-model="model.salesman_bank_account_number" required ng-maxlength="25"/>
                     </div>
                 </div>
@@ -156,7 +157,7 @@
         </fieldset>
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">保存</button>
-        <button class="btn btn-warning" ng-click="generation_gives.cancel()">取消</button>
+        <button type="submit" class="btn btn-primary" ng-click="generation_gives.save(form.$valid)">保存</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
     </div>
 </form>

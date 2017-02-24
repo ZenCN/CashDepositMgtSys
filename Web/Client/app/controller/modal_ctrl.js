@@ -6,46 +6,92 @@
         .controller('modal_ctrl', modal_ctrl)
         .controller('modal_instance_ctrl', modal_instance_ctrl);
 
-    modal_ctrl.$inject = ['$scope', '$modal', '$timeout'];
+    modal_ctrl.$inject = ['$scope', '$modal'];
 
-    function modal_ctrl(vm, $modal, $timeout) {
+    function modal_ctrl(vm, $modal) {
 
         vm.open_dialog = function(type, html) {
-
-            vm.model = {};
+            vm.model = {
+                title: undefined,
+                salesman_sex: '男',
+                salesman_card_type:  '身份证'
+            };
 
             if (html == 'buckle') {
                 html = '../client/app/generation_buckle/generation_buckle_record.html';
-                vm.model.title = (type == 'add' ? '新增' : '修改') + '代扣数据';
+
+                if (type == 'add') {
+                    vm.model.title = '新增代扣数据';
+                } else {
+                    var selected = undefined;
+                    $.each(vm.search.result, function() {
+                        if (this.checked) {
+                            selected = this;
+                            return false;
+                        }
+                    });
+
+                    if (!selected) {
+                        return msg('未选择销售人员');
+                    }
+
+                    vm.model = angular.copy(selected);
+                    vm.model.title = '修改代扣数据';
+                    delete vm.model.$$hashKey;
+                }
+                
             } else {
                 html = '../client/app/generation_gives/generation_gives_record.html';
-                vm.model = {
-                    title: '新增代付申请',
-                    salesman_sex: '男',
-                    salesman_card_type: '身份证'
-                };
+                vm.model.title = '新增代付申请';
             }
 
             $modal.open({
                 templateUrl: html,
                 controller: 'modal_instance_ctrl',
                 resolve: {
-                    model: function () {
+                    model: function() {
                         return vm.model;
                     }
                 }
-            }).result.then(function(refresh) {
-                if (refresh) {
-                    //vm.search.from_svr();
+            }).result.then(function (is_modify) {
+                if (is_modify) {
+                    $.each(vm.search.result, function (i) {
+                        if (this.checked) {
+                            vm.search.result[i] = vm.model;
+                            return false;
+                        }
+                    });
                 }
             });
         };
     };
 
-    modal_instance_ctrl.$inject = ['$scope', '$rootScope', '$modalInstance', 'model', 'generation_gives_svr'];
+    modal_instance_ctrl.$inject = ['$scope', '$modalInstance', 'model', 'svr'];
 
-    function modal_instance_ctrl(vm, $r_scope, $modalInstance, model, svr) {
+    function modal_instance_ctrl(vm, $modalInstance, model, svr) {
         vm.model = model;
+
+        vm.generation_buckle = {
+            save: function($valid) {
+                if ($valid) {
+                    svr.http('generation_buckle/save?buckle=' + angular.toJson(vm.model), function(response) {
+                        if (response.data.result == 'success') {
+                            if (vm.model.id > 0) {
+                                msg('修改成功！');
+                            } else {
+                                msg('保存成功！');
+                            }
+                            
+                            $modalInstance.close(vm.model.id > 0);
+                        } else {
+                            msg(response.data.msg);
+                        }
+                    });
+                } else {
+                    msg('销售人员信息不完整，请完成所有必填项！', 1500);
+                }
+            }
+        };
 
         vm.generation_gives = {
             record: function() {
@@ -65,7 +111,7 @@
 
                 this.compute_salesman_refunds();
             },
-            delete: function () {
+            delete: function() {
                 if ($.isArray(vm.model.deducted_items)) {
                     var array = $.grep(vm.model.deducted_items, function(item) {
                         return !item.checked;
@@ -81,10 +127,10 @@
                 }
             },
             print: function() {
-                
+
             },
             submit: function() {
-                
+
             },
             compute_salesman_refunds: function() {
                 if (Number(vm.model.salesman_cash_deposit) > 0) {
@@ -100,36 +146,37 @@
                     vm.model.salesman_refunds = undefined;
                 }
             },
-            save: function ($valid) {
+            save: function($valid) {
                 if ($valid) {
                     var generation_gives = angular.copy(vm.model);
                     delete generation_gives.$$hashKey;
                     delete generation_gives.deducted;
 
                     $.extend(generation_gives, {
-                        recorder_code: $r_scope.user.code,
+                        recorder_code: $.cookie('user_code'),
                         review_state: 0,
-                        agency_code: $r_scope.user.agency.code
                     });
 
                     var deducted_items = generation_gives.deducted_items;
                     delete generation_gives.deducted_items;
 
-                    svr.save(generation_gives, deducted_items, function (response) {
-                        if (response.data.result == 'success') {
-                            msg('保存成功!');
-                            $modalInstance.dismiss();
-                        } else {
-                            msg(response.data.msg);
-                        }
-                    });
+                    svr.http('generation_gives/save?generation_gives=' + angular.toJson(generation_gives) +
+                        '&deducted_items=' + angular.toJson(deducted_items), function(response) {
+                            if (response.data.result == 'success') {
+                                msg('保存成功!');
+                                $modalInstance.dismiss();
+                            } else {
+                                msg(response.data.msg);
+                            }
+                        });
                 } else {
-                    msg('代付信息不完整，请填完所有红色框框再保存！');
+                    msg('销售人员信息不完整，请完成所有必填项！', 1500);
                 }
-            },
-            cancel: function() {
-                $modalInstance.dismiss('cancel');
             }
         };
+
+        vm.cancel = function() {
+            $modalInstance.dismiss();
+        }
     }
 })();

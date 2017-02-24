@@ -21,7 +21,7 @@ namespace Web.Controllers
         private Result result = null;
         private Generation_buckleSvr svr = new Generation_buckleSvr();
 
-        public string ChangeRecordState(string ids, int state)
+        public string ChangeReviewState(string ids, int state)
         {
             List<int> list = new List<int>();
 
@@ -31,14 +31,31 @@ namespace Web.Controllers
                 list.Add(int.Parse(id));
             }
 
-            result = svr.ChangeRecordState(list, state);
+            result = svr.ChangeReviewState(list, state);
 
             return JsonConvert.SerializeObject(result);
         }
 
+        public string Save(string buckle)
+        {
+            Generation_buckle generation_buckle = JsonConvert.DeserializeObject<Generation_buckle>(buckle);
+
+            if (generation_buckle.id == 0)
+            {
+                generation_buckle.agency_code = Request.Cookies["agency_code"].Value;
+                generation_buckle.recorder_code = Request.Cookies["user_code"].Value;
+                generation_buckle.record_date = DateTime.Now;
+                generation_buckle.review_state = 0;
+            }
+
+            return JsonConvert.SerializeObject(svr.Save(generation_buckle));
+        }
+
         public string Search(int page_index, int page_size, string salesman_card_id, string salesman_name)
         {
-            return JsonConvert.SerializeObject(svr.Search(page_index, page_size, salesman_card_id, salesman_name));
+            return
+                JsonConvert.SerializeObject(svr.Search(page_index, page_size, salesman_card_id, salesman_name,
+                    Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value, int.Parse(Request.Cookies["user_level"].Value)));
         }
 
         public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name)
