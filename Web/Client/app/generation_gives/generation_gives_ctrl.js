@@ -8,6 +8,10 @@
     generation_gives_ctrl.$inject = ['$scope', 'generation_gives_svr'];
 
     function generation_gives_ctrl(vm, svr) {
+        vm.delete = function () {
+            msg('删除功能尚未开放');
+        };
+
         vm.export = function() {
             msg('此功能尚未开发');
         };
@@ -16,7 +20,7 @@
             checked: false,
             all: function () {
                 $.each(vm.search.result, function () {
-                    if (this.review_state != 2) {
+                    if (vm.show_check_box(this.review_state)) {
                         this.checked = !vm.select.checked;
                     } else {
                         this.checked = undefined;
@@ -24,12 +28,29 @@
                 });
             },
             one: function (saleman) {
-                if (saleman.review_state != 2) {
+                if (vm.show_check_box(saleman.review_state)) {
                     saleman.checked = !saleman.checked;
                 } else {
                     saleman.checked = undefined;
                 }
             }
+        };
+
+        vm.show_check_box = function (state) {
+            state = Number(state);
+            switch (vm.user.level) {
+                case 4:
+                    if (state == 1)
+                        return false;
+                case 3:
+                    if (state == 2)
+                        return false;
+                case 2:
+                    if (state == 3)
+                        return false;
+            }
+
+            return true;
         };
 
         vm.search = {
@@ -45,9 +66,11 @@
             }
         };
 
-        vm.review = {
-            state_name: svr.review.state_name,
-            change_state: function (state) {
+        vm.search.from_svr();
+
+        vm.review_state = {
+            name: svr.review.state_name,
+            change: function (state) {
                 var ids = [], selected = [];
                 $.each(vm.search.result, function() {
                     if (this.checked) {

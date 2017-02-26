@@ -42,7 +42,26 @@
                 
             } else {
                 html = '../client/app/generation_gives/generation_gives_record.html';
-                vm.model.title = '新增代付申请';
+
+                if (type == 'add') {
+                    vm.model.title = '新增代付申请';
+                } else {
+                    var selected = undefined;
+                    $.each(vm.search.result, function () {
+                        if (this.checked) {
+                            selected = this;
+                            return false;
+                        }
+                    });
+
+                    if (!selected) {
+                        return msg('未选择销售人员');
+                    }
+
+                    vm.model = angular.copy(selected);
+                    vm.model.title = '修改代付申请';
+                    delete vm.model.$$hashKey;
+                }
             }
 
             $modal.open({
@@ -53,14 +72,18 @@
                         return vm.model;
                     }
                 }
-            }).result.then(function (is_modify) {
-                if (is_modify) {
-                    $.each(vm.search.result, function (i) {
-                        if (this.checked) {
-                            vm.search.result[i] = vm.model;
-                            return false;
-                        }
-                    });
+            }).result.then(function (type) {
+                if (type == 'save') {
+                    vm.search.from_svr();
+                } else {
+                    if (is_modify) {
+                        $.each(vm.search.result, function (i) {
+                            if (this.checked) {
+                                vm.search.result[i] = vm.model;
+                                return false;
+                            }
+                        });
+                    }
                 }
             });
         };
@@ -78,11 +101,11 @@
                         if (response.data.result == 'success') {
                             if (vm.model.id > 0) {
                                 msg('修改成功！');
+                                $modalInstance.close('modify');
                             } else {
                                 msg('保存成功！');
+                                $modalInstance.close('save');
                             }
-                            
-                            $modalInstance.close(vm.model.id > 0);
                         } else {
                             msg(response.data.msg);
                         }
@@ -147,7 +170,7 @@
                 }
             },
             save: function($valid) {
-                if ($valid) {
+                if ($valid) {  //vm.model.title.contains('新增') && 
                     var generation_gives = angular.copy(vm.model);
                     delete generation_gives.$$hashKey;
                     delete generation_gives.deducted;
@@ -155,16 +178,17 @@
                     $.extend(generation_gives, {
                         recorder_code: $.cookie('user_code'),
                         review_state: 0,
+                        agency_code: $.cookie('agency_code')
                     });
 
                     var deducted_items = generation_gives.deducted_items;
                     delete generation_gives.deducted_items;
 
                     svr.http('generation_gives/save?generation_gives=' + angular.toJson(generation_gives) +
-                        '&deducted_items=' + angular.toJson(deducted_items), function(response) {
+                        '&deducted_items=' + (deducted_items ? angular.toJson(deducted_items) : ''), function(response) {
                             if (response.data.result == 'success') {
                                 msg('保存成功!');
-                                $modalInstance.dismiss();
+                                $modalInstance.close('save');
                             } else {
                                 msg(response.data.msg);
                             }

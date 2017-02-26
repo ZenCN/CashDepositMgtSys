@@ -22,6 +22,8 @@
             $state.go('login');
         }
 
+        vm.state = $state.$current.name.split('.').the_last();
+
         vm.page = {
             inited: false, //是否已初始化
             index: 0, //页号，0 表示第一页

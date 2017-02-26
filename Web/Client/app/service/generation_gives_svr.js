@@ -17,14 +17,18 @@
 
         function state_name(val) {
             switch (Number(val)) {
-            case 0:
-                return '未处理';
-            case 1:
-                return '已提交领导审核';
-            case 2:
-                return '审核已通过';
-            case -2:
-                return '审核未通过';
+                case 0:
+                    return '未处理';
+                case 1:
+                    return '等待市级领导审核';
+                case 2:
+                    return '等待省级领导审核';
+                case -2:
+                    return '市级领导审核未通过';
+                case 3:
+                    return '审核已通过';
+                case -3:
+                    return '审核未通过';
             }
         }
 

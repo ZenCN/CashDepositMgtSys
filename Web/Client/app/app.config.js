@@ -42,7 +42,11 @@
                 templateUrl: '../client/app/dashboard/dashboard.html',
                 resolve: resolve_dep([
                     '../client/app/dashboard/dashboard_ctrl.js',
-                    '../client/app/controller/datepicker_ctrl.js'
+                    '../client/app/controller/datepicker_ctrl.js',
+                    '../client/bower_component/bootstrap-fileinput/css/fileinput.min.css',
+                    '../client/bower_component/bootstrap-fileinput/js/fileinput.min.js',
+                    '../client/app/directive/sing_upload.js',
+                    '../client/app/controller/modal_ctrl.js'
                 ])
             })
             .state('dashboard.generation_buckle', {
@@ -51,11 +55,7 @@
                 templateUrl: '../client/app/generation_buckle/generation_buckle.html',
                 resolve: resolve_dep([
                     '../client/app/generation_buckle/generation_buckle_ctrl.js',
-                    '../client/app/service/generation_buckle_svr.js',
-                    '../client/bower_component/bootstrap-fileinput/css/fileinput.min.css',
-                    '../client/bower_component/bootstrap-fileinput/js/fileinput.min.js',
-                    '../client/app/directive/sing_upload.js',
-                    '../client/app/controller/modal_ctrl.js'
+                    '../client/app/service/generation_buckle_svr.js'
                 ])
             })
             .state('dashboard.generation_gives', {
@@ -64,8 +64,7 @@
                 templateUrl: '../client/app/generation_gives/generation_gives.html',
                 resolve: resolve_dep([
                     '../client/app/generation_gives/generation_gives_ctrl.js',
-                    '../client/app/service/generation_gives_svr.js',
-                    '../client/app/controller/modal_ctrl.js'
+                    '../client/app/service/generation_gives_svr.js'
                 ])
             })
             .state('dashboard.sys_settings', {

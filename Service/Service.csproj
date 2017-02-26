@@ -82,7 +82,14 @@
     <Compile Include="Migrations\201702240401019_Update.Designer.cs">
       <DependentUpon>201702240401019_Update.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702261103377_Add.cs" />
+    <Compile Include="Migrations\201702261103377_Add.Designer.cs">
+      <DependentUpon>201702261103377_Add.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model.Interface\DbInterface.cs" />
+    <Compile Include="Model.Interface\INTERFACE_MIO_BATCH_BZJ.cs" />
+    <Compile Include="Model.Interface\INTERFACE_MIO_LIST_BZJ.cs" />
     <Compile Include="Model\Agency.cs" />
     <Compile Include="Model\DbBase.cs" />
     <Compile Include="Model\Db.cs" />
@@ -110,6 +117,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201702240401019_Update.resx">
       <DependentUpon>201702240401019_Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702261103377_Add.resx">
+      <DependentUpon>201702261103377_Add.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

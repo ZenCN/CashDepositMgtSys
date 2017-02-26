@@ -5,14 +5,14 @@
         .module('app.widget')
         .directive('singleUpload', singleUpload);
 
-    singleUpload.$inject = ['svr'];
+    singleUpload.$inject = ['svr','$state'];
 
-    function singleUpload(svr) {
+    function singleUpload(svr, $state) {
         return function(vm, $element) {
             $(function() {
                 $element.fileinput({
                     language: "zh",
-                    uploadUrl: 'generation_buckle/import',
+                    uploadUrl: $state.$current.name.split('.').the_last() + '/import',
                     allowedFileExtensions: ['xls', 'xlsx'],
                     layoutTemplates: {
                         btnBrowse: '<div tabindex="500" class="{css}"{status}>{icon}</div>',
