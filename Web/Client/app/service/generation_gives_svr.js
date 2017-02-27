@@ -12,8 +12,13 @@
             review: {
                 state_name: state_name,
                 change_state: change_state
-            }
+            },
+            delete: delete_saleman
         };
+
+        function delete_saleman(ids, callback) {
+            svr.http('generation_gives/delete?ids=' + ids.join(","), callback);
+        }
 
         function state_name(val) {
             switch (Number(val)) {

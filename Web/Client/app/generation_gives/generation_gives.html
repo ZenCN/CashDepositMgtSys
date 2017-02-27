@@ -45,7 +45,7 @@
                 新增
             </button>
             <button type="button" class="btn btn-md btn-primary" ng-controller="modal_ctrl"
-                    ng-click="open_dialog('modify')">
+                    ng-click="open_dialog('modify','gives')">
                 修改
             </button>
             <button ng-if="user.level == 2" type="button" class="btn btn-md btn-success" ng-click="delete()">
@@ -129,7 +129,7 @@
                         <td>{{_this.salesman_cash_deposit}}</td>
                         <td>{{_this.salesman_refunds}}</td>
                         <td>{{_this.remark}}</td>
-                        <td title="{{review.state_name(_this.review_state)}}">
+                        <td title="{{review_state.name(_this.review_state)}}">
                             <span class="glyphicon glyphicon-remove" ng-if="search.has_repeated" style="color: red"></span>
                             <span class="glyphicon glyphicon-hourglass" ng-if="_this.review_state == 1" style="font-size: 19px;"></span>
                             <span class="glyphicon glyphicon-ok-circle" ng-if="_this.review_state == 2" style="font-size: 19px;"></span>

@@ -20,11 +20,35 @@ namespace Web.Controllers
         private Result result = null;
         private Generation_givesSvr svr = new Generation_givesSvr();
 
+        public string Delete(string ids)
+        {
+            List<int> list = new List<int>();
+
+            var str_arr = ids.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var id in str_arr)
+            {
+                list.Add(int.Parse(id));
+            }
+
+            return JsonConvert.SerializeObject(svr.Delete(list));
+        }
+
         public string Save(string generation_gives, string deducted_items)
         {
             result = svr.Save(generation_gives, deducted_items);
 
             return JsonConvert.SerializeObject(result);
+        }
+
+        public string GetDeducteds(int id)
+        {
+            return JsonConvert.SerializeObject(svr.GetDeducteds(id));
+        }
+
+        public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name)
+        {
+            svr.Export(page_index, page_size, salesman_card_id, salesman_name,
+                Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value, int.Parse(Request.Cookies["user_level"].Value));
         }
 
         public string Search(int page_index, int page_size, string salesman_card_id, string salesman_name)
@@ -42,10 +66,8 @@ namespace Web.Controllers
             {
                 list.Add(int.Parse(id));
             }
-            
-            result = svr.ChangeReviewState(list, state);
 
-            return JsonConvert.SerializeObject(result);
+            return JsonConvert.SerializeObject(svr.ChangeReviewState(list, state));
         }
 
         public string Import(HttpPostedFileBase file)

@@ -86,7 +86,8 @@
                         page_index: vm.page.index,
                         page_size: vm.page.size,
                         salesman_card_id: search.condition.salesman_card_id,
-                        salesman_name: search.condition.salesman_name
+                        salesman_name: search.condition.salesman_name,
+                        t: Math.random()
                     }
                 }, function(response) {
                     if (response.data.result == 'success') {

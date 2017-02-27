@@ -9,11 +9,46 @@
 
     function generation_gives_ctrl(vm, svr) {
         vm.delete = function () {
-            msg('删除功能尚未开放');
+            vm.delete = function () {
+                if (confirm('确定要删除吗？')) {
+                    var ids = [];
+                    $.each(vm.search.result, function () {
+                        if (this.checked) {
+                            ids.push(this.id);
+                        }
+                    });
+
+                    if (ids.length > 0) {
+                        svr.delete(ids, function (response) {
+                            if (response.data.result == 'success') {
+                                vm.search.result = $.grep(vm.search.result, function (_this) {
+                                    return !ids.exist(_this.id);
+                                });
+
+                                msg('删除成功！');
+                            } else {
+                                throw msg(response.data.msg);
+                            }
+                        });
+                    } else {
+                        msg('未选择销售人员！');
+                    }
+                }
+            };
         };
 
         vm.export = function() {
-            msg('此功能尚未开发');
+            var url = 'generation_gives/export?page_index=' + vm.page.index + '&page_size=' + vm.page.size;
+
+            if (isString(vm.search.condition.salesman_card_id)) {
+                url += '&salesman_card_id=' + vm.search.condition.salesman_card_id;
+            }
+
+            if (isString(vm.search.condition.salesman_name)) {
+                url += '&salesman_name=' + vm.search.condition.salesman_name;
+            }
+
+            window.open(url);
         };
 
         vm.select = {

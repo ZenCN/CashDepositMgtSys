@@ -44,5 +44,7 @@ namespace Service.Model
         public Nullable<decimal> salesman_cash_deposit { get; set; }
 
         public string remark { get; set; }
+
+        public Nullable<int> is_deleted { get; set; }
     }
 }

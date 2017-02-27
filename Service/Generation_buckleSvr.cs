@@ -12,6 +12,25 @@ namespace Service
     {
         private Db db = null;
 
+        public Result Delete(List<int> ids)
+        {
+            db = new Db();
+
+            try
+            {
+                var buckle = db.Generation_buckle.Where(t => ids.Contains(t.id)).ToList();
+                buckle.ForEach(t => t.is_deleted = 1);
+
+                Entity.SaveChanges(db);
+
+                return new Result(ResultType.success);
+            }
+            catch (Exception ex)
+            {
+                return new Result(ResultType.error, new Message(ex).ErrorDetails);
+            }
+        }
+
         public Result Save(Generation_buckle buckle)
         {
             db = new Db();
@@ -46,18 +65,19 @@ namespace Service
             int page_count = 0;
             int record_count = 0;
 
-            IQueryable<Generation_buckle> query = null;
+            IQueryable<Generation_buckle> query = db.Generation_buckle.Where(t => t.is_deleted != 1);
             switch (level)
             {
-                case 2:
-                    query = db.Generation_buckle;
-                    break;
                 case 3:
                     agency_code = agency_code.Substring(0, 4);
-                    query = db.Generation_buckle.Where(t => t.agency_code.StartsWith(agency_code) && (t.reviewer_code == null || t.reviewer_code == user_code));
+                    query =
+                        query.Where(
+                            t =>
+                                t.agency_code.StartsWith(agency_code) &&
+                                (t.reviewer_code == null || t.reviewer_code == user_code));
                     break;
-                default:
-                    query = db.Generation_buckle.Where(t => t.agency_code == agency_code && t.recorder_code == user_code);
+                case 4:
+                    query = query.Where(t => t.agency_code == agency_code && t.recorder_code == user_code);
                     break;
             }
 
@@ -123,7 +143,8 @@ namespace Service
             }
         }
 
-        public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name)
+        public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name,
+            string user_code, string agency_code, int level)
         {
             db = new Db();
             List<Generation_buckle> list = null;
@@ -131,32 +152,38 @@ namespace Service
             int page_count = 0;
             int record_count = 0;
 
+            IQueryable<Generation_buckle> query = db.Generation_buckle.Where(t => t.is_deleted != 1);
+            switch (level)
+            {
+                case 3:
+                    agency_code = agency_code.Substring(0, 4);
+                    query =
+                        query.Where(
+                            t =>
+                                t.agency_code.StartsWith(agency_code) &&
+                                (t.reviewer_code == null || t.reviewer_code == user_code));
+                    break;
+                case 4:
+                    query = query.Where(t => t.agency_code == agency_code && t.recorder_code == user_code);
+                    break;
+            }
+
             if (!string.IsNullOrEmpty(salesman_card_id))
             {
-                list = db.Generation_buckle.Where(t => t.salesman_card_id.Contains(salesman_card_id)).ToList();
+                query = query.Where(t => t.salesman_card_id.Contains(salesman_card_id));
             }
 
             if (!string.IsNullOrEmpty(salesman_name))
             {
-                if (list != null)
-                {
-                    list = list.Where(t => t.salesman_name.Contains(salesman_name)).ToList();
-                }
-                else
-                {
-                    list = db.Generation_buckle.Where(t => t.salesman_name.Contains(salesman_name)).ToList();
-                }
+                query = query.Where(t => t.salesman_name.Contains(salesman_name));
             }
 
-            if (list == null)
-            {
-                list = db.Generation_buckle.ToList();
-            }
+            list = query.ToList();
 
             record_count = list.Count;
-            page_count = ((record_count + page_size) - 1)/page_size;
+            page_count = ((record_count + page_size) - 1) / page_size;
 
-            list = list.OrderByDescending(t => t.record_date).Skip(page_index*page_size).Take(page_size).ToList();
+            list = list.OrderByDescending(t => t.record_date).Skip(page_index * page_size).Take(page_size).ToList();
 
             new Excel().Export(list);
         }

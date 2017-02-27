@@ -12,8 +12,13 @@
             review_state: {
                 name: state_name,
                 change: change_state
-            }
+            },
+            delete: delete_saleman
         };
+
+        function delete_saleman(ids, callback) {
+            svr.http('generation_buckle/delete?ids=' + ids.join(","), callback);
+        }
 
         function state_name(val) {
             switch (Number(val)) {

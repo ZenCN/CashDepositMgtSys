@@ -48,5 +48,7 @@ namespace Service.Model
         public Nullable<int> salesman_refunds_state { get; set; }
 
         public string remark { get; set; }
+
+        public Nullable<int> is_deleted { get; set; }
     }
 }

@@ -6,21 +6,22 @@
         .controller('modal_ctrl', modal_ctrl)
         .controller('modal_instance_ctrl', modal_instance_ctrl);
 
-    modal_ctrl.$inject = ['$scope', '$modal'];
+    modal_ctrl.$inject = ['$scope', '$modal', 'svr'];
 
-    function modal_ctrl(vm, $modal) {
+    function modal_ctrl(vm, $modal, svr) {
 
-        vm.open_dialog = function(type, html) {
+        vm.open_dialog = function(action, type) {
+            var html = undefined;
             vm.model = {
                 title: undefined,
                 salesman_sex: '男',
                 salesman_card_type:  '身份证'
             };
 
-            if (html == 'buckle') {
+            if (type == 'buckle') {
                 html = '../client/app/generation_buckle/generation_buckle_record.html';
 
-                if (type == 'add') {
+                if (action == 'add') {
                     vm.model.title = '新增代扣数据';
                 } else {
                     var selected = undefined;
@@ -43,7 +44,7 @@
             } else {
                 html = '../client/app/generation_gives/generation_gives_record.html';
 
-                if (type == 'add') {
+                if (action == 'add') {
                     vm.model.title = '新增代付申请';
                 } else {
                     var selected = undefined;
@@ -64,28 +65,46 @@
                 }
             }
 
-            $modal.open({
-                templateUrl: html,
-                controller: 'modal_instance_ctrl',
-                resolve: {
-                    model: function() {
-                        return vm.model;
-                    }
-                }
-            }).result.then(function (type) {
+            var callback = function(type) {
                 if (type == 'save') {
                     vm.search.from_svr();
                 } else {
-                    if (is_modify) {
-                        $.each(vm.search.result, function (i) {
-                            if (this.checked) {
-                                vm.search.result[i] = vm.model;
-                                return false;
-                            }
-                        });
-                    }
+                    $.each(vm.search.result, function(i) {
+                        if (this.checked) {
+                            vm.search.result[i] = vm.model;
+                            return false;
+                        }
+                    });
                 }
-            });
+            };
+
+            if (type == 'gives' && action == 'modify') {
+                svr.http('generation_gives/getdeducteds?id=' + vm.model.id, function(response) {
+                    if (response.data.result == 'success') {
+                        vm.model.deducted_items = response.data.extra.list;
+                    }
+
+                    $modal.open({
+                        templateUrl: html,
+                        controller: 'modal_instance_ctrl',
+                        resolve: {
+                            model: function() {
+                                return vm.model;
+                            }
+                        }
+                    }).result.then(callback);
+                });
+            } else {
+                $modal.open({
+                    templateUrl: html,
+                    controller: 'modal_instance_ctrl',
+                    resolve: {
+                        model: function() {
+                            return vm.model;
+                        }
+                    }
+                }).result.then(callback);
+            }
         };
     };
 
@@ -170,7 +189,7 @@
                 }
             },
             save: function($valid) {
-                if ($valid) {  //vm.model.title.contains('新增') && 
+                if ($valid) {
                     var generation_gives = angular.copy(vm.model);
                     delete generation_gives.$$hashKey;
                     delete generation_gives.deducted;

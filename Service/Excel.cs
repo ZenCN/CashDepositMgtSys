@@ -12,6 +12,88 @@ namespace Service
 {
     public class Excel
     {
+        public void Export(List<Generation_gives> list)
+        {
+            HSSFWorkbook hssfworkbook;
+            using (FileStream file = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/Excel/Generation_gives.xls", FileMode.Open, FileAccess.Read))
+            {
+                hssfworkbook = new HSSFWorkbook(file);
+            }
+
+            int strat_row = 2;
+            ISheet sheet = hssfworkbook.GetSheet("数据");
+            sheet = CreateCell(sheet, list.Count, 15, strat_row);
+
+            ICell cell = null;
+            ICellStyle cell_style = SetCellStyle(sheet);
+            for (int i = 0; i < list.Count; i++)
+            {
+                cell = sheet.GetRow(strat_row + i).GetCell(0);
+                cell.SetCellValue(list[i].agency_code);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(1);
+                cell.SetCellValue(list[i].salesman_name);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(2);
+                cell.SetCellValue(list[i].salesman_sex);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(3);
+                cell.SetCellValue(list[i].salesman_card_type);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(4);
+                cell.SetCellValue(list[i].salesman_card_id);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(5);
+                cell.SetCellValue(list[i].salesman_phone);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(6);
+                cell.SetCellValue(list[i].salesman_hiredate == null
+                    ? null
+                    : list[i].salesman_hiredate.Value.ToString("yyyy年M月d日"));
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(7);
+                cell.SetCellValue(list[i].salesman_bank_account_name);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(8);
+                cell.SetCellValue(list[i].salesman_bank_account_number);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(9);
+                cell.SetCellValue(list[i].salesman_bank_name);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(10);
+                cell.SetCellValue(list[i].salesman_bank_province);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(11);
+                cell.SetCellValue(list[i].salesman_bank_city);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(12);
+                cell.SetCellValue(list[i].salesman_cash_deposit == null ? "" : list[i].salesman_cash_deposit.ToString());
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(13);
+                cell.SetCellValue(list[i].salesman_refunds == null ? "" : list[i].salesman_refunds.ToString());
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(14);
+                cell.SetCellValue(list[i].remark);
+                cell.CellStyle = cell_style;
+            }
+
+            ResponseExcel(hssfworkbook);
+        }
+
         public void Export(List<Generation_buckle> list)
         {
             HSSFWorkbook hssfworkbook;
@@ -22,7 +104,7 @@ namespace Service
 
             int strat_row = 2;
             ISheet sheet = hssfworkbook.GetSheet("数据");
-            sheet = CreateCell(sheet, list.Count, 13, strat_row);
+            sheet = CreateCell(sheet, list.Count, 14, strat_row);
 
             ICell cell = null;
             ICellStyle cell_style = SetCellStyle(sheet);

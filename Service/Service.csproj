@@ -78,14 +78,6 @@
     <Compile Include="Excel.cs" />
     <Compile Include="Generation_buckleSvr.cs" />
     <Compile Include="Generation_givesSvr.cs" />
-    <Compile Include="Migrations\201702240401019_Update.cs" />
-    <Compile Include="Migrations\201702240401019_Update.Designer.cs">
-      <DependentUpon>201702240401019_Update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702261103377_Add.cs" />
-    <Compile Include="Migrations\201702261103377_Add.Designer.cs">
-      <DependentUpon>201702261103377_Add.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model.Interface\DbInterface.cs" />
     <Compile Include="Model.Interface\INTERFACE_MIO_BATCH_BZJ.cs" />
@@ -113,14 +105,6 @@
       <Project>{2827E0E7-A76D-4912-A6AF-D5BB7BE4082F}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702240401019_Update.resx">
-      <DependentUpon>201702240401019_Update.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702261103377_Add.resx">
-      <DependentUpon>201702261103377_Add.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

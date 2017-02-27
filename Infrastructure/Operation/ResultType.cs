@@ -45,8 +45,8 @@ namespace Infrastructure.Operation
         /// <summary>
         ///     指定参数的数据不存在
         /// </summary>
-        [Description("指定参数的数据不存在。")]
-        query_null,
+        [Description("查不到任何数据。")]
+        query_nothing,
 
         /// <summary>
         ///     权限不足

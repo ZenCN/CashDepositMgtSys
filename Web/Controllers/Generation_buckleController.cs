@@ -21,6 +21,18 @@ namespace Web.Controllers
         private Result result = null;
         private Generation_buckleSvr svr = new Generation_buckleSvr();
 
+        public string Delete(string ids)
+        {
+            List<int> list = new List<int>();
+
+            var str_arr = ids.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var id in str_arr)
+            {
+                list.Add(int.Parse(id));
+            }
+
+            return JsonConvert.SerializeObject(svr.Delete(list));
+        }
         public string ChangeReviewState(string ids, int state)
         {
             List<int> list = new List<int>();
@@ -60,7 +72,8 @@ namespace Web.Controllers
 
         public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name)
         {
-            svr.Export(page_index, page_size, salesman_card_id, salesman_name);
+            svr.Export(page_index, page_size, salesman_card_id, salesman_name,
+                    Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value, int.Parse(Request.Cookies["user_level"].Value));
         }
 
         public string Import(HttpPostedFileBase file)
