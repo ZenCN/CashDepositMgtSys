@@ -5,7 +5,7 @@
         .module('app.widget')
         .directive('singleUpload', singleUpload);
 
-    singleUpload.$inject = ['svr','$state'];
+    singleUpload.$inject = ['svr', '$state'];
 
     function singleUpload(svr, $state) {
         return function(vm, $element) {
@@ -19,8 +19,11 @@
                         caption: '<div class="form-control file-caption {class}">' +
                             '<div style="width:358px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" class="file-caption-name"></div>' +
                             '</div>'
+                    },
+                    uploadExtraData: function() { //uploadExtraData must be an object or function
+                        return { channel: vm.import_channel }
                     }
-                }).on('fileuploaded', function (event, config) {
+                }).on('fileuploaded', function(event, config) {
 
                     if (config.response.result == 'success') {
                         var text = config.filenames.join("、") + ' 导入成功';
@@ -44,4 +47,5 @@
             });
         }
     }
-})();
+})
+();

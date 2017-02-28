@@ -29,12 +29,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-5">
+                <div class="col-sm-4">
                     <div class="input-group">
-                        <span class="input-group-addon">证件类别</span>
-                        <select class="form-control" ng-model="model.salesman_card_type">
-                            <option value="身份证">身份证</option>
-                            <option value="驾驶证">驾驶证</option>
+                        <span class="input-group-addon">渠道</span>
+                        <select class="form-control" ng-model="model.channel">
+                            <option value="团险">团险</option>
+                            <option value="银保">银保</option>
+                            <option value="个险">个险</option>
                         </select>
                     </div>
                 </div>
@@ -45,6 +46,15 @@
                                datepicker-popup="{{format}}" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
                                date-disabled="disabled(date, mode)" ng-click="open($event)" is-open="write_time_opened"
                                current-text="今天" close-text="关闭" clear-text="清除">
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">证件类别</span>
+                        <select class="form-control" ng-model="model.salesman_card_type">
+                            <option value="身份证">身份证</option>
+                            <option value="驾驶证">驾驶证</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-7">

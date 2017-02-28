@@ -7,15 +7,13 @@ window.isString = function(str) {
 Date.prototype.get_day = function(d) { //default today(undefined)、oneday: -7 7、lastday 0
     var date = new Date(); //default today
 
-    if (d != undefined) {
-        if (typeof d == 'number') {
-            if (d != 0) { //oneday
-                date = date.valueOf();
-                date = date + d * 24 * 60 * 60 * 1000;
-                date = new Date(date);
-            } else { //this month lastday
-                date = new Date(date.getFullYear(), date.getMonth(), 0);
-            }
+    if (typeof d == 'number') {
+        if (d != 0) { //oneday
+            date = date.valueOf();
+            date = date + d * 24 * 60 * 60 * 1000;
+            date = new Date(date);
+        } else { //this month lastday
+            date = new Date(date.getFullYear(), date.getMonth(), 0);
         }
     }
 

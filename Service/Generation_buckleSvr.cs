@@ -37,18 +37,31 @@ namespace Service
 
             try
             {
-                if (buckle.id > 0)
+                var old_buckle =
+                    db.Generation_buckle.SingleOrDefault(
+                        t =>
+                            t.salesman_card_id == buckle.salesman_card_id &&
+                            t.salesman_hiredate == buckle.salesman_hiredate);
+
+                if (old_buckle == null || buckle.id > 0)
                 {
-                    Entity.Update(db, buckle);
+                    if (buckle.id > 0)
+                    {
+                        Entity.Update(db, buckle);
+                    }
+                    else
+                    {
+                        db.Generation_buckle.Add(buckle);
+                    }
+
+                    Entity.SaveChanges(db);
+
+                    return new Result(ResultType.success, new {generation_buckle_id = buckle.id});
                 }
                 else
                 {
-                    db.Generation_buckle.Add(buckle);
+                    return new Result(ResultType.no_changed, "该人员的代扣信息已被其它工作人员录入");
                 }
-
-                Entity.SaveChanges(db);
-
-                return new Result(ResultType.success, new {generation_buckle_id = buckle.id});
             }
             catch (Exception ex)
             {
@@ -68,16 +81,23 @@ namespace Service
             IQueryable<Generation_buckle> query = db.Generation_buckle.Where(t => t.is_deleted != 1);
             switch (level)
             {
+                case 2:
+                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3);
+                    break;
                 case 3:
                     agency_code = agency_code.Substring(0, 4);
                     query =
                         query.Where(
                             t =>
                                 t.agency_code.StartsWith(agency_code) &&
-                                (t.reviewer_code == null || t.reviewer_code == user_code));
+                                (t.reviewer_code == null || t.reviewer_code == user_code) &&
+                                t.review_state != 0);
                     break;
                 case 4:
-                    query = query.Where(t => t.agency_code == agency_code && t.recorder_code == user_code);
+                    query =
+                        query.Where(
+                            t =>
+                                t.agency_code == agency_code && t.recorder_code == user_code);
                     break;
             }
 
@@ -103,7 +123,7 @@ namespace Service
         }
 
         public Result Import(List<Generation_buckle> list)
-        {
+        { 
             db = new Db();
             Generation_buckle buckle = null;
             List<Generation_buckle> ignore = new List<Generation_buckle>();
@@ -116,7 +136,7 @@ namespace Service
                         db.Generation_buckle.SingleOrDefault(
                             t =>
                                 t.salesman_card_id == _this.salesman_card_id &&
-                                t.salesman_hiredate == _this.salesman_hiredate);
+                                t.salesman_hiredate == _this.salesman_hiredate && t.is_deleted != 1);
 
                     if (buckle == null)
                     {
@@ -155,16 +175,23 @@ namespace Service
             IQueryable<Generation_buckle> query = db.Generation_buckle.Where(t => t.is_deleted != 1);
             switch (level)
             {
+                case 2:
+                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3);
+                    break;
                 case 3:
                     agency_code = agency_code.Substring(0, 4);
                     query =
                         query.Where(
                             t =>
                                 t.agency_code.StartsWith(agency_code) &&
-                                (t.reviewer_code == null || t.reviewer_code == user_code));
+                                (t.reviewer_code == null || t.reviewer_code == user_code) &&
+                                t.review_state != 0);
                     break;
                 case 4:
-                    query = query.Where(t => t.agency_code == agency_code && t.recorder_code == user_code);
+                    query =
+                        query.Where(
+                            t =>
+                                t.agency_code == agency_code && t.recorder_code == user_code);
                     break;
             }
 

@@ -78,6 +78,18 @@
     <Compile Include="Excel.cs" />
     <Compile Include="Generation_buckleSvr.cs" />
     <Compile Include="Generation_givesSvr.cs" />
+    <Compile Include="Migrations\201702280331594_2-28.cs" />
+    <Compile Include="Migrations\201702280331594_2-28.Designer.cs">
+      <DependentUpon>201702280331594_2-28.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702280735209_add_channel_field.cs" />
+    <Compile Include="Migrations\201702280735209_add_channel_field.Designer.cs">
+      <DependentUpon>201702280735209_add_channel_field.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702281001175_mio_type.cs" />
+    <Compile Include="Migrations\201702281001175_mio_type.Designer.cs">
+      <DependentUpon>201702281001175_mio_type.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model.Interface\DbInterface.cs" />
     <Compile Include="Model.Interface\INTERFACE_MIO_BATCH_BZJ.cs" />
@@ -88,6 +100,8 @@
     <Compile Include="Model\Deducted.cs" />
     <Compile Include="Model\Generation_buckle.cs" />
     <Compile Include="Model\Generation_gives.cs" />
+    <Compile Include="Model\MioBatch.cs" />
+    <Compile Include="Model\MioList.cs" />
     <Compile Include="Model\Staff.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -105,6 +119,17 @@
       <Project>{2827E0E7-A76D-4912-A6AF-D5BB7BE4082F}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201702280331594_2-28.resx">
+      <DependentUpon>201702280331594_2-28.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702280735209_add_channel_field.resx">
+      <DependentUpon>201702280735209_add_channel_field.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702281001175_mio_type.resx">
+      <DependentUpon>201702281001175_mio_type.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

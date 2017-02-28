@@ -43,38 +43,51 @@ namespace Service
             {
                 Generation_gives gives = JsonConvert.DeserializeObject<Generation_gives>(generation_gives);
 
-                if (gives.id > 0)
-                {
-                    Entity.Update(db, gives);
+                var old_gives =
+                    db.Generation_gives.SingleOrDefault(
+                        t =>
+                            t.salesman_card_id == gives.salesman_card_id &&
+                            t.salesman_hiredate == gives.salesman_hiredate);
 
-                    var old_deducteds = db.Deducted.Where(t => t.generation_gives_id == gives.id).ToList();
-                    if (old_deducteds.Any())
+                if (old_gives == null || gives.id > 0)
+                {
+                    if (gives.id > 0)
                     {
-                        db.Deducted.RemoveRange(old_deducteds);
+                        Entity.Update(db, gives);
+
+                        var old_deducteds = db.Deducted.Where(t => t.generation_gives_id == gives.id).ToList();
+                        if (old_deducteds.Any())
+                        {
+                            db.Deducted.RemoveRange(old_deducteds);
+                        }
                     }
+                    else
+                    {
+                        gives.record_date = DateTime.Now;
+                        db.Generation_gives.Add(gives);
+                    }
+
+                    Entity.SaveChanges(db);
+
+                    if (!string.IsNullOrEmpty(deducted_items))
+                    {
+                        List<Deducted> deducteds = JsonConvert.DeserializeObject<List<Deducted>>(deducted_items);
+                        deducteds.ForEach(t =>
+                        {
+                            t.id = 0;
+                            t.generation_gives_id = gives.id;
+                        });
+                        db.Deducted.AddRange(deducteds);
+
+                        Entity.SaveChanges(db);
+                    }
+
+                    return new Result(ResultType.success, new {generation_gives_id = gives.id});
                 }
                 else
                 {
-                    gives.record_date = DateTime.Now;
-                    db.Generation_gives.Add(gives);
+                    return new Result(ResultType.no_changed, "该人员的代付信息已被其它工作人员录入");
                 }
-
-                Entity.SaveChanges(db);
-
-                if (!string.IsNullOrEmpty(deducted_items))
-                {
-                    List<Deducted> deducteds = JsonConvert.DeserializeObject<List<Deducted>>(deducted_items);
-                    deducteds.ForEach(t =>
-                    {
-                        t.id = 0;
-                        t.generation_gives_id = gives.id;
-                    });
-                    db.Deducted.AddRange(deducteds);
-
-                    Entity.SaveChanges(db);
-                }
-
-                return new Result(ResultType.success, new {generation_gives_id = gives.id});
             }
             catch (Exception ex)
             {
@@ -94,12 +107,23 @@ namespace Service
             IQueryable<Generation_gives> query = db.Generation_gives.Where(t => t.is_deleted != 1);
             switch (level)
             {
+                case 2:
+                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3);
+                    break;
                 case 3:
                     agency_code = agency_code.Substring(0, 4);
-                    query = query.Where(t => t.agency_code.StartsWith(agency_code) && (t.reviewer_code == null || t.reviewer_code == user_code));
+                    query =
+                        query.Where(
+                            t =>
+                                t.agency_code.StartsWith(agency_code) &&
+                                (t.reviewer_code == null || t.reviewer_code == user_code) &&
+                                t.review_state != 0);
                     break;
                 case 4:
-                    query = query.Where(t => t.agency_code == agency_code && t.recorder_code == user_code);
+                    query =
+                        query.Where(
+                            t =>
+                                t.agency_code == agency_code && t.recorder_code == user_code);
                     break;
             }
 
@@ -152,12 +176,23 @@ namespace Service
                 IQueryable<Generation_gives> query = db.Generation_gives.Where(t => t.is_deleted != 1);
                 switch (level)
                 {
+                    case 2:
+                        query = query.Where(t => t.review_state >= 2 || t.review_state == -3);
+                        break;
                     case 3:
                         agency_code = agency_code.Substring(0, 4);
-                        query = query.Where(t => t.agency_code.StartsWith(agency_code) && (t.reviewer_code == null || t.reviewer_code == user_code));
+                        query =
+                            query.Where(
+                                t =>
+                                    t.agency_code.StartsWith(agency_code) &&
+                                    (t.reviewer_code == null || t.reviewer_code == user_code) &&
+                                    t.review_state != 0);
                         break;
                     case 4:
-                        query = query.Where(t => t.agency_code == agency_code && t.recorder_code == user_code);
+                        query =
+                            query.Where(
+                                t =>
+                                    t.agency_code == agency_code && t.recorder_code == user_code);
                         break;
                 }
 
@@ -209,7 +244,8 @@ namespace Service
                             db.Generation_buckle.SingleOrDefault(
                                 b =>
                                     b.salesman_card_id == g.salesman_card_id &&
-                                    b.salesman_bank_account_name == g.salesman_bank_account_name);
+                                    b.salesman_bank_account_name == g.salesman_bank_account_name && 
+                                    b.salesman_hiredate == g.salesman_hiredate);
 
                         if (buckle != null)
                         {
@@ -217,48 +253,66 @@ namespace Service
                         }
                     });
 
-                    decimal sum_amount = Convert.ToDecimal(list.Sum(t => t.salesman_refunds));
-                    using (DbInterface db_context = new DbInterface())
+                    if (list.Count > 0)
                     {
-                        INTERFACE_MIO_BATCH_BZJ batch = new INTERFACE_MIO_BATCH_BZJ(); ;
-                        batch.MioType = "O";
-                        batch.DataCnt = list.Count;
-                        batch.SumAmnt = sum_amount;
-                        batch.GenerateTime = DateTime.Now;
-                        batch.GenerateBy = HttpContext.Current.Request.Cookies["user_code"].Value;
+                        decimal sum_amount = Convert.ToDecimal(list.Sum(t => t.salesman_refunds));
 
-                        batch.FromSys = "UnKnow";
-                        batch.FromBatchNo = "UnKnow";
-                        batch.BatchStatus = 0;
+                        MioBatch mio_batch = new MioBatch();
+                        mio_batch.batch_id = DateTime.Now.Ticks.ToString();
+                        mio_batch.record_count = list.Count;
+                        mio_batch.sum_amount = sum_amount;
+                        mio_batch.reviewer_code = HttpContext.Current.Request.Cookies["user_code"].Value;
+                        mio_batch.review_date = DateTime.Now;
+                        mio_batch.push_date = DateTime.Now;
 
-                        db_context.INTERFACE_MIO_BATCH_BZJ.Add(batch);
-                        Entity.SaveChanges(db_context);
+                        List<MioList> mio_list = new List<MioList>();
 
-                        INTERFACE_MIO_LIST_BZJ mio = null;
-                        list.ForEach(t =>
+                        list.ForEach(t => mio_list.Add(new MioList() {batch_id = mio_batch.batch_id ,generation_gives_id = t.id}));
+                        
+                        using (DbInterface db_context = new DbInterface())
                         {
-                            mio = new INTERFACE_MIO_LIST_BZJ();
-                            mio.ClicBranch = t.agency_code;
-                            mio.BatchId = batch.BatchId;
-                            mio.ApplTime = DateTime.Now;
-                            mio.ProcStatus = "0";
-                            mio.AccBookOrCard = "C";
-                            mio.AccPersonOrCompany = "P";
-                            mio.BankAccName = t.salesman_bank_account_name;
-                            mio.BankAcc = t.salesman_bank_account_number;
-                            mio.MioAmount = t.salesman_refunds.Value;
+                            INTERFACE_MIO_BATCH_BZJ batch = new INTERFACE_MIO_BATCH_BZJ(); ;
+                            batch.MioType = "O";
+                            batch.DataCnt = list.Count;
+                            batch.SumAmnt = sum_amount;
+                            batch.GenerateTime = DateTime.Now;
+                            batch.GenerateBy = HttpContext.Current.Request.Cookies["user_code"].Value;
 
-                            mio.FromSys = "UnKnow";
-                            mio.FromBatchNo = "UnKnow";
-                            mio.FromUniqLine = "UnKnow";
-                            mio.BankCode = "UnKnow";
-                            mio.MioStatus = -1;
-                            mio.AccCurrencyType = "CNY";
+                            batch.FromSys = "UnKnow";
+                            batch.FromBatchNo = "UnKnow";
+                            batch.BatchStatus = 0;
 
-                            db_context.INTERFACE_MIO_LIST_BZJ.Add(mio);
-                        });
+                            db_context.INTERFACE_MIO_BATCH_BZJ.Add(batch);
+                            Entity.SaveChanges(db_context);
 
-                        Entity.SaveChanges(db_context);
+                            INTERFACE_MIO_LIST_BZJ mio = null;
+                            list.ForEach(t =>
+                            {
+                                mio = new INTERFACE_MIO_LIST_BZJ();
+                                mio.ClicBranch = t.agency_code;
+                                mio.BatchId = batch.BatchId;
+                                mio.ApplTime = DateTime.Now;
+                                mio.ProcStatus = "0";
+                                mio.AccBookOrCard = "C";
+                                mio.AccPersonOrCompany = "P";
+                                mio.BankAccName = t.salesman_bank_account_name;
+                                mio.BankAcc = t.salesman_bank_account_number;
+                                mio.MioAmount = t.salesman_refunds.Value;
+
+                                mio.FromSys = "UnKnow";
+                                mio.FromBatchNo = "UnKnow";
+                                mio.FromUniqLine = "UnKnow";
+                                mio.BankCode = "UnKnow";
+                                mio.MioStatus = -1;
+                                mio.AccCurrencyType = "CNY";
+
+                                db_context.INTERFACE_MIO_LIST_BZJ.Add(mio);
+                            });
+
+                            Entity.SaveChanges(db_context);
+                            Entity.SaveChanges(db);
+
+                        }
                     }
                 }
 

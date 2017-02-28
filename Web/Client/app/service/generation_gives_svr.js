@@ -31,9 +31,9 @@
                 case -2:
                     return '市级领导审核未通过';
                 case 3:
-                    return '审核已通过';
+                    return '省级领导审核已通过';
                 case -3:
-                    return '审核未通过';
+                    return '省级领导审核未通过';
             }
         }
 

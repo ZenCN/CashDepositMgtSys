@@ -46,5 +46,7 @@ namespace Service.Model
         public string remark { get; set; }
 
         public Nullable<int> is_deleted { get; set; }
+
+        public string channel { get; set; }
     }
 }

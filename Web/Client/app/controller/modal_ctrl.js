@@ -15,7 +15,8 @@
             vm.model = {
                 title: undefined,
                 salesman_sex: '男',
-                salesman_card_type:  '身份证'
+                salesman_card_type: '身份证',
+                channel: '团险'
             };
 
             if (type == 'buckle') {
@@ -40,7 +41,7 @@
                     vm.model.title = '修改代扣数据';
                     delete vm.model.$$hashKey;
                 }
-                
+
             } else {
                 html = '../client/app/generation_gives/generation_gives_record.html';
 
@@ -48,7 +49,7 @@
                     vm.model.title = '新增代付申请';
                 } else {
                     var selected = undefined;
-                    $.each(vm.search.result, function () {
+                    $.each(vm.search.result, function() {
                         if (this.checked) {
                             selected = this;
                             return false;
@@ -71,6 +72,10 @@
                 } else {
                     $.each(vm.search.result, function(i) {
                         if (this.checked) {
+                            if (typeof vm.model.salesman_hiredate == "object") {
+                                vm.model.salesman_hiredate = vm.model.salesman_hiredate.to_str('-');
+                            }
+
                             vm.search.result[i] = vm.model;
                             return false;
                         }
@@ -115,23 +120,27 @@
 
         vm.generation_buckle = {
             save: function($valid) {
-                if ($valid) {
-                    svr.http('generation_buckle/save?buckle=' + angular.toJson(vm.model), function(response) {
-                        if (response.data.result == 'success') {
-                            if (vm.model.id > 0) {
-                                msg('修改成功！');
-                                $modalInstance.close('modify');
-                            } else {
-                                msg('保存成功！');
-                                $modalInstance.close('save');
-                            }
-                        } else {
-                            msg(response.data.msg);
-                        }
-                    });
-                } else {
-                    msg('销售人员信息不完整，请完成所有必填项！', 1500);
+                //if ($valid) {
+                if (!vm.model.id && typeof vm.model.salesman_hiredate == "object") {
+                    vm.model.salesman_hiredate = vm.model.salesman_hiredate.to_str('-');
                 }
+
+                svr.http('generation_buckle/save?buckle=' + angular.toJson(vm.model), function(response) {
+                    if (response.data.result == 'success') {
+                        if (vm.model.id > 0) {
+                            msg('修改成功！');
+                            $modalInstance.close('modify');
+                        } else {
+                            msg('保存成功！');
+                            $modalInstance.close('save');
+                        }
+                    } else {
+                        msg(response.data.msg);
+                    }
+                });
+                /*} else {
+                    msg('销售人员信息不完整，请完成所有必填项！', 1500);
+                }*/
             }
         };
 
@@ -189,32 +198,37 @@
                 }
             },
             save: function($valid) {
-                if ($valid) {
-                    var generation_gives = angular.copy(vm.model);
-                    delete generation_gives.$$hashKey;
-                    delete generation_gives.deducted;
+                //if ($valid) {
+                var generation_gives = angular.copy(vm.model);
+                delete generation_gives.$$hashKey;
+                delete generation_gives.deducted;
 
+                if (!generation_gives.id && typeof generation_gives.salesman_hiredate == "object") {
+                    generation_gives.salesman_hiredate = generation_gives.salesman_hiredate.to_str('-');
+                }
+
+                generation_gives =
                     $.extend(generation_gives, {
                         recorder_code: $.cookie('user_code'),
                         review_state: 0,
                         agency_code: $.cookie('agency_code')
                     });
 
-                    var deducted_items = generation_gives.deducted_items;
-                    delete generation_gives.deducted_items;
+                var deducted_items = generation_gives.deducted_items;
+                delete generation_gives.deducted_items;
 
-                    svr.http('generation_gives/save?generation_gives=' + angular.toJson(generation_gives) +
-                        '&deducted_items=' + (deducted_items ? angular.toJson(deducted_items) : ''), function(response) {
-                            if (response.data.result == 'success') {
-                                msg('保存成功!');
-                                $modalInstance.close('save');
-                            } else {
-                                msg(response.data.msg);
-                            }
-                        });
-                } else {
+                svr.http('generation_gives/save?generation_gives=' + angular.toJson(generation_gives) +
+                    '&deducted_items=' + (deducted_items ? angular.toJson(deducted_items) : ''), function(response) {
+                        if (response.data.result == 'success') {
+                            msg('保存成功!');
+                            $modalInstance.close('save');
+                        } else {
+                            msg(response.data.msg, 2000);
+                        }
+                    });
+                /*} else {
                     msg('销售人员信息不完整，请完成所有必填项！', 1500);
-                }
+                }*/
             }
         };
 

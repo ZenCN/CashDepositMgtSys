@@ -76,7 +76,7 @@ namespace Web.Controllers
                     Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value, int.Parse(Request.Cookies["user_level"].Value));
         }
 
-        public string Import(HttpPostedFileBase file)
+        public string Import(HttpPostedFileBase file, string channel)
         {
             IWorkbook workbook = null;
             ISheet sheet = null;
@@ -118,10 +118,6 @@ namespace Web.Controllers
                             for (int r = startRow; r <= rowCount; r++)
                             {
                                 buckle = new Generation_buckle();
-                                buckle.agency_code = Request.Cookies["agency_code"].Value;
-                                buckle.recorder_code = Request.Cookies["user_code"].Value;
-                                buckle.record_date = DateTime.Now;
-                                buckle.review_state = 0;
                                 for (int c = 0; c < cellCount; c++)
                                 {
                                     cell = sheet.GetRow(r).GetCell(c);
@@ -143,6 +139,11 @@ namespace Web.Controllers
                                         property.SetValue(buckle, cell.StringCellValue, null);
                                     }
                                 }
+                                buckle.agency_code = Request.Cookies["agency_code"].Value;
+                                buckle.recorder_code = Request.Cookies["user_code"].Value;
+                                buckle.record_date = DateTime.Now;
+                                buckle.review_state = 0;
+                                buckle.channel = channel;
                                 list.Add(buckle);
                             }
 
