@@ -1,4 +1,15 @@
-﻿--------------------------------------------git常用命令-------------------------------------------
+﻿-----------------------------EntityFramework CodeFirst 数据库迁移语法----------------------------
+第一步，启用Code First 迁移，在控制台输入以下语句。以下所有语句可加参数 -Force 强制覆盖执行
+PM> Enable-Migrations -ContextTypeName [“绝对命名路径”即继承自DbContext的子类命名空间 + 该子类名] -MigrationsDirectory [生成Migration的文件夹名]
+
+第二步，生成迁移文件，迁移文件里包含了为数据库创建相关表的指令
+PM> Add-Migration [迁移文件的名字] -ConfigurationTypeName [生成Migration的文件夹下的Configuration类的“绝对命名路径”]
+
+第三步，更新数据库
+PM> Update-Database -ConfigurationTypeName [生成Migration的文件夹下的Configuration类的“绝对命名路径”]
+
+注意：当启用迁移的项目只有一个DbContext类时可不用带后面的参数，一切按默认的方法执行即可
+--------------------------------------------git常用命令-------------------------------------------
 
 1. 回退所有内容到上一个版本
 git reset head^

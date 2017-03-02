@@ -204,7 +204,7 @@
     <Content Include="Client\index.html" />
     <Content Include="Excel\read_me.txt" />
     <Content Include="favicon.ico" />
-    <Content Include="git_helper.txt" />
+    <Content Include="Coding.txt" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
