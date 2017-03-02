@@ -5,15 +5,15 @@ namespace Service.Model.Interface
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class DbInterface : DbContext
+    public class DbInterface : DbContext
     {
         public DbInterface()
             : base("name=DbInterface")
         {
         }
 
-        public virtual DbSet<INTERFACE_MIO_BATCH_BZJ> INTERFACE_MIO_BATCH_BZJ { get; set; }
-        public virtual DbSet<INTERFACE_MIO_LIST_BZJ> INTERFACE_MIO_LIST_BZJ { get; set; }
+        public DbSet<INTERFACE_MIO_BATCH_BZJ> INTERFACE_MIO_BATCH_BZJ { get; set; }
+        public DbSet<INTERFACE_MIO_LIST_BZJ> INTERFACE_MIO_LIST_BZJ { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -78,6 +78,16 @@
     <Compile Include="Excel.cs" />
     <Compile Include="Generation_buckleSvr.cs" />
     <Compile Include="Generation_givesSvr.cs" />
+    <Compile Include="Migrations.Interface\201703020814433_Initial.cs" />
+    <Compile Include="Migrations.Interface\201703020814433_Initial.Designer.cs">
+      <DependentUpon>201703020814433_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations.Interface\Configuration.cs" />
+    <Compile Include="Migrations\201703020743115_initial.cs" />
+    <Compile Include="Migrations\201703020743115_initial.Designer.cs">
+      <DependentUpon>201703020743115_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model.Interface\DbInterface.cs" />
     <Compile Include="Model.Interface\INTERFACE_MIO_BATCH_BZJ.cs" />
     <Compile Include="Model.Interface\INTERFACE_MIO_LIST_BZJ.cs" />
@@ -106,6 +116,14 @@
       <Project>{2827E0E7-A76D-4912-A6AF-D5BB7BE4082F}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations.Interface\201703020814433_Initial.resx">
+      <DependentUpon>201703020814433_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703020743115_initial.resx">
+      <DependentUpon>201703020743115_initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
