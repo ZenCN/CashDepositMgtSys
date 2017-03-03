@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseSvr.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Excel.cs" />
     <Compile Include="Generation_buckleSvr.cs" />

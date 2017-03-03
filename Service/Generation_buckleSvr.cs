@@ -8,10 +8,8 @@ using Service.Model;
 
 namespace Service
 {
-    public class Generation_buckleSvr
+    public class Generation_buckleSvr : BaseSvr
     {
-        private Db db = null;
-
         public Result Delete(List<int> ids)
         {
             db = new Db();
@@ -21,7 +19,7 @@ namespace Service
                 var buckle = db.Generation_buckle.Where(t => ids.Contains(t.id)).ToList();
                 buckle.ForEach(t => t.is_deleted = 1);
 
-                Entity.SaveChanges(db);
+                db.SaveChanges();
 
                 return new Result(ResultType.success);
             }
@@ -123,7 +121,7 @@ namespace Service
         }
 
         public Result Import(List<Generation_buckle> list)
-        { 
+        {
             db = new Db();
             Generation_buckle buckle = null;
             List<Generation_buckle> ignore = new List<Generation_buckle>();
@@ -208,9 +206,9 @@ namespace Service
             list = query.ToList();
 
             record_count = list.Count;
-            page_count = ((record_count + page_size) - 1) / page_size;
+            page_count = ((record_count + page_size) - 1)/page_size;
 
-            list = list.OrderByDescending(t => t.record_date).Skip(page_index * page_size).Take(page_size).ToList();
+            list = list.OrderByDescending(t => t.record_date).Skip(page_index*page_size).Take(page_size).ToList();
 
             new Excel().Export(list);
         }
