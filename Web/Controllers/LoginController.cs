@@ -10,7 +10,6 @@ namespace Web.Controllers
     {
         public ActionResult Index()
         {
-            int s = int.Parse("s");
             return File("~/client/index.html", "text/html");
         }
 

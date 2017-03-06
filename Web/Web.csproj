@@ -237,7 +237,6 @@
     <None Include="Client\bower_component\jquery-metis-menu\metisMenu.js.map" />
     <Content Include="packages.config" />
     <Content Include="Excel\Generation_buckle.xls" />
-    <Content Include="Excel\Generation_gives.xls" />
     <None Include="Properties\PublishProfiles\Web.pubxml" />
   </ItemGroup>
   <PropertyGroup>

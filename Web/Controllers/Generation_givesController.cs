@@ -35,7 +35,7 @@ namespace Web.Controllers
 
         public string Save(string generation_gives, string deducted_items)
         {
-            result = svr.Save(generation_gives, deducted_items);
+            result = svr.Save(generation_gives, deducted_items, int.Parse(Request.Cookies["user_level"].Value));
 
             return JsonConvert.SerializeObject(result);
         }

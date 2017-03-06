@@ -66,6 +66,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -84,9 +85,9 @@
       <DependentUpon>201703020814433_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations.Interface\Configuration.cs" />
-    <Compile Include="Migrations\201703020743115_initial.cs" />
-    <Compile Include="Migrations\201703020743115_initial.Designer.cs">
-      <DependentUpon>201703020743115_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201703060346544_Initial.cs" />
+    <Compile Include="Migrations\201703060346544_Initial.Designer.cs">
+      <DependentUpon>201703060346544_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model.Interface\DbInterface.cs" />
@@ -122,8 +123,8 @@
     <EmbeddedResource Include="Migrations.Interface\201703020814433_Initial.resx">
       <DependentUpon>201703020814433_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703020743115_initial.resx">
-      <DependentUpon>201703020743115_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703060346544_Initial.resx">
+      <DependentUpon>201703060346544_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

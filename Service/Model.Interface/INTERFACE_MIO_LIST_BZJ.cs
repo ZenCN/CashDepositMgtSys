@@ -13,19 +13,19 @@ namespace Service.Model.Interface
 
         [Required]
         [StringLength(10)]
-        public string FromSys { get; set; }
+        public string FromSys { get; set; }//
 
         [Required]
         [StringLength(50)]
-        public string FromBatchNo { get; set; }
+        public string FromBatchNo { get; set; }//
 
         [Required]
         [StringLength(30)]
-        public string FromUniqLine { get; set; }
+        public string FromUniqLine { get; set; }//
 
         [Required]
         [StringLength(6)]
-        public string ClicBranch { get; set; }
+        public string ClicBranch { get; set; }//?
 
         [Required]
         [StringLength(4)]

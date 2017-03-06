@@ -57,7 +57,20 @@ namespace Web.Controllers
                 generation_buckle.agency_code = Request.Cookies["agency_code"].Value;
                 generation_buckle.recorder_code = Request.Cookies["user_code"].Value;
                 generation_buckle.record_date = DateTime.Now;
-                generation_buckle.review_state = 0;
+
+                int level = int.Parse(Request.Cookies["user_level"].Value);
+                switch (level)
+                {
+                    case 2:
+                        generation_buckle.review_state = 2;
+                        break;
+                    case 3:
+                        generation_buckle.review_state = 1;
+                        break;
+                    case 4:
+                        generation_buckle.review_state = 0;
+                        break;
+                }
             }
 
             return JsonConvert.SerializeObject(svr.Save(generation_buckle));
@@ -142,8 +155,20 @@ namespace Web.Controllers
                                 buckle.agency_code = Request.Cookies["agency_code"].Value;
                                 buckle.recorder_code = Request.Cookies["user_code"].Value;
                                 buckle.record_date = DateTime.Now;
-                                buckle.review_state = 0;
                                 buckle.channel = channel;
+                                int level = int.Parse(Request.Cookies["user_level"].Value);
+                                switch (level)
+                                {
+                                    case 2:
+                                        buckle.review_state = 2;
+                                        break;
+                                    case 3:
+                                        buckle.review_state = 1;
+                                        break;
+                                    case 4:
+                                        buckle.review_state = 0;
+                                        break;
+                                }
                                 list.Add(buckle);
                             }
 
