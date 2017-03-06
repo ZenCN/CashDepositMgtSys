@@ -12,10 +12,8 @@ using Service.Model.Interface;
 
 namespace Service
 {
-    public class Generation_givesSvr
+    public class Generation_givesSvr : BaseSvr
     {
-        private Db db = null;
-
         public Result Delete(List<int> ids)
         {
             db = new Db();

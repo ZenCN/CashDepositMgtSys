@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 using Infrastructure.Exception;
 using Infrastructure.Operation;
 using Service.Model;
+using Service.Model.Interface;
 
 namespace Service
 {
@@ -219,10 +221,49 @@ namespace Service
 
             try
             {
-                var buckle = db.Generation_buckle.Where(t => ids.Contains(t.id)).ToList();
-                buckle.ForEach(t => t.review_state = state);
+                List<Generation_buckle> buckle_list = db.Generation_buckle.Where(t => ids.Contains(t.id)).ToList();
+                buckle_list.ForEach(t => t.review_state = state);
 
                 Entity.SaveChanges(db);
+
+                if (state == 3)  //省级审核通过
+                {
+                    if (buckle_list.Count > 0)
+                    {
+                        decimal sum_amount = Convert.ToDecimal(buckle_list.Sum(t => t.salesman_cash_deposit));
+
+                        MioBatch mio_batch = new MioBatch();   //写入付款批次表
+                        mio_batch.batch_id = DateTime.Now.Ticks.ToString();
+                        mio_batch.record_count = buckle_list.Count;
+                        mio_batch.sum_amount = sum_amount;
+                        mio_batch.reviewer_code = HttpContext.Current.Request.Cookies["user_code"].Value;
+                        mio_batch.review_date = DateTime.Now;
+                        mio_batch.push_date = DateTime.Now;
+                        mio_batch.mio_type = "I";
+
+
+
+                        List<MioList> mio_list = new List<MioList>();  //写入付款明细表
+                        buckle_list.ForEach(t => mio_list.Add(new MioList() { batch_id = mio_batch.batch_id, generation_gives_id = t.id, result = "正在处理中" }));
+
+                        Entity.SaveChanges(db);
+
+                        using (DbInterface db_context = new DbInterface())
+                        {
+                            INTERFACE_MIO_BATCH_BZJ batch = new INTERFACE_MIO_BATCH_BZJ();
+                            batch.MioType = "I";
+                            batch.DataCnt = buckle_list.Count;
+                            batch.SumAmnt = sum_amount;
+                            batch.GenerateTime = DateTime.Now;
+                            batch.GenerateBy = HttpContext.Current.Request.Cookies["user_code"].Value;
+
+                            batch.FromSys = "UnKnow";
+                            //batch.FromBatchNo = ;
+                            batch.BatchStatus = 0;
+
+                        }
+                    }
+                }
 
                 return new Result(ResultType.success);
             }

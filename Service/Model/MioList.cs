@@ -13,5 +13,7 @@ namespace Service.Model
 
         [Description("代付表ID")]
         public int generation_gives_id { get; set; }
+
+        public string result { get; set; }
     }
 }

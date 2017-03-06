@@ -41,7 +41,7 @@ namespace Service.Model
 
         public DbSet<Staff> Staff { get; set; }
 
-        public DbSet<MioBatch> MioBatche { get; set; }
+        public DbSet<MioBatch> MioBatch { get; set; }
 
         public DbSet<MioList> MioList { get; set; }
     }
