@@ -4,7 +4,7 @@
 PM> Enable-Migrations -ContextTypeName [“绝对命名路径”即继承自DbContext的子类命名空间 + 该子类名] -MigrationsDirectory [生成Migration的文件夹名]
 
 第二步，生成迁移文件，迁移文件里包含了为数据库创建相关表的指令
-PM> Add-Migration [生成的迁移文件的名字] -ConfigurationTypeName [生成Migration的文件夹下的Configuration类的“绝对命名路径”]
+PM> Add-Migration [要生成的迁移文件的名字] -ConfigurationTypeName [生成Migration的文件夹下的Configuration类的“绝对命名路径”]
 
 第三步，更新数据库
 PM> Update-Database -ConfigurationTypeName [生成Migration的文件夹下的Configuration类的“绝对命名路径”]

@@ -288,7 +288,8 @@ namespace Service
                                     mio_list.Add(new MioList()
                                     {
                                         batch_id = mio_batch.batch_id,
-                                        generation_gives_id = t.id,
+                                        id = t.id,
+                                        mio_type = "代付",
                                         result = "正在处理中"
                                     }));
 
