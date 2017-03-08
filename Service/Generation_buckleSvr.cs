@@ -85,7 +85,7 @@ namespace Service
             switch (level)
             {
                 case 2:
-                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3);
+                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3 || t.review_state == -5);
                     break;
                 case 3:
                     agency_code = agency_code.Substring(0, 4);
@@ -179,7 +179,7 @@ namespace Service
             switch (level)
             {
                 case 2:
-                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3);
+                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3 || t.review_state == -5);
                     break;
                 case 3:
                     agency_code = agency_code.Substring(0, 4);
@@ -227,13 +227,13 @@ namespace Service
                 List<Generation_buckle> buckle_list = db.Generation_buckle.Where(t => ids.Contains(t.id)).ToList();
                 buckle_list.ForEach(t => t.review_state = state);
 
-                Entity.SaveChanges(db);
+                db.SaveChanges();
 
-                if (state == 3) //省级审核通过
+                if (state == 4) //省级推送
                 {
                     if (buckle_list.Count > 0)
                     {
-                        using (TransactionScope buckle_scope = new TransactionScope())
+                        using (var buckle_scope = new TransactionScope())
                         {
                             decimal sum_amount = Convert.ToDecimal(buckle_list.Sum(t => t.salesman_cash_deposit));
 
@@ -254,7 +254,7 @@ namespace Service
                                     mio_list.Add(new MioList()
                                     {
                                         batch_id = mio_batch.batch_id,
-                                        id = t.id,
+                                        generation_id = t.id,
                                         mio_type = "代扣",
                                         bank_account_no = t.salesman_bank_account_number,
                                         bank_account_name = t.salesman_bank_account_name,
@@ -263,7 +263,7 @@ namespace Service
 
                             db.MioList.AddRange(mio_list);
 
-                            using (TransactionScope gives_scope = new TransactionScope())
+                            using (var gives_scope = new TransactionScope())
                             {
                                 DbInterface db_context = new DbInterface();
 

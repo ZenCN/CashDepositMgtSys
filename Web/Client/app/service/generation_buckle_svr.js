@@ -34,6 +34,12 @@
                     return '省级领导审核已通过';
                 case -3:
                     return '省级领导审核未通过';
+                case 4:
+                    return '代扣处理中...';
+                case 5:
+                    return '代扣成功';
+                case -5:
+                    return '代扣失败';
             }
         }
 

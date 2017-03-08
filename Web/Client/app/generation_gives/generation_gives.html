@@ -51,6 +51,9 @@
             <button ng-if="user.level == 2" type="button" class="btn btn-md btn-success" ng-click="delete()">
                 删除
             </button>
+            <button ng-if="user.level == 2" type="button" class="btn btn-md btn-primary" ng-click="review_state.change(4)">
+                <span class="glyphicon glyphicon-usd" style="color: #ab3434" aria-hidden="true"></span> 推送
+            </button>
         </div>
     </div>
     <div class="col-sm-3">
@@ -137,6 +140,9 @@
                             <span class="glyphicon glyphicon-remove-circle" ng-if="_this.review_state == -2" style="font-size: 19px;"></span>
                             <span class="glyphicon glyphicon-ok" ng-if="_this.review_state == 3" style="font-size: 19px;"></span>
                             <span class="glyphicon glyphicon-ban-circle" ng-if="_this.review_state == -3" style="font-size: 19px;"></span>
+                            <span class="glyphicon glyphicon-option-horizontal" ng-if="_this.review_state == 4" style="font-size: 19px;"></span>
+                            <span class="glyphicon glyphicon-file" ng-if="_this.review_state == 5" style="font-size: 19px;"></span>
+                            <span class="glyphicon glyphicon-info-sign" ng-if="_this.review_state == -5" style="font-size: 19px;"></span>
                         </td>
                     </tr>
                 </tbody>

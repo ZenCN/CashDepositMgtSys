@@ -27,12 +27,40 @@
 
             var response = undefined;
             switch (vm.user.code) {
-                case '湖南':
+                case '湖南-会计-初审':
                     response = {
                         data: {
                             "Success": true,
                             "ResultData": {
                                 "ErpNo": "14308026",
+                                "RealName": "湖南",
+                                "BranchNo": "430000",
+                                "BranchName": "湖南省分公司"
+                            },
+                            "ErrInfo": ""
+                        }
+                    };
+                    break;
+                case '湖南-会计-复审':
+                    response = {
+                        data: {
+                            "Success": true,
+                            "ResultData": {
+                                "ErpNo": "14308126",
+                                "RealName": "湖南",
+                                "BranchNo": "430000",
+                                "BranchName": "湖南省分公司"
+                            },
+                            "ErrInfo": ""
+                        }
+                    };
+                    break;
+                case '湖南-资金部':
+                    response = {
+                        data: {
+                            "Success": true,
+                            "ResultData": {
+                                "ErpNo": "14308146",
                                 "RealName": "湖南",
                                 "BranchNo": "430000",
                                 "BranchName": "湖南省分公司"

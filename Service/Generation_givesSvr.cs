@@ -121,7 +121,7 @@ namespace Service
             switch (level)
             {
                 case 2:
-                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3);
+                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3 || t.review_state == -5);
                     break;
                 case 3:
                     agency_code = agency_code.Substring(0, 4);
@@ -190,7 +190,7 @@ namespace Service
                 switch (level)
                 {
                     case 2:
-                        query = query.Where(t => t.review_state >= 2 || t.review_state == -3);
+                        query = query.Where(t => t.review_state >= 2 || t.review_state == -3 || t.review_state == -5);
                         break;
                     case 3:
                         agency_code = agency_code.Substring(0, 4);
@@ -246,7 +246,7 @@ namespace Service
 
                 Entity.SaveChanges(db);
 
-                if (state == 3)  //省级审核通过
+                if (state == 4)  //省级审核通过
                 {
                     Generation_buckle buckle = null;
                     List<Generation_gives> list = new List<Generation_gives>();
@@ -259,7 +259,7 @@ namespace Service
                                     b.salesman_card_id == g.salesman_card_id &&
                                     b.salesman_hiredate == g.salesman_hiredate);
 
-                        if (buckle != null)
+                        if (buckle != null) //之前的代扣数据中存在
                         {
                             list.Add(g);  //添加
                         }
@@ -282,14 +282,16 @@ namespace Service
 
                             db.MioBatch.Add(mio_batch);
 
-                            List<MioList> mio_list = new List<MioList>(); //写入本数据库中的 收付明细表
+                            List<MioList> mio_list = new List<MioList>();  //写入本数据库中的 收付明细表
                             list.ForEach(
                                 t =>
                                     mio_list.Add(new MioList()
                                     {
                                         batch_id = mio_batch.batch_id,
-                                        id = t.id,
+                                        generation_id = t.id,
                                         mio_type = "代付",
+                                        bank_account_no = t.salesman_bank_account_number,
+                                        bank_account_name = t.salesman_bank_account_name,
                                         result = "正在处理中"
                                     }));
 
@@ -340,6 +342,8 @@ namespace Service
                             db.SaveChanges();
 
                             scope.Complete();
+
+                            QuartzManager<QueryGivesInfo>.AddJob(mio_batch.batch_id, "0 1/1 * * * ?");  //1分钟之后执行第一次（对应“1/1”第一个1）,然后每隔1分钟执行一次（对应“1/1”第二个1）
                         }
                     }
                 }

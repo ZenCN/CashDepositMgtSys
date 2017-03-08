@@ -1,4 +1,4 @@
-﻿(function () {
+﻿(function() {
     'use strict';
 
     angular
@@ -8,20 +8,20 @@
     generation_gives_ctrl.$inject = ['$scope', 'generation_gives_svr'];
 
     function generation_gives_ctrl(vm, svr) {
-        vm.delete = function () {
-            vm.delete = function () {
+        vm.delete = function() {
+            vm.delete = function() {
                 if (confirm('确定要删除吗？')) {
                     var ids = [];
-                    $.each(vm.search.result, function () {
+                    $.each(vm.search.result, function() {
                         if (this.checked) {
                             ids.push(this.id);
                         }
                     });
 
                     if (ids.length > 0) {
-                        svr.delete(ids, function (response) {
+                        svr.delete(ids, function(response) {
                             if (response.data.result == 'success') {
-                                vm.search.result = $.grep(vm.search.result, function (_this) {
+                                vm.search.result = $.grep(vm.search.result, function(_this) {
                                     return !ids.exist(_this.id);
                                 });
 
@@ -53,8 +53,8 @@
 
         vm.select = {
             checked: false,
-            all: function () {
-                $.each(vm.search.result, function () {
+            all: function() {
+                $.each(vm.search.result, function() {
                     if (vm.show_check_box(this.review_state)) {
                         this.checked = !vm.select.checked;
                     } else {
@@ -62,7 +62,7 @@
                     }
                 });
             },
-            one: function (saleman) {
+            one: function(saleman) {
                 if (vm.show_check_box(saleman.review_state)) {
                     saleman.checked = !saleman.checked;
                 } else {
@@ -71,18 +71,18 @@
             }
         };
 
-        vm.show_check_box = function (state) {
+        vm.show_check_box = function(state) {
             state = Number(state);
             switch (vm.user.level) {
-                case 4:
-                    if (state == 1)
-                        return false;
-                case 3:
-                    if (state == 2)
-                        return false;
-                case 2:
-                    if (state == 3)
-                        return false;
+            case 4:
+                if (state == 1)
+                    return false;
+            case 3:
+                if (state == 2)
+                    return false;
+            case 2:
+                if (state > 3)
+                    return false;
             }
 
             return true;
@@ -94,7 +94,7 @@
                 salesman_name: undefined
             },
             result: [],
-            from_svr: function () {
+            from_svr: function() {
                 vm.page.inited = false;
                 vm.page.index = 0;
                 vm.page.load_data(vm.search);
@@ -105,7 +105,7 @@
 
         vm.review_state = {
             name: svr.review.state_name,
-            change: function (state) {
+            change: function(state) {
                 var ids = [], selected = [];
                 $.each(vm.search.result, function() {
                     if (this.checked) {
@@ -122,10 +122,20 @@
                                 this.review_state = state;
                             });
 
-                            if (vm.user.level == 4)
-                                msg('提交成功！');
-                            else
-                                msg('审核完成！');
+                            switch (Number(state)) {
+                            case 1:
+                                return msg('提交成功！');
+                            case 2:
+                            case 3:
+                                return msg('已通过！');
+                            case -2:
+                            case -3:
+                                return msg('已拒绝！');
+                            case 4:
+                                return msg('已推送！');
+                            default:
+                                return msg('非法操作！');
+                            }
                         } else {
                             throw msg(response.data.msg);
                         }
