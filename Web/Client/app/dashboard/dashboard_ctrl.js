@@ -20,6 +20,16 @@
 
         if (typeof vm.user.level != "number") {
             $state.go('login');
+        } else if (vm.user.level == 2) {
+            vm.user.role = $.cookie('user_role');
+
+            if (isString($.cookie('user_authority'))) {
+                vm.user.authority = Number($.cookie('user_authority'));
+            }
+
+            if (isString($.cookie('user_jurisdiction'))) {
+                vm.user.jurisdiction = $.cookie('user_jurisdiction').split('、');
+            }
         }
 
         vm.state = $state.$current.name.split('.').the_last();

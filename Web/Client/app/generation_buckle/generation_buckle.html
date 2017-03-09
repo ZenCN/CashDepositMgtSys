@@ -13,37 +13,28 @@
         <input name="file" type="file" class="file" multiple data-show-preview="false" single-upload/>
     </div>
     <div class="col-sm-4">
-        <a class="btn btn-info" href="../../../Excel/Generation_buckle.xls">下载模板文件</a>
+        <a class="btn btn-info" href="../../../Excel/Generation_buckle.xls">下载模板</a>
+        <a class="btn btn-info" href="../../../Excel/Generation_buckle.xls">导出汇总、明细表</a>
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-4">
         <div class="btn-group">
             <button type="button" class="btn btn-md btn-success" ng-if="user.level == 4" ng-click="review_state.change(1)">
                 提交
             </button>
-            <div class="btn-group" ng-if="user.level < 4">
+            <div class="btn-group" ng-if="user.level == 3">
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                     审核
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                    <li ng-if="user.level == 2">
-                        <a href="javascript:void(0)" ng-click="review_state.change(-3)">
-                            <span class="glyphicon glyphicon-ban-circle" style="color: red" aria-hidden="true"></span> 拒绝
-                        </a>
-                    </li>
-                    <li ng-if="user.level == 2">
-                        <a href="javascript:void(0)" ng-click="review_state.change(3)">
-                            <span class="glyphicon glyphicon-ok" style="color: green" aria-hidden="true"></span> 通过
-                        </a>
-                    </li>
-                    <li ng-if="user.level == 3">
+                    <li>
                         <a href="javascript:void(0)" ng-click="review_state.change(-2)">
                             <span class="glyphicon glyphicon-remove-circle" style="color: red" aria-hidden="true"></span> 拒绝
                         </a>
                     </li>
-                    <li ng-if="user.level == 3">
+                    <li>
                         <a href="javascript:void(0)" ng-click="review_state.change(2)">
                             <span class="glyphicon glyphicon-ok-circle" style="color: green" aria-hidden="true"></span> 通过
                         </a>
@@ -61,7 +52,7 @@
             <button ng-if="user.level == 2" type="button" class="btn btn-md btn-success" ng-click="delete()">
                 删除
             </button>
-            <button ng-if="user.level == 2" type="button" class="btn btn-md btn-primary" ng-click="review_state.change(4)">
+            <button ng-if="authority('push')" type="button" class="btn btn-md btn-primary" ng-click="review_state.change(4)">
                 <span class="glyphicon glyphicon-usd" style="color: #ab3434" aria-hidden="true"></span> 推送
             </button>
         </div>
@@ -144,13 +135,13 @@
                     <td title="{{review_state.name(_this.review_state)}}">
                         <span class="glyphicon glyphicon-remove" ng-if="search.has_repeated" style="color: red"></span>
                         <span class="glyphicon glyphicon-hourglass" ng-if="_this.review_state == 1" style="font-size: 19px;"></span>
+                        <span class="glyphicon glyphicon-info-sign" ng-if="_this.review_state == -1" style="font-size: 19px;"></span>
                         <span class="glyphicon glyphicon-ok-circle" ng-if="_this.review_state == 2" style="font-size: 19px;"></span>
                         <span class="glyphicon glyphicon-remove-circle" ng-if="_this.review_state == -2" style="font-size: 19px;"></span>
                         <span class="glyphicon glyphicon-ok" ng-if="_this.review_state == 3" style="font-size: 19px;"></span>
                         <span class="glyphicon glyphicon-ban-circle" ng-if="_this.review_state == -3" style="font-size: 19px;"></span>
                         <span class="glyphicon glyphicon-option-horizontal" ng-if="_this.review_state == 4" style="font-size: 19px;"></span>
                         <span class="glyphicon glyphicon-file" ng-if="_this.review_state == 5" style="font-size: 19px;"></span>
-                        <span class="glyphicon glyphicon-info-sign" ng-if="_this.review_state == -5" style="font-size: 19px;"></span>
                     </td>
                 </tr>
                 </tbody>

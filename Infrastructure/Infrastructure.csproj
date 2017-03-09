@@ -53,6 +53,7 @@
     <Compile Include="Extension\Enum.cs" />
     <Compile Include="Extension\Object.cs" />
     <Compile Include="Extension\Type.cs" />
+    <Compile Include="Helper\Linq.cs" />
     <Compile Include="Operation\Result.cs" />
     <Compile Include="Operation\ResultType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

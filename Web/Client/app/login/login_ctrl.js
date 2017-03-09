@@ -7,7 +7,7 @@
 
     login_ctrl.$inject = ['$scope', 'login_svr', '$state'];
 
-    function login_ctrl(vm, login_svr, $state) {
+    function login_ctrl(vm, svr, $state) {
         vm.user = {
             code: undefined,
             password: undefined
@@ -33,7 +33,7 @@
                             "Success": true,
                             "ResultData": {
                                 "ErpNo": "14308026",
-                                "RealName": "湖南",
+                                "RealName": "湖南会计初审",
                                 "BranchNo": "430000",
                                 "BranchName": "湖南省分公司"
                             },
@@ -47,7 +47,7 @@
                             "Success": true,
                             "ResultData": {
                                 "ErpNo": "14308126",
-                                "RealName": "湖南",
+                                "RealName": "湖南会计复审",
                                 "BranchNo": "430000",
                                 "BranchName": "湖南省分公司"
                             },
@@ -55,13 +55,13 @@
                         }
                     };
                     break;
-                case '湖南-资金部':
+                case '湖南-财务资金部':
                     response = {
                         data: {
                             "Success": true,
                             "ResultData": {
                                 "ErpNo": "14308146",
-                                "RealName": "湖南",
+                                "RealName": "湖南财务资金部",
                                 "BranchNo": "430000",
                                 "BranchName": "湖南省分公司"
                             },
@@ -157,7 +157,27 @@
                 $.cookie('agency_code', response.data.ResultData.BranchNo);
                 $.cookie('agency_name', response.data.ResultData.BranchName);
 
-                $state.go('dashboard.generation_buckle');
+                if (level == 2) {
+                    svr.query_user_info(response.data.ResultData.ErpNo, function (response) {
+                        if (response.data.result == 'success') {
+                            $.cookie('user_role', response.data.extra.role);
+
+                            if (response.data.extra.authority != null) {
+                                $.cookie('user_authority', response.data.extra.authority);
+                            }
+
+                            if (response.data.extra.jurisdiction != null) {
+                                $.cookie('user_jurisdiction', response.data.extra.jurisdiction);
+                            }
+                            
+                            $state.go('dashboard.generation_buckle');
+                        } else {
+                            msg('无使用权限，非法操作！');
+                        }
+                    });
+                } else {
+                    $state.go('dashboard.generation_buckle');
+                }
             } else {
                 vm.validate.error = response.data.ErrInfo;
             }

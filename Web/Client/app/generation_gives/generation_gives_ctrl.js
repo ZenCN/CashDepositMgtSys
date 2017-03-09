@@ -8,17 +8,41 @@
     generation_gives_ctrl.$inject = ['$scope', 'generation_gives_svr'];
 
     function generation_gives_ctrl(vm, svr) {
+
+        vm.authority = function(btn) {
+            switch (btn) {
+            case 'push':
+                if (vm.user.level == 2 && vm.user.role == 'financial') {
+                    return true;
+                } else {
+                    return false;
+                }
+            case 'view':
+                if (vm.user.level == 2 && vm.user.role == 'accountant' && vm.user.authority == 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            case 'review':
+                if (vm.user.level == 2 && vm.user.role == 'accountant' && vm.user.authority == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        };
+
         vm.delete = function() {
             vm.delete = function() {
-                if (confirm('确定要删除吗？')) {
-                    var ids = [];
-                    $.each(vm.search.result, function() {
-                        if (this.checked) {
-                            ids.push(this.id);
-                        }
-                    });
+                var ids = [];
+                $.each(vm.search.result, function() {
+                    if (this.checked) {
+                        ids.push(this.id);
+                    }
+                });
 
-                    if (ids.length > 0) {
+                if (ids.length > 0) {
+                    if (confirm('确定要删除吗？')) {
                         svr.delete(ids, function(response) {
                             if (response.data.result == 'success') {
                                 vm.search.result = $.grep(vm.search.result, function(_this) {
@@ -30,9 +54,9 @@
                                 throw msg(response.data.msg);
                             }
                         });
-                    } else {
-                        msg('未选择销售人员！');
                     }
+                } else {
+                    msg('未选择销售人员！');
                 }
             };
         };
@@ -75,17 +99,34 @@
             state = Number(state);
             switch (vm.user.level) {
             case 4:
-                if (state == 1)
+                if ([0, -2, -1].exist(state)) {
+                    return true;
+                } else {
                     return false;
+                }
             case 3:
-                if (state == 2)
+                if ([1, -3, -1].exist(state)) {
+                    return true;
+                } else {
                     return false;
+                }
             case 2:
-                if (state > 3)
-                    return false;
+                switch (vm.user.role) {
+                    case 'financial':
+                        if (state >= 5) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    case 'accountant':
+                        if (vm.user.authority == 1 && state == 4 ||
+                            vm.user.authority == 0 && state == 3) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                }
             }
-
-            return true;
         };
 
         vm.search = {
@@ -117,9 +158,14 @@
                 if (ids.length > 0) {
                     svr.review.change_state(ids, state, function(response) {
                         if (response.data.result == 'success') {
-                            $.each(selected, function() {
-                                this.checked = false;
-                                this.review_state = state;
+                            var remove = [-2, -3, -4].exist(state);
+                            $.each(selected, function () {
+                                if (remove) {
+                                    vm.search.result.seek('id', this.id, 'del');
+                                } else {
+                                    this.checked = false;
+                                    this.review_state = state;
+                                }
                             });
 
                             switch (Number(state)) {

@@ -9,11 +9,16 @@
     function login_svr(svr) {
 
         return {
-            validate: validate
+            validate: validate,
+            query_user_info: query_user_info
         };
 
         function validate(user, callback) {
             return svr.http('http://10.20.147.103:8080/api/json/reply/login?username=' + user.code + '&password=' + user.password + '&t' + Math.random(), callback);
+        };
+
+        function query_user_info(user_code, callback) {
+            return svr.http('login/queryuserinfo?user_code=' + user_code, callback);
         };
     }
 })();

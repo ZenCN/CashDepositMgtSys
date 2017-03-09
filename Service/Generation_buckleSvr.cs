@@ -85,16 +85,16 @@ namespace Service
             switch (level)
             {
                 case 2:
-                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3 || t.review_state == -5);
+                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3);
                     break;
                 case 3:
-                    agency_code = agency_code.Substring(0, 4);
+                    string code = agency_code.Substring(0, 4);
                     query =
                         query.Where(
                             t =>
-                                t.agency_code.StartsWith(agency_code) &&
+                                t.agency_code.StartsWith(code) &&
                                 (t.reviewer_code == null || t.reviewer_code == user_code) &&
-                                t.review_state != 0);
+                                t.review_state != 0 && t.review_state != -2);
                     break;
                 case 4:
                     query =
@@ -179,16 +179,16 @@ namespace Service
             switch (level)
             {
                 case 2:
-                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3 || t.review_state == -5);
+                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3);
                     break;
                 case 3:
-                    agency_code = agency_code.Substring(0, 4);
+                    string code = agency_code.Substring(0, 4);
                     query =
                         query.Where(
                             t =>
-                                t.agency_code.StartsWith(agency_code) &&
+                                t.agency_code.StartsWith(code) &&
                                 (t.reviewer_code == null || t.reviewer_code == user_code) &&
-                                t.review_state != 0);
+                                t.review_state != 0 && t.review_state != -2);
                     break;
                 case 4:
                     query =
@@ -289,7 +289,7 @@ namespace Service
                                     mio.ClicBranch = t.agency_code; //待收付数据的机构(与商户号相关)
                                     mio.BatchId = batch.BatchId; //接口批次表生成的id
                                     mio.ApplTime = DateTime.Now; //审核时间
-                                    mio.ProcStatus = "N"; //数据检查结果，0-新数据待检查，1检验通过,2审核通过
+                                    mio.ProcStatus = "0"; //数据检查结果，0-新数据待检查，1检验通过,2审核通过
                                     mio.AccBookOrCard = "C"; //帐号类型(C银行卡，B存折)
                                     mio.AccPersonOrCompany = "P"; //P私人，C公司。不填时，默认为私人
                                     mio.BankAccName = t.salesman_bank_account_name; //银行户名

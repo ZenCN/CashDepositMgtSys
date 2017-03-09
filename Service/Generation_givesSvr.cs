@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Web;
 using Infrastructure.Exception;
@@ -10,6 +11,7 @@ using NPOI.OpenXmlFormats.Wordprocessing;
 using Service.Model;
 using Service.Model.Interface;
 using System.Transactions;
+using Infrastructure.Helper;
 
 namespace Service
 {
@@ -117,11 +119,54 @@ namespace Service
             int record_count = 0;
             List<Generation_gives> list = null;
 
-            IQueryable<Generation_gives> query = db.Generation_gives.Where(t => t.is_deleted != 1);
+            var query = db.Generation_gives.Where(t => t.is_deleted != 1).AsQueryable();
             switch (level)
             {
                 case 2:
-                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3 || t.review_state == -5);
+                    var staff = db.Staff.SingleOrDefault(t => t.code == user_code);
+
+                    if (staff.jurisdiction != null)
+                    {
+                        string[] area_codes = staff.jurisdiction.Split(new string[] { "、" },
+                            StringSplitOptions.RemoveEmptyEntries);
+
+                        //如果你是要创建一个OR组成的Predicate就不能把它初始化为True因为这样这个表达试永远为True了，所以只能设置为 False !
+                        var expression = PredicateBuilder.False<Generation_gives>();
+                        for (int i = 0; i < area_codes.Length; i++)
+                        {
+                            area_codes[i] = area_codes[i].Substring(0, 4);
+                            //特别注意：expression必须要有“独立”的city_code变量，类似于前端“闭包回调”，这样的话“闭包回调”时用到的city_code变量的值都不一样
+                            //如果在expression变量的作用域之外申明变量city_code，那么所有expression所用到的city_code都一样，因为对于expression变量而言city_code是“全局变量”
+                            //如果在这个方法里city_code变量申明在expression变量的作用域之外，那么所有的expression的city_code值都是area_code数组最后一个值
+                            string city_code = area_codes[i];
+                            //以下额外用一个city_code变量，而不是直接用area_codes[i],原因同上，"i"对于expression而言是“全局变量”
+                            expression = expression.Or(t => t.agency_code.StartsWith(city_code));
+                        }
+
+                        //expression使用使用时必须调用Compile()返回IEnumerable类型的对象，如果接收的变量时IQueryable，则必须调用AsQueryable()进行转换
+                        query = query.Where(expression.Compile()).AsQueryable();
+                    }
+
+                    switch (staff.role)
+                    {
+                        case "financial":
+                            query = query.Where(t => t.review_state >= 4 || t.review_state == -6);
+                            break;
+                        case "accountant":
+                            if (staff.authority == 1) //会计复审
+                            {
+                                query =
+                                    query.Where(
+                                        t => t.review_state >= 3 || t.review_state == -6);
+                            }
+                            else //会计初审
+                            {
+                                query =
+                                    query.Where(
+                                        t => t.review_state >= 2 || t.review_state == -4 || t.review_state == -6);
+                            }
+                            break;
+                    }
                     break;
                 case 3:
                     agency_code = agency_code.Substring(0, 4);
@@ -130,7 +175,7 @@ namespace Service
                             t =>
                                 t.agency_code.StartsWith(agency_code) &&
                                 (t.reviewer_code == null || t.reviewer_code == user_code) &&
-                                t.review_state != 0);
+                                t.review_state != 0 && t.review_state != -2);
                     break;
                 case 4:
                     query =
@@ -153,9 +198,9 @@ namespace Service
             list = query.ToList();
 
             record_count = list.Count;
-            page_count = ((record_count + page_size) - 1) / page_size;
+            page_count = ((record_count + page_size) - 1)/page_size;
 
-            list = list.OrderByDescending(t => t.record_date).Skip(page_index * page_size).Take(page_size).ToList();
+            list = list.OrderByDescending(t => t.record_date).Skip(page_index*page_size).Take(page_size).ToList();
 
             new Excel().Export(list);
         }
@@ -186,11 +231,54 @@ namespace Service
                 int record_count = 0;
                 List<Generation_gives> list = null;
 
-                IQueryable<Generation_gives> query = db.Generation_gives.Where(t => t.is_deleted != 1);
+                var query = db.Generation_gives.Where(t => t.is_deleted != 1).AsQueryable();
                 switch (level)
                 {
                     case 2:
-                        query = query.Where(t => t.review_state >= 2 || t.review_state == -3 || t.review_state == -5);
+                        var staff = db.Staff.SingleOrDefault(t => t.code == user_code);
+
+                        if (staff.jurisdiction != null)
+                        {
+                            string[] area_codes = staff.jurisdiction.Split(new string[] {"、"},
+                                StringSplitOptions.RemoveEmptyEntries);
+
+                            //如果你是要创建一个OR组成的Predicate就不能把它初始化为True因为这样这个表达试永远为True了，所以只能设置为 False !
+                            var expression = PredicateBuilder.False<Generation_gives>();
+                            for (int i = 0; i < area_codes.Length; i++)
+                            {
+                                area_codes[i] = area_codes[i].Substring(0, 4);
+                                //特别注意：expression必须要有“独立”的city_code变量，类似于前端“闭包回调”，这样的话“闭包回调”时用到的city_code变量的值都不一样
+                                //如果在expression变量的作用域之外申明变量city_code，那么所有expression所用到的city_code都一样，因为对于expression变量而言city_code是“全局变量”
+                                //如果在这个方法里city_code变量申明在expression变量的作用域之外，那么所有的expression的city_code值都是area_code数组最后一个值
+                                string city_code = area_codes[i];
+                                //以下额外用一个city_code变量，而不是直接用area_codes[i],原因同上，"i"对于expression而言是“全局变量”
+                                expression = expression.Or(t => t.agency_code.StartsWith(city_code));
+                            }
+
+                            //expression使用使用时必须调用Compile()返回IEnumerable类型的对象，如果接收的变量时IQueryable，则必须调用AsQueryable()进行转换
+                            query = query.Where(expression.Compile()).AsQueryable();
+                        }
+
+                        switch (staff.role)
+                        {
+                            case "financial":
+                                query = query.Where(t => t.review_state >= 4 || t.review_state == -6);
+                                break;
+                            case "accountant":
+                                if (staff.authority == 1) //会计复审
+                                {
+                                    query =
+                                        query.Where(
+                                            t => t.review_state >= 3 || t.review_state == -6);
+                                }
+                                else //会计初审
+                                {
+                                    query =
+                                        query.Where(
+                                            t => t.review_state >= 2 || t.review_state == -4 || t.review_state == -6);
+                                }
+                                break;
+                        }
                         break;
                     case 3:
                         agency_code = agency_code.Substring(0, 4);
@@ -199,7 +287,7 @@ namespace Service
                                 t =>
                                     t.agency_code.StartsWith(agency_code) &&
                                     (t.reviewer_code == null || t.reviewer_code == user_code) &&
-                                    t.review_state != 0);
+                                    t.review_state != 0 && t.review_state != -2);
                         break;
                     case 4:
                         query =
@@ -246,11 +334,11 @@ namespace Service
 
                 Entity.SaveChanges(db);
 
-                if (state == 4)  //省级审核通过
+                if (state == 4) //省级审核通过
                 {
                     Generation_buckle buckle = null;
                     List<Generation_gives> list = new List<Generation_gives>();
-                    
+
                     gives.ForEach(g =>
                     {
                         buckle =
@@ -261,7 +349,7 @@ namespace Service
 
                         if (buckle != null) //之前的代扣数据中存在
                         {
-                            list.Add(g);  //添加
+                            list.Add(g); //添加
                         }
                     });
 
@@ -282,7 +370,7 @@ namespace Service
 
                             db.MioBatch.Add(mio_batch);
 
-                            List<MioList> mio_list = new List<MioList>();  //写入本数据库中的 收付明细表
+                            List<MioList> mio_list = new List<MioList>(); //写入本数据库中的 收付明细表
                             list.ForEach(
                                 t =>
                                     mio_list.Add(new MioList()
@@ -320,7 +408,7 @@ namespace Service
                                 mio.ClicBranch = t.agency_code; //待收付数据的机构(与商户号相关)
                                 mio.BatchId = batch.BatchId; //接口批次表生成的id
                                 mio.ApplTime = DateTime.Now; //审核时间
-                                mio.ProcStatus = "N"; //数据检查结果，0-新数据待检查，1检验通过,2审核通过
+                                mio.ProcStatus = "0"; //数据检查结果，0-新数据待检查，1检验通过,2审核通过
                                 mio.AccBookOrCard = "C"; //帐号类型(C银行卡，B存折)
                                 mio.AccPersonOrCompany = "P"; //P私人，C公司。不填时，默认为私人
                                 mio.BankAccName = t.salesman_bank_account_name; //银行户名
@@ -329,11 +417,11 @@ namespace Service
                                 mio.FromSys = "UnKnow"; //外部系统编号
                                 mio.FromBatchNo = batch.FromBatchNo; //外部系统批次号
                                 mio.MioStatus = -1; //收付结果。成功、余额不足、户名错、账户冻结等，需字典表
-                                mio.AccCurrencyType = "CNY";  //人民币：CNY, 港元：HKD，美元：USD。不填时，默认为人民币。
+                                mio.AccCurrencyType = "CNY"; //人民币：CNY, 港元：HKD，美元：USD。不填时，默认为人民币。
 
                                 mio.FromUniqLine = "UnKnow"; //外部系统对于本条数据的唯一编码
                                 mio.BankCode = "UnKnow"; //中国人寿编码的银行代码，需转换为银联代码
-                                mio.BankCode = "?";  //中国人寿编码的银行代码，需转换为银联代码
+                                mio.BankCode = "?"; //中国人寿编码的银行代码，需转换为银联代码
 
                                 db_context.INTERFACE_MIO_LIST_BZJ.Add(mio);
                             });
@@ -343,7 +431,8 @@ namespace Service
 
                             scope.Complete();
 
-                            QuartzManager<QueryGivesInfo>.AddJob(mio_batch.batch_id, "0 1/1 * * * ?");  //1分钟之后执行第一次（对应“1/1”第一个1）,然后每隔1分钟执行一次（对应“1/1”第二个1）
+                            QuartzManager<QueryGivesInfo>.AddJob(mio_batch.batch_id, "0 1/1 * * * ?");
+                            //1分钟之后执行第一次（对应“1/1”第一个1）,然后每隔1分钟执行一次（对应“1/1”第二个1）
                         }
                     }
                 }

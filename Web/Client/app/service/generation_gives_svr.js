@@ -26,19 +26,25 @@
                 return '未处理';
             case 1:
                 return '等待市级领导审核';
+            case -1:
+                return '信息有误，银行扣款失败';
             case 2:
-                return '等待省级领导审核';
+                return '等待省级会计初审';
             case -2:
                 return '市级领导审核未通过';
             case 3:
-                return '省级领导审核已通过';
+                return '等待省级会计复审';
             case -3:
-                return '省级领导审核未通过';
+                return '省级会计初审未通过';
             case 4:
-                return '代付处理中...';
+                return '等待省级财务部处理';
+            case -4:
+                return '省级会计复审未通过';
             case 5:
+                return '代付处理中...';
+            case 6:
                 return '代付成功';
-            case -5:
+            case -6:
                 return '代付失败';
             }
         }
