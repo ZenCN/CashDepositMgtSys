@@ -330,111 +330,29 @@ namespace Service
             try
             {
                 var gives = db.Generation_gives.Where(t => ids.Contains(t.id)).ToList();
-                gives.ForEach(t => t.review_state = state);
+
+                Generation_buckle buckle_success = null;
+                gives.ForEach(t =>
+                {
+                    t.review_state = state;
+
+                    if (state == 2) //市级审核通过后，判断是否为上线后的数据，如果是则直接提交到省财务
+                    {
+                        buckle_success = db.Generation_buckle.SingleOrDefault(b => b.salesman_card_id == t.salesman_card_id 
+                        && b.salesman_hiredate == t.salesman_hiredate && b.review_state == 5); //代扣成功的
+
+                        if (buckle_success != null)
+                        {
+                            t.review_state = 4;  //上线后的直接推送到省财务,等待财务推送
+                        }
+                    }
+                });
 
                 Entity.SaveChanges(db);
 
-                if (state == 4) //省级审核通过
+                if (state == 5) //省财务推送
                 {
-                    Generation_buckle buckle = null;
-                    List<Generation_gives> list = new List<Generation_gives>();
-
-                    gives.ForEach(g =>
-                    {
-                        buckle =
-                            db.Generation_buckle.SingleOrDefault(
-                                b =>
-                                    b.salesman_card_id == g.salesman_card_id &&
-                                    b.salesman_hiredate == g.salesman_hiredate);
-
-                        if (buckle != null) //之前的代扣数据中存在
-                        {
-                            list.Add(g); //添加
-                        }
-                    });
-
-                    if (list.Count > 0)
-                    {
-                        using (var scope = new TransactionScope())
-                        {
-                            decimal sum_amount = Convert.ToDecimal(list.Sum(t => t.salesman_cash_deposit));
-
-                            MioBatch mio_batch = new MioBatch(); //写入本数据库中的 收付批次表
-                            mio_batch.batch_id = DateTime.Now.Ticks.ToString(); //批次号
-                            mio_batch.record_count = list.Count; //批次中包含的收付笔数
-                            mio_batch.sum_amount = sum_amount; //批次总金额
-                            mio_batch.reviewer_code = HttpContext.Current.Request.Cookies["user_code"].Value; //审核人工号
-                            mio_batch.review_date = DateTime.Now; //审核日期
-                            mio_batch.push_date = DateTime.Now; //推送日期
-                            mio_batch.mio_type = "O"; //收付类型 I收、O付
-
-                            db.MioBatch.Add(mio_batch);
-
-                            List<MioList> mio_list = new List<MioList>(); //写入本数据库中的 收付明细表
-                            list.ForEach(
-                                t =>
-                                    mio_list.Add(new MioList()
-                                    {
-                                        batch_id = mio_batch.batch_id,
-                                        generation_id = t.id,
-                                        mio_type = "代付",
-                                        bank_account_no = t.salesman_bank_account_number,
-                                        bank_account_name = t.salesman_bank_account_name,
-                                        result = "正在处理中"
-                                    }));
-
-                            db.MioList.AddRange(mio_list);
-
-                            DbInterface db_context = new DbInterface();
-
-                            INTERFACE_MIO_BATCH_BZJ batch = new INTERFACE_MIO_BATCH_BZJ(); //写入保证金收付接口表——批次表
-                            batch.MioType = "O"; //收付类型 I收、O付
-                            batch.DataCnt = list.Count; //批次中包含的收付笔数
-                            batch.SumAmnt = sum_amount; //批次总金额
-                            batch.GenerateTime = DateTime.Now; //批次生成的时间
-                            batch.GenerateBy = HttpContext.Current.Request.Cookies["user_code"].Value; //产生数据人员，八位ERP工号
-                            batch.FromBatchNo = mio_batch.batch_id; //外部系统批次号
-                            batch.BatchStatus = 0; //批次状态（默认为0）
-
-                            batch.FromSys = "UnKnow"; //外部系统编号
-
-                            db_context.INTERFACE_MIO_BATCH_BZJ.Add(batch);
-                            db_context.SaveChanges();
-
-                            INTERFACE_MIO_LIST_BZJ mio = null;
-                            list.ForEach(t =>
-                            {
-                                mio = new INTERFACE_MIO_LIST_BZJ();
-                                mio.ClicBranch = t.agency_code; //待收付数据的机构(与商户号相关)
-                                mio.BatchId = batch.BatchId; //接口批次表生成的id
-                                mio.ApplTime = DateTime.Now; //审核时间
-                                mio.ProcStatus = "0"; //数据检查结果，0-新数据待检查，1检验通过,2审核通过
-                                mio.AccBookOrCard = "C"; //帐号类型(C银行卡，B存折)
-                                mio.AccPersonOrCompany = "P"; //P私人，C公司。不填时，默认为私人
-                                mio.BankAccName = t.salesman_bank_account_name; //银行户名
-                                mio.BankAcc = t.salesman_bank_account_number; //银行账号
-                                mio.MioAmount = t.salesman_cash_deposit.Value; //交易金额
-                                mio.FromSys = "UnKnow"; //外部系统编号
-                                mio.FromBatchNo = batch.FromBatchNo; //外部系统批次号
-                                mio.MioStatus = -1; //收付结果。成功、余额不足、户名错、账户冻结等，需字典表
-                                mio.AccCurrencyType = "CNY"; //人民币：CNY, 港元：HKD，美元：USD。不填时，默认为人民币。
-
-                                mio.FromUniqLine = "UnKnow"; //外部系统对于本条数据的唯一编码
-                                mio.BankCode = "UnKnow"; //中国人寿编码的银行代码，需转换为银联代码
-                                mio.BankCode = "?"; //中国人寿编码的银行代码，需转换为银联代码
-
-                                db_context.INTERFACE_MIO_LIST_BZJ.Add(mio);
-                            });
-
-                            db_context.SaveChanges();
-                            db.SaveChanges();
-
-                            scope.Complete();
-
-                            QuartzManager<QueryGivesInfo>.AddJob(mio_batch.batch_id, "0 1/1 * * * ?");
-                            //1分钟之后执行第一次（对应“1/1”第一个1）,然后每隔1分钟执行一次（对应“1/1”第二个1）
-                        }
-                    }
+                    Push(gives);
                 }
 
                 return new Result(ResultType.success);
@@ -442,6 +360,92 @@ namespace Service
             catch (Exception ex)
             {
                 return new Result(ResultType.error, new Message(ex).ErrorDetails);
+            }
+        }
+
+        private void Push(List<Generation_gives> list)
+        {
+            if (list.Count > 0)
+            {
+                using (var scope = new TransactionScope())
+                {
+                    decimal sum_amount = Convert.ToDecimal(list.Sum(t => t.salesman_cash_deposit));
+
+                    MioBatch mio_batch = new MioBatch(); //写入本数据库中的 收付批次表
+                    mio_batch.batch_id = DateTime.Now.Ticks.ToString(); //批次号
+                    mio_batch.record_count = list.Count; //批次中包含的收付笔数
+                    mio_batch.sum_amount = sum_amount; //批次总金额
+                    mio_batch.reviewer_code = HttpContext.Current.Request.Cookies["user_code"].Value; //审核人工号
+                    mio_batch.review_date = DateTime.Now; //审核日期
+                    mio_batch.push_date = DateTime.Now; //推送日期
+                    mio_batch.mio_type = "O"; //收付类型 I收、O付
+
+                    db.MioBatch.Add(mio_batch);
+
+                    List<MioList> mio_list = new List<MioList>(); //写入本数据库中的 收付明细表
+                    list.ForEach(
+                        t =>
+                            mio_list.Add(new MioList()
+                            {
+                                batch_id = mio_batch.batch_id,
+                                generation_id = t.id,
+                                mio_type = "代付",
+                                bank_account_no = t.salesman_bank_account_number,
+                                bank_account_name = t.salesman_bank_account_name,
+                                result = "正在处理中"
+                            }));
+
+                    db.MioList.AddRange(mio_list);
+
+                    DbInterface db_context = new DbInterface();
+
+                    INTERFACE_MIO_BATCH_BZJ batch = new INTERFACE_MIO_BATCH_BZJ(); //写入保证金收付接口表——批次表
+                    batch.MioType = "O"; //收付类型 I收、O付
+                    batch.DataCnt = list.Count; //批次中包含的收付笔数
+                    batch.SumAmnt = sum_amount; //批次总金额
+                    batch.GenerateTime = DateTime.Now; //批次生成的时间
+                    batch.GenerateBy = HttpContext.Current.Request.Cookies["user_code"].Value; //产生数据人员，八位ERP工号
+                    batch.FromBatchNo = mio_batch.batch_id; //外部系统批次号
+                    batch.BatchStatus = 0; //批次状态（默认为0）
+
+                    batch.FromSys = "UnKnow"; //外部系统编号
+
+                    db_context.INTERFACE_MIO_BATCH_BZJ.Add(batch);
+                    db_context.SaveChanges();
+
+                    INTERFACE_MIO_LIST_BZJ mio = null;
+                    list.ForEach(t =>
+                    {
+                        mio = new INTERFACE_MIO_LIST_BZJ();
+                        mio.ClicBranch = t.agency_code; //待收付数据的机构(与商户号相关)
+                        mio.BatchId = batch.BatchId; //接口批次表生成的id
+                        mio.ApplTime = DateTime.Now; //审核时间
+                        mio.ProcStatus = "0"; //数据检查结果，0-新数据待检查，1检验通过,2审核通过
+                        mio.AccBookOrCard = "C"; //帐号类型(C银行卡，B存折)
+                        mio.AccPersonOrCompany = "P"; //P私人，C公司。不填时，默认为私人
+                        mio.BankAccName = t.salesman_bank_account_name; //银行户名
+                        mio.BankAcc = t.salesman_bank_account_number; //银行账号
+                        mio.MioAmount = t.salesman_cash_deposit.Value; //交易金额
+                        mio.FromSys = "UnKnow"; //外部系统编号
+                        mio.FromBatchNo = batch.FromBatchNo; //外部系统批次号
+                        mio.MioStatus = -1; //收付结果。成功、余额不足、户名错、账户冻结等，需字典表
+                        mio.AccCurrencyType = "CNY"; //人民币：CNY, 港元：HKD，美元：USD。不填时，默认为人民币。
+
+                        mio.FromUniqLine = "UnKnow"; //外部系统对于本条数据的唯一编码
+                        mio.BankCode = "UnKnow"; //中国人寿编码的银行代码，需转换为银联代码
+                        mio.BankCode = "?"; //中国人寿编码的银行代码，需转换为银联代码
+
+                        db_context.INTERFACE_MIO_LIST_BZJ.Add(mio);
+                    });
+
+                    db_context.SaveChanges();
+                    db.SaveChanges();
+
+                    scope.Complete();
+
+                    QuartzManager<QueryGivesInfo>.AddJob(mio_batch.batch_id, "0 1/1 * * * ?");
+                    //1分钟之后执行第一次（对应“1/1”第一个1）,然后每隔1分钟执行一次（对应“1/1”第二个1）
+                }
             }
         }
 

@@ -119,8 +119,8 @@
                             return true;
                         }
                     case 'accountant':
-                        if (vm.user.authority == 1 && state == 4 ||
-                            vm.user.authority == 0 && state == 3) {
+                        if (vm.user.authority == 1 && [4, 6].exist(state) ||
+                            vm.user.authority == 0 && [3, 4, 6].exist(state)) {
                             return false;
                         } else {
                             return true;
@@ -171,16 +171,18 @@
                             switch (Number(state)) {
                             case 1:
                                 return msg('提交成功！');
-                            case 2:
+                            case 2:  //市级审核通过后，判断是否为上线后的数据，如果是则直接提交到省财务
+                                vm.search.from_svr();
                             case 3:
+                            case 4:
                                 return msg('已通过！');
                             case -2:
                             case -3:
                                 return msg('已拒绝！');
-                            case 4:
+                            case 5:
                                 return msg('已推送！');
                             default:
-                                return msg('非法操作！');
+                                return msg('操作成功');
                             }
                         } else {
                             throw msg(response.data.msg);
