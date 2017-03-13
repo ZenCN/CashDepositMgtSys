@@ -22,7 +22,7 @@ namespace Service
 
             int strat_row = 2;
             ISheet sheet = hssfworkbook.GetSheet("数据");
-            sheet = CreateCell(sheet, list.Count, 15, strat_row);
+            sheet = CreateCell(sheet, list.Count, 13, strat_row);
 
             ICell cell = null;
             ICellStyle cell_style = SetCellStyle(sheet);
@@ -71,22 +71,14 @@ namespace Service
                 cell.CellStyle = cell_style;
 
                 cell = sheet.GetRow(strat_row + i).GetCell(10);
-                cell.SetCellValue(list[i].salesman_bank_province);
-                cell.CellStyle = cell_style;
-
-                cell = sheet.GetRow(strat_row + i).GetCell(11);
-                cell.SetCellValue(list[i].salesman_bank_city);
-                cell.CellStyle = cell_style;
-
-                cell = sheet.GetRow(strat_row + i).GetCell(12);
                 cell.SetCellValue(list[i].salesman_cash_deposit == null ? "" : list[i].salesman_cash_deposit.ToString());
                 cell.CellStyle = cell_style;
 
-                cell = sheet.GetRow(strat_row + i).GetCell(13);
+                cell = sheet.GetRow(strat_row + i).GetCell(11);
                 cell.SetCellValue(list[i].salesman_refunds == null ? "" : list[i].salesman_refunds.ToString());
                 cell.CellStyle = cell_style;
 
-                cell = sheet.GetRow(strat_row + i).GetCell(14);
+                cell = sheet.GetRow(strat_row + i).GetCell(12);
                 cell.SetCellValue(list[i].remark);
                 cell.CellStyle = cell_style;
             }
@@ -104,7 +96,7 @@ namespace Service
 
             int strat_row = 2;
             ISheet sheet = hssfworkbook.GetSheet("数据");
-            sheet = CreateCell(sheet, list.Count, 14, strat_row);
+            sheet = CreateCell(sheet, list.Count, 12, strat_row);
 
             ICell cell = null;
             ICellStyle cell_style = SetCellStyle(sheet);
@@ -153,18 +145,10 @@ namespace Service
                 cell.CellStyle = cell_style;
 
                 cell = sheet.GetRow(strat_row + i).GetCell(10);
-                cell.SetCellValue(list[i].salesman_bank_province);
-                cell.CellStyle = cell_style;
-
-                cell = sheet.GetRow(strat_row + i).GetCell(11);
-                cell.SetCellValue(list[i].salesman_bank_city);
-                cell.CellStyle = cell_style;
-
-                cell = sheet.GetRow(strat_row + i).GetCell(12);
                 cell.SetCellValue(list[i].salesman_cash_deposit == null ? "" : list[i].salesman_cash_deposit.ToString());
                 cell.CellStyle = cell_style;
 
-                cell = sheet.GetRow(strat_row + i).GetCell(13);
+                cell = sheet.GetRow(strat_row + i).GetCell(11);
                 cell.SetCellValue(list[i].remark);
                 cell.CellStyle = cell_style;
             }

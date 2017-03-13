@@ -134,22 +134,26 @@ namespace Web.Controllers
                                 for (int c = 0; c < cellCount; c++)
                                 {
                                     cell = sheet.GetRow(r).GetCell(c);
-                                    property = type.GetProperty(field[c]);
 
-                                    if (cell.CellType == CellType.Numeric)
+                                    if (cell != null)
                                     {
-                                        if (field[c] == "salesman_hiredate")
+                                        property = type.GetProperty(field[c]);
+
+                                        if (cell.CellType == CellType.Numeric)
                                         {
-                                            property.SetValue(buckle, cell.DateCellValue, null);
+                                            if (field[c] == "salesman_hiredate")
+                                            {
+                                                property.SetValue(buckle, cell.DateCellValue, null);
+                                            }
+                                            else
+                                            {
+                                                property.SetValue(buckle, Convert.ToDecimal(cell.NumericCellValue), null);
+                                            }
                                         }
                                         else
                                         {
-                                            property.SetValue(buckle, Convert.ToDecimal(cell.NumericCellValue), null);
+                                            property.SetValue(buckle, cell.StringCellValue, null);
                                         }
-                                    }
-                                    else
-                                    {
-                                        property.SetValue(buckle, cell.StringCellValue, null);
                                     }
                                 }
                                 buckle.agency_code = Request.Cookies["agency_code"].Value;
@@ -217,10 +221,8 @@ namespace Web.Controllers
             dic.Add(7, "salesman_bank_account_name");
             dic.Add(8, "salesman_bank_account_number");
             dic.Add(9, "salesman_bank_name");
-            dic.Add(10, "salesman_bank_province");
-            dic.Add(11, "salesman_bank_city");
-            dic.Add(12, "salesman_cash_deposit");
-            dic.Add(13, "remark");
+            dic.Add(10, "salesman_cash_deposit");
+            dic.Add(11, "remark");
 
             return dic;
         }

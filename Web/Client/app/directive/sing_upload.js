@@ -20,7 +20,7 @@
                             '<div style="width:358px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" class="file-caption-name"></div>' +
                             '</div>'
                     },
-                    uploadExtraData: function() { //uploadExtraData must be an object or function
+                    uploadExtraData: function() {   //uploadExtraData must be an object or function
                         return { channel: vm.import_channel }
                     }
                 }).on('fileuploaded', function(event, config) {
@@ -33,6 +33,8 @@
 
                             vm.search.has_repeated = true;
                             vm.search.result = config.response.extra;
+                        } else {
+                            vm.search.from_svr();
                         }
 
                         msg(text, 5000);

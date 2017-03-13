@@ -48,5 +48,9 @@ namespace Service.Model
         public Nullable<int> is_deleted { get; set; }
 
         public string channel { get; set; }
+
+        public string process_result { get; set; }
+
+        public Nullable<DateTime> finish_time { get; set; }
     }
 }

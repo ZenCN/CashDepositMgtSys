@@ -94,21 +94,13 @@
     <Compile Include="Generation_givesSvr.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="LoginSvr.cs" />
-    <Compile Include="Migrations.Interface\201703081122098_Initial.cs" />
-    <Compile Include="Migrations.Interface\201703081122098_Initial.Designer.cs">
-      <DependentUpon>201703081122098_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703081128262_Initial.cs" />
-    <Compile Include="Migrations\201703081128262_Initial.Designer.cs">
-      <DependentUpon>201703081128262_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703090317452_BatchlistAddStatus.cs" />
-    <Compile Include="Migrations\201703090317452_BatchlistAddStatus.Designer.cs">
-      <DependentUpon>201703090317452_BatchlistAddStatus.cs</DependentUpon>
+    <Compile Include="Migrations.Interface\Configuration.cs" />
+    <Compile Include="Migrations\201703130826096_Initial.cs" />
+    <Compile Include="Migrations\201703130826096_Initial.Designer.cs">
+      <DependentUpon>201703130826096_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="QuartzManager.cs" />
-    <Compile Include="Migrations.Interface\Configuration.cs" />
     <Compile Include="Model.Interface\DbInterface.cs" />
     <Compile Include="Model.Interface\INTERFACE_MIO_BATCH_BZJ.cs" />
     <Compile Include="Model.Interface\INTERFACE_MIO_LIST_BZJ.cs" />
@@ -142,14 +134,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations.Interface\201703081122098_Initial.resx">
-      <DependentUpon>201703081122098_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703081128262_Initial.resx">
-      <DependentUpon>201703081128262_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703090317452_BatchlistAddStatus.resx">
-      <DependentUpon>201703090317452_BatchlistAddStatus.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703130826096_Initial.resx">
+      <DependentUpon>201703130826096_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -6,9 +6,9 @@ namespace Service.Model
 {
     public class Db : DbContext
     {
-        /* Enable-Migrations Name -ContextTypeName Service.Model.Db
-         * Add-Migration Name -ConfigurationTypeName Service.Migrations.Configuration
-         * Update-Database Name -ConfigurationTypeName Service.Migrations.Configuration
+        /* Enable-Migrations -ContextTypeName Service.Model.Db
+         * Add-Migration 名字 -ConfigurationTypeName Service.Migrations.Configuration
+         * Update-Database -ConfigurationTypeName Service.Migrations.Configuration
          */
 
         public Db()

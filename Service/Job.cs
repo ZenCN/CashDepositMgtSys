@@ -62,8 +62,10 @@ namespace Service
                             }
                             else
                             {
-                                buckle.review_state = -1;  //失败退回到市级未提交状态
+                                buckle.review_state = -5;  //失败退回到市级未提交状态
                             }
+                            buckle.process_result = batch_detail.ErrMsg;
+                            buckle.finish_time = batch_detail.FinishTime;
                             db.Update(buckle);
                         }
                     });
@@ -143,6 +145,8 @@ namespace Service
                             {
                                 gives.review_state = -1;  //失败退回到提交状态
                             }
+                            gives.process_result = batch_detail.ErrMsg;
+                            gives.finish_time = batch_detail.FinishTime;
                             db.Update(gives);
                         }
                     });

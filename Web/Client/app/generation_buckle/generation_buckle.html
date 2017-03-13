@@ -14,7 +14,6 @@
     </div>
     <div class="col-sm-4">
         <a class="btn btn-info" href="../../../Excel/Generation_buckle.xls">下载模板</a>
-        <a class="btn btn-info" href="../../../Excel/Generation_buckle.xls">导出汇总、明细表</a>
     </div>
 </div>
 <div class="row">
@@ -30,13 +29,13 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li>
-                        <a href="javascript:void(0)" ng-click="review_state.change(-2)">
-                            <span class="glyphicon glyphicon-remove-circle" style="color: red" aria-hidden="true"></span> 拒绝
+                        <a href="javascript:void(0)" ng-click="review_state.change(2)">
+                            <span class="glyphicon glyphicon-ok-circle" style="color: green" aria-hidden="true"></span> 通过
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" ng-click="review_state.change(2)">
-                            <span class="glyphicon glyphicon-ok-circle" style="color: green" aria-hidden="true"></span> 通过
+                        <a href="javascript:void(0)" ng-click="review_state.change(-2)">
+                            <span class="glyphicon glyphicon-remove-circle" style="color: red" aria-hidden="true"></span> 拒绝
                         </a>
                     </li>
                 </ul>
@@ -93,10 +92,11 @@
                     <th rowspan="2">管理机构</th>
                     <th rowspan="2">渠道</th>
                     <th colspan="6">销售人员信息</th>
-                    <th colspan="5">销售人员银行账户信息</th>
+                    <th colspan="3">销售人员银行账户信息</th>
                     <th rowspan="2">金额</th>
                     <th rowspan="2">备注</th>
                     <th rowspan="2">审核<br/>状态</th>
+                    <th colspan="2">银行代扣信息</th>
                 </tr>
                 <tr>
                     <th>姓名</th>
@@ -108,8 +108,8 @@
                     <th>账户名</th>
                     <th>账号</th>
                     <th>开户行</th>
-                    <th>所在省</th>
-                    <th>所在市</th>
+                    <th>代扣结果</th>
+                    <th>处理时间</th>
                 </tr>
                 </thead>
                 <tbody ng-repeat="_this in search.result">
@@ -127,21 +127,25 @@
                     <td>{{_this.salesman_hiredate.split("T")[0]}}</td>
                     <td>{{_this.salesman_bank_account_name}}</td>
                     <td>{{_this.salesman_bank_account_number}}</td>
-                    <td>{{_this.salesman_bank_name}}</td>
-                    <td>{{_this.salesman_bank_province}}</td>
                     <td>{{_this.salesman_bank_city}}</td>
                     <td>{{_this.salesman_cash_deposit}}</td>
                     <td>{{_this.remark}}</td>
                     <td title="{{review_state.name(_this.review_state)}}">
                         <span class="glyphicon glyphicon-remove" ng-if="search.has_repeated" style="color: red"></span>
                         <span class="glyphicon glyphicon-hourglass" ng-if="_this.review_state == 1" style="font-size: 19px;"></span>
-                        <span class="glyphicon glyphicon-info-sign" ng-if="_this.review_state == -5" style="font-size: 19px;"></span>
                         <span class="glyphicon glyphicon-ok-circle" ng-if="_this.review_state == 2" style="font-size: 19px;"></span>
                         <span class="glyphicon glyphicon-remove-circle" ng-if="_this.review_state == -2" style="font-size: 19px;"></span>
                         <span class="glyphicon glyphicon-ok" ng-if="_this.review_state == 3" style="font-size: 19px;"></span>
                         <span class="glyphicon glyphicon-ban-circle" ng-if="_this.review_state == -3" style="font-size: 19px;"></span>
                         <span class="glyphicon glyphicon-option-horizontal" ng-if="_this.review_state == 4" style="font-size: 19px;"></span>
                         <span class="glyphicon glyphicon-file" ng-if="_this.review_state == 5" style="font-size: 19px;"></span>
+                        <span class="glyphicon glyphicon-info-sign" ng-if="_this.review_state == -5" style="font-size: 19px; color: red"></span>
+                    </td>
+                    <td>
+                        {{_this.process_result}}
+                    </td>
+                    <td>
+                        {{_this.finish_time.replace('T',' ')}}
                     </td>
                 </tr>
                 </tbody>

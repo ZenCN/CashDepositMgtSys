@@ -7,6 +7,11 @@ namespace Service.Model.Interface
 
     public class DbInterface : DbContext
     {
+        /* Enable-Migrations -ContextTypeName Service.Model.Interface.DbInterface -MigrationsDirectory Migrations.Interface
+         * Add-Migration Ãû×Ö -ConfigurationTypeName Service.Migrations.Interface.Configuration
+         * Update-Database -ConfigurationTypeName Service.Migrations.Interface.Configuration
+         */
+
         public DbInterface()
             : base("name=DbInterface")
         {

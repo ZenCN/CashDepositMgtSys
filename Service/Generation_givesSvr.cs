@@ -392,6 +392,8 @@ namespace Service
                                 mio_type = "代付",
                                 bank_account_no = t.salesman_bank_account_number,
                                 bank_account_name = t.salesman_bank_account_name,
+                                cash_deposit = t.salesman_cash_deposit,
+                                status = -1,
                                 result = "正在处理中"
                             }));
 

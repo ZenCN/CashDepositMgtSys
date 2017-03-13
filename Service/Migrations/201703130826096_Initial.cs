@@ -57,6 +57,8 @@ namespace Service.Migrations
                         remark = c.String(),
                         is_deleted = c.Int(),
                         channel = c.String(),
+                        process_result = c.String(),
+                        finish_time = c.DateTime(),
                     })
                 .PrimaryKey(t => t.id);
             
@@ -88,6 +90,8 @@ namespace Service.Migrations
                         remark = c.String(),
                         is_deleted = c.Int(),
                         channel = c.String(),
+                        process_result = c.String(),
+                        finish_time = c.DateTime(),
                     })
                 .PrimaryKey(t => t.id);
             
@@ -118,6 +122,8 @@ namespace Service.Migrations
                         mio_type = c.String(),
                         bank_account_name = c.String(),
                         bank_account_no = c.String(),
+                        cash_deposit = c.Decimal(precision: 18, scale: 2),
+                        status = c.Int(),
                         result = c.String(),
                     })
                 .PrimaryKey(t => t.id);
