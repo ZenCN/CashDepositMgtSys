@@ -129,6 +129,9 @@
     <Content Include="Client\app\service\generation_buckle_svr.js" />
     <Content Include="Client\app\service\generation_gives_svr.js" />
     <Content Include="Client\app\service\login_svr.js" />
+    <Content Include="Client\app\service\sum_details_svr.js" />
+    <Content Include="Client\app\sum_details\sum_details.html" />
+    <Content Include="Client\app\sum_details\sum_details_ctrl.js" />
     <Content Include="Client\app\sys_settings\sys_settings.html" />
     <Content Include="Client\app\sys_settings\sys_settings_ctrl.js" />
     <Content Include="Client\bower_component\angular-loading-bar\loading-bar.css" />

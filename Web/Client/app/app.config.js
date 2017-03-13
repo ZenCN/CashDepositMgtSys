@@ -67,6 +67,15 @@
                     '../client/app/service/generation_gives_svr.js'
                 ])
             })
+            .state('dashboard.sum_details', {
+                url: '/sum_details',
+                controller: 'sum_details_ctrl',
+                templateUrl: '../client/app/sum_details/sum_details.html',
+                resolve: resolve_dep([
+                    '../client/app/sum_details/sum_details_ctrl.js',
+                    '../client/app/service/sum_details_svr.js'
+                ])
+            })
             .state('dashboard.sys_settings', {
                 url: '/sys_settings',
                 controller: 'sys_settings_ctrl',

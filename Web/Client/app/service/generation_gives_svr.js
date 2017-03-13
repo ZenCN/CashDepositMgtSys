@@ -37,7 +37,7 @@
             case -3:
                 return '省级会计初审未通过';
             case 4:
-                return '等待省级财务部处理';
+                return '等待省级财务资金部处理';
             case -4:
                 return '省级会计复审未通过';
             case 5:
