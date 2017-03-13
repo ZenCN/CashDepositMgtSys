@@ -1,9 +1,6 @@
 <div class="row">
     <div class="col-sm-4">
         <div class="btn-group">
-            <button type="button" class="btn btn-md btn-success" ng-if="user.level == 4" ng-click="review_state.change(1)">
-                提交
-            </button>
             <div class="btn-group" ng-if="user.level == 2 && user.role != 'financial' || user.level == 3">
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                     审核
@@ -46,7 +43,7 @@
                     </li>
                 </ul>
             </div>
-            <button type="button" class="btn btn-md btn-primary" ng-controller="modal_ctrl"
+            <button type="button" class="btn btn-md btn-primary" ng-if="authority('add')" ng-controller="modal_ctrl"
                     ng-click="open_dialog('add')">
                 新增
             </button>

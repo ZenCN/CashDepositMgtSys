@@ -17,6 +17,7 @@
                 } else {
                     return false;
                 }
+            case 'add':
             case 'view':
                 if (vm.user.level == 2 && vm.user.role == 'accountant' && vm.user.authority == 0) {
                     return true;
@@ -152,6 +153,10 @@
                     if (this.checked) {
                         ids.push(this.id);
                         selected.push(this);
+
+                        if (state == 1) {
+                            return false;  //默认只修改第一个
+                        }
                     }
                 });
 

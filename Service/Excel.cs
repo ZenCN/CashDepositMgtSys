@@ -22,7 +22,7 @@ namespace Service
 
             int strat_row = 2;
             ISheet sheet = hssfworkbook.GetSheet("数据");
-            sheet = CreateCell(sheet, list.Count, 13, strat_row);
+            sheet = CreateCell(sheet, list.Count, 15, strat_row);
 
             ICell cell = null;
             ICellStyle cell_style = SetCellStyle(sheet);
@@ -81,6 +81,16 @@ namespace Service
                 cell = sheet.GetRow(strat_row + i).GetCell(12);
                 cell.SetCellValue(list[i].remark);
                 cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(13);
+                cell.SetCellValue(list[i].process_result);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(14);
+                cell.SetCellValue(list[i].finish_time == null
+                    ? null
+                    : list[i].finish_time.Value.ToString("yyyy/M/d HH:mm"));
+                cell.CellStyle = cell_style;
             }
 
             ResponseExcel(hssfworkbook);
@@ -96,7 +106,7 @@ namespace Service
 
             int strat_row = 2;
             ISheet sheet = hssfworkbook.GetSheet("数据");
-            sheet = CreateCell(sheet, list.Count, 12, strat_row);
+            sheet = CreateCell(sheet, list.Count, 14, strat_row);
 
             ICell cell = null;
             ICellStyle cell_style = SetCellStyle(sheet);
@@ -150,6 +160,16 @@ namespace Service
 
                 cell = sheet.GetRow(strat_row + i).GetCell(11);
                 cell.SetCellValue(list[i].remark);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(12);
+                cell.SetCellValue(list[i].process_result);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(13);
+                cell.SetCellValue(list[i].finish_time == null
+                    ? null
+                    : list[i].finish_time.Value.ToString("yyyy/M/d HH:mm"));
                 cell.CellStyle = cell_style;
             }
 
