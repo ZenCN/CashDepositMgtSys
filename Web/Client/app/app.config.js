@@ -67,13 +67,21 @@
                     '../client/app/service/generation_gives_svr.js'
                 ])
             })
-            .state('dashboard.sum_details', {
-                url: '/sum_details',
-                controller: 'sum_details_ctrl',
-                templateUrl: '../client/app/sum_details/sum_details.html',
+            .state('dashboard.buckle_sum_details', {
+                url: '/buckle_sum_details',
+                controller: 'buckle_sum_details_ctrl',
+                templateUrl: '../client/app/buckle_sum_details/buckle_sum_details.html',
                 resolve: resolve_dep([
-                    '../client/app/sum_details/sum_details_ctrl.js',
-                    '../client/app/service/sum_details_svr.js'
+                    '../client/app/buckle_sum_details/buckle_sum_details_ctrl.js',
+                    '../client/app/service/buckle_sum_details_svr.js'
+                ])
+            })
+            .state('dashboard.gives_sum_details', {
+                url: '/gives_sum_details',
+                controller: 'gives_sum_details_ctrl',
+                templateUrl: '../client/app/gives_sum_details/gives_sum_details.html',
+                resolve: resolve_dep([
+                    '../client/app/gives_sum_details/gives_sum_details_ctrl.js'
                 ])
             })
             .state('dashboard.sys_settings', {

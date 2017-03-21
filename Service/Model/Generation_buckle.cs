@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -22,6 +23,11 @@ namespace Service.Model
         public string salesman_name { get; set; }
 
         public string salesman_sex { get; set; }
+
+        public string salesman_code { get; set; }
+
+        [Description("流水号")]
+        public string gather_serial_num { get; set; }
 
         public string salesman_card_type { get; set; }
 

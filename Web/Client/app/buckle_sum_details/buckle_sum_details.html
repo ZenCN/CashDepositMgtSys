@@ -1,0 +1,119 @@
+﻿<div class="row">
+    <div class="col-sm-2 col-sm-offset-2">
+        <div class="input-group input-group-md">
+            <span class="input-group-addon">机构名称</span>
+            <select class="form-control">
+                <option value="430200">株洲</option>
+                <option value="430300">永州</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="input-group">
+            <span class="input-group-addon">代扣时间</span>
+            <input type="text" class="form-control" ng-model="model.salesman_hiredate" readonly
+                   datepicker-popup="{{format}}" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
+                   date-disabled="disabled(date, mode)" ng-click="open($event)" is-open="write_time_opened"
+                   current-text="今天" close-text="关闭" clear-text="清除" ng-controller="datepicker_ctrl">
+            <span class="input-group-addon">至</span>
+            <input type="text" class="form-control" ng-model="model.salesman_hiredate" readonly
+                   datepicker-popup="{{format}}" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
+                   date-disabled="disabled(date, mode)" ng-click="open($event)" is-open="write_time_opened"
+                   current-text="今天" close-text="关闭" clear-text="清除" ng-controller="datepicker_ctrl">
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="btn-group">
+            <button type="button" class="btn btn-md btn-primary" ng-click="search.from_svr()">
+                搜索
+            </button>
+            <button type="button" class="btn btn-md btn-success" ng-click="export()">
+                导出
+            </button>
+        </div>
+    </div>
+</div>
+<div class="jumbotron" style="padding: 10px;">
+    <h4 style="margin-top: 0;">汇总表</h4>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th rowspan="2">管理机构</th>
+                    <th colspan="2">代扣统计时间</th>
+                    <th rowspan="2">项目</th>
+                    <th rowspan="2">代扣笔数</th>
+                    <th rowspan="2">总金额</th>
+                    <th rowspan="2">渠道</th>
+                </tr>
+                <tr>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat="_this in search.result">
+                <tr>
+                    <td>{{_this.agency_code}}</td>
+                    <td>{{_this.channel}}</td>
+                    <td>{{_this.salesman_name}}</td>
+                    <td>{{_this.salesman_sex}}</td>
+                    <td>{{_this.salesman_card_type}}</td>
+                    <td>{{_this.salesman_card_id}}</td>
+                    <td>{{_this.salesman_phone}}</td>
+                    <td>{{_this.salesman_hiredate.split("T")[0]}}</td>
+                    <td>{{_this.salesman_bank_account_name}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="jumbotron" style="padding: 10px;">
+    <h4 style="margin-top: 0;">清单表</h4>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th rowspan="2">管理机构</th>
+                    <th rowspan="2">渠道</th>
+                    <th colspan="4">销售人员信息</th>
+                    <th colspan="3">销售人员银行账户信息</th>
+                    <th rowspan="2">申请日期</th>
+                    <th rowspan="2">状态</th>
+                    <th colspan="2">银行代扣信息</th>
+                    <th rowspan="2">金额</th>
+                    <th rowspan="2">流水号</th>
+                    <th rowspan="2">备注</th>
+                </tr>
+                <tr>
+                    <th>姓名</th>
+                    <th>证件类别</th>
+                    <th>证件号</th>
+                    <th>手机号</th>
+                    <th>账户名</th>
+                    <th>账号</th>
+                    <th>开户行</th>
+                    <th>处理时间</th>
+                    <th>代扣结果</th>
+
+                </tr>
+                </thead>
+                <tbody ng-repeat="_this in search.result">
+                <tr>
+                    <td>{{_this.agency_code}}</td>
+                    <td>{{_this.channel}}</td>
+                    <td>{{_this.salesman_name}}</td>
+                    <td>{{_this.salesman_sex}}</td>
+                    <td>{{_this.salesman_card_type}}</td>
+                    <td>{{_this.salesman_card_id}}</td>
+                    <td>{{_this.salesman_phone}}</td>
+                    <td>{{_this.salesman_hiredate.split("T")[0]}}</td>
+                    <td>{{_this.salesman_bank_account_name}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

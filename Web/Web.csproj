@@ -124,14 +124,17 @@
     <Content Include="Client\app\generation_gives\generation_gives.html" />
     <Content Include="Client\app\generation_gives\generation_gives_ctrl.js" />
     <Content Include="Client\app\generation_gives\generation_gives_record.html" />
+    <Content Include="Client\app\generation_gives\refund_statement.html" />
+    <Content Include="Client\app\gives_sum_details\gives_sum_details.html" />
+    <Content Include="Client\app\gives_sum_details\gives_sum_details_ctrl.js" />
     <Content Include="Client\app\login\login.html" />
     <Content Include="Client\app\login\login_ctrl.js" />
     <Content Include="Client\app\service\generation_buckle_svr.js" />
     <Content Include="Client\app\service\generation_gives_svr.js" />
     <Content Include="Client\app\service\login_svr.js" />
-    <Content Include="Client\app\service\sum_details_svr.js" />
-    <Content Include="Client\app\sum_details\sum_details.html" />
-    <Content Include="Client\app\sum_details\sum_details_ctrl.js" />
+    <Content Include="Client\app\service\buckle_sum_details_svr.js" />
+    <Content Include="Client\app\buckle_sum_details\buckle_sum_details.html" />
+    <Content Include="Client\app\buckle_sum_details\buckle_sum_details_ctrl.js" />
     <Content Include="Client\app\sys_settings\sys_settings.html" />
     <Content Include="Client\app\sys_settings\sys_settings_ctrl.js" />
     <Content Include="Client\bower_component\angular-loading-bar\loading-bar.css" />
@@ -203,6 +206,7 @@
     <Content Include="Client\css\common\animate.css" />
     <Content Include="Client\css\common\bootstrap.css" />
     <Content Include="Client\css\common\main.css" />
+    <Content Include="Client\image\common\china-life.jpg" />
     <Content Include="Client\image\login\flat-avatar.png" />
     <Content Include="Client\index.html" />
     <Content Include="Excel\read_me.txt" />
@@ -217,9 +221,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Client\image\common\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{2827E0E7-A76D-4912-A6AF-D5BB7BE4082F}</Project>

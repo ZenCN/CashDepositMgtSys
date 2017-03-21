@@ -109,7 +109,8 @@
                     resolve: {
                         model: function() {
                             return vm.model;
-                        }
+                        },
+                        review_state: {}
                     }
                 }).result.then(callback);
             }
@@ -182,17 +183,20 @@
                 }
             },
             print: function() {
+                if (confirm('打印完成后，请在代理人签字后再提交付费申请')) {
+                    window.refund_statement = vm.model;
+                    window.refund_statement.cash_deducted_total = calc.subtraction(vm.model.salesman_cash_deposit, vm.model.salesman_refunds);
+                    window.refund_statement.operator = $.cookie('user_name');
+                    window.refund_statement.operate_time = new Date().to_str('YYYY年MM月dd日 HH:mm');
 
+                    window.open('generation_gives/refundstatement');
+                }
             },
             submit: function() {
-                /*svr.http("generation_gives/changereviewstate?state=1&ids=" + vm.model.id, function(response) {
-                    if (response.data.result == "success") {
-                        $modalInstance.dismiss();
-                        msg('提交成功！');
-                    }
-                });*/
-                review_state.change(1);
-                $modalInstance.dismiss();
+                if (confirm('代理人签字后才能提交付费申请，确定提交吗？')) {
+                    review_state.change(1);
+                    $modalInstance.dismiss();
+                }
             },
             compute_salesman_refunds: function() {
                 if (Number(vm.model.salesman_cash_deposit) > 0) {

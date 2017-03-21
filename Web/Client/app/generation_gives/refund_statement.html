@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>打印退款声明</title>
+    <link href="../../../client/bower_component/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <script src="../../../client/bower_component/jquery/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function init() {
+            if (window.opener != null && typeof window.opener.refund_statement == 'object') {
+                $('#salesman_name').text(window.opener.refund_statement.salesman_name);
+                $('#salesman_code').text(window.opener.refund_statement.salesman_code);
+                $('#gather_serial_num').text(window.opener.refund_statement.gather_serial_num);
+                $('#cash_deposit').text(window.opener.refund_statement.salesman_cash_deposit);
+                $('#cash_deducted').text(Number(window.opener.refund_statement.salesman_cash_deducted) > 0 ? window.opener.refund_statement.salesman_cash_deducted : 0);
+                $('#cash_return').text(window.opener.refund_statement.salesman_refunds);
+                $('#bank_name').text(window.opener.refund_statement.salesman_bank_name);
+                $('#bank_acc_number').text(window.opener.refund_statement.salesman_bank_account_number);
+                $('#bank_acc_name').text(window.opener.refund_statement.salesman_bank_account_name);
+
+                $.each(window.opener.refund_statement.deducted_items, function() {
+                    $('table').append('<tr><td>' + this.item + '</td><td>' + this.amount + '</td></tr>');
+                });
+                $('table').append('<tr><td align="right">以上物品合计</td><td>' +
+                    (Number(window.opener.refund_statement.cash_deducted_total) > 0 ? window.opener.refund_statement.cash_deducted_total : '') + '</td></tr>');
+
+                $('#operator').text(window.opener.refund_statement.operator);
+                $('#operate_time').text(window.opener.refund_statement.operate_time);
+
+                window.print();
+            } else {
+                alert('错误，未取到源数据！');
+            }
+        };
+    </script>
+</head>
+<body class="container" onload="init()">
+<div style="margin: 0 auto; width: 629px;">
+    <img src="../../../client/image/common/china-life.jpg" style="float: left; margin-left: -8px; margin-top: -10px; width: 88px;">
+    <h2>中国人寿保险股份有限公司长沙市分公司</h2>
+    <h4 style="padding-left: 230px;">销售人员保证金转账退款申明书</h4>
+</div>
+<div style="margin: 15px auto; padding-left: 38px; width: 572px;">
+    &nbsp;&nbsp;&nbsp;&nbsp;本人因与中国人寿保险股份有限公司长沙市分公司（以下简称公司解除代理合同），已办理解约手续，
+    现委托公司将本人保证金余额转账到本人如下银行账户：
+</div>
+<div style="border: 1px #c7bdbd solid; border-radius: 7px; margin: 0 auto; padding: 10px 30px; width: 572px;">
+    <div>
+        <label>申请人：</label><span id="salesman_name"></span>
+        <label style="margin-left: 117px;">销售人员代码：</label><span id="salesman_code"></span>
+    </div>
+    <div>
+        <label>收款流水号：</label><span id="gather_serial_num"></span>
+    </div>
+    <div>
+        <label>保证金缴纳金额：</label><span id="cash_deposit"></span>元，
+        <label>扣款金额：</label><span id="cash_deducted"></span>元，
+        <label>实际退还金额：</label><span id="cash_return"></span>元
+    </div>
+    <div>
+        <label>转账银行：</label><span id="bank_name"></span>
+    </div>
+    <div>
+        <label>银行账号：</label><span id="bank_acc_number"></span>
+    </div>
+    <div>
+        <label>账户名称：</label><span id="bank_acc_name"></span>
+    </div>
+</div>
+<div style="margin: 15px auto; padding-left: 38px; width: 572px;">
+    &nbsp;&nbsp;&nbsp;&nbsp;本人遗失以下公司物件或拖欠公司款项，愿意以所退还保证经抵扣
+</div>
+<div style="margin: 15px auto; padding-left: 38px; width: 572px;">
+    <table class="table text-left">
+        <tr>
+            <th>扣款项目</th>
+            <th>扣款金额</th>
+        </tr>
+    </table>
+</div>
+<div style="margin: 15px auto; padding-left: 38px; width: 572px;">
+    <div class="col-xs-6">
+        <label>声明人：</label><span id="assertor"></span><br>
+        <label>日&nbsp;&nbsp;&nbsp;期：</label><span id="declaration_time"></span>
+    </div>
+    <div class="col-xs-6 text-right">
+        <label>经办人：</label><span id="operator" style="display: inline-block; text-align: left; width: 146px;"></span><br>
+        <label>日&nbsp;&nbsp;&nbsp;期：</label><span id="operate_time" style="display: inline-block; width: 146px;"></span>
+    </div>
+</div>
+</body>
+</html>

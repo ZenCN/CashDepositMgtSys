@@ -53,6 +53,8 @@ Date.prototype.to_str = function(formate) { //是Date对象才可以调用to_str
         return this.getFullYear() + "-" + m + "-" + d;
     case 'MM月dd日':
         return m + "月" + d + '日';
+    case 'YYYY年MM月dd日 HH:mm':
+        return this.getFullYear() + "年" + m + "月" + d + '日 ' + this.getHours() + ':' + this.getMinutes();
     default:
         return this.getFullYear() + "年" + m + "月" + d + '日';
     }

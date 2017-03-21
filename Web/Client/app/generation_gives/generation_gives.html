@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <div class="btn-group">
             <div class="btn-group" ng-if="user.level == 2 && user.role != 'financial' || user.level == 3">
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
@@ -68,10 +68,20 @@
     <div class="col-sm-2">
         <div class="input-group input-group-md">
             <span class="input-group-addon">姓名</span>
-            <input type="text" class="form-control" ng-model="search.condition.salesman_name" />
+            <input type="text" class="form-control" ng-model="search.condition.salesman_name"/>
         </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
+        <div class="input-group input-group-md">
+            <span class="input-group-addon">状态</span>
+            <select class="form-control">
+                <option value="处理中">处理中...</option>
+                <option value="代付成功">代付成功</option>
+                <option value="代付成功">代付失败</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-2">
         <div class="btn-group">
             <button type="button" class="btn btn-md btn-primary" ng-click="search.from_svr()">
                 搜索

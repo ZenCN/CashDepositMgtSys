@@ -6,7 +6,7 @@
                     <h2 class=brand>保证金
                         <small>管理系统</small>
                     </h2>
-                    <img src="../client/image/login/flat-avatar.png" class=user-avatar><br>
+                    <img src="../../../client/image/login/flat-avatar.png" class=user-avatar><br>
                     <span>{{user.agency.name + ' ' + user.name}}</span>&nbsp;&nbsp;
                     <a ui-sref="login" class="btn btn-white btn-outline btn-rounded btn-sm">注销</a>
                 </div>
@@ -14,14 +14,14 @@
                     <li ng-class="{active: state == 'generation_buckle'}" ng-click="state = 'generation_buckle'">
                         <a ui-sref="dashboard.generation_buckle">代扣 <span class=sr-only>(current)</span></a>
                     </li>
-                    <li ng-if="user.role == 'accountant'">
-                        <a ui-sref="dashboard.generation_gives">代扣汇总清单 </a>
+                    <li ng-show="user.role == 'accountant'" ng-class="{active: state == 'buckle_sum_details'}" ng-click="state = 'buckle_sum_details'">
+                        <a ui-sref="dashboard.buckle_sum_details">代扣汇总清单 </a>
                     </li>
                     <li ng-class="{active: state == 'generation_gives'}" ng-click="state = 'generation_gives'">
                         <a ui-sref="dashboard.generation_gives">代付 </a>
                     </li>
-                    <li ng-if="user.role == 'accountant'">
-                        <a ui-sref="dashboard.generation_gives">代付汇总清单 </a>
+                    <li ng-show="user.role == 'accountant'" ng-class="{active: state == 'gives_sum_details'}" ng-click="state = 'gives_sum_details'">
+                        <a ui-sref="dashboard.gives_sum_details">代付汇总清单 </a>
                     </li>
                     <li ng-class="{active: state == 'sys_settings'}" ng-click="state = 'sys_settings'">
                         <a ui-sref="dashboard.sys_settings">系统设置 </a>

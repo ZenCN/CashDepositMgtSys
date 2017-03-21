@@ -58,6 +58,7 @@ namespace Service
                             if (t.status == 0)  //0表示处理成功
                             {
                                 buckle.review_state = 5;
+                                buckle.gather_serial_num = DateTime.Now.Year.ToString();
                                 phones.Add(buckle.salesman_phone);
                             }
                             else

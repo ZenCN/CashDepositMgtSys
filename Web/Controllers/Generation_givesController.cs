@@ -193,5 +193,10 @@ namespace Web.Controllers
 
             return dic;
         }
+
+        public ActionResult RefundStatement()
+        {
+            return File("~/Client/app/generation_gives/refund_statement.html", "text/html");
+        }
     }
 }

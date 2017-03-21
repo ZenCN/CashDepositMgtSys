@@ -95,9 +95,9 @@
     <Compile Include="Job.cs" />
     <Compile Include="LoginSvr.cs" />
     <Compile Include="Migrations.Interface\Configuration.cs" />
-    <Compile Include="Migrations\201703130826096_Initial.cs" />
-    <Compile Include="Migrations\201703130826096_Initial.Designer.cs">
-      <DependentUpon>201703130826096_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201703160135057_Initial.cs" />
+    <Compile Include="Migrations\201703160135057_Initial.Designer.cs">
+      <DependentUpon>201703160135057_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="QuartzManager.cs" />
@@ -134,8 +134,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703130826096_Initial.resx">
-      <DependentUpon>201703130826096_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703160135057_Initial.resx">
+      <DependentUpon>201703160135057_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
