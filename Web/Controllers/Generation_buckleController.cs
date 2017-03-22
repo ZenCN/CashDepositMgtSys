@@ -25,7 +25,7 @@ namespace Web.Controllers
         {
             List<int> list = new List<int>();
 
-            var str_arr = ids.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            var str_arr = ids.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var id in str_arr)
             {
                 list.Add(int.Parse(id));
@@ -33,11 +33,21 @@ namespace Web.Controllers
 
             return JsonConvert.SerializeObject(svr.Delete(list));
         }
+
+        public string SumDetails(int page_index, int page_size, string agency_code, string channel, string apply_start,
+            string apply_end)
+        {
+            return
+                JsonConvert.SerializeObject(svr.SumDetails(page_index, page_size, agency_code, channel,
+                    DateTime.Parse(apply_start),
+                    DateTime.Parse(apply_end)));
+        }
+
         public string ChangeReviewState(string ids, int state)
         {
             List<int> list = new List<int>();
 
-            var str_arr = ids.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            var str_arr = ids.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var id in str_arr)
             {
                 list.Add(int.Parse(id));
@@ -80,13 +90,22 @@ namespace Web.Controllers
         {
             return
                 JsonConvert.SerializeObject(svr.Search(page_index, page_size, salesman_card_id, salesman_name,
-                    Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value, int.Parse(Request.Cookies["user_level"].Value)));
+                    Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value,
+                    int.Parse(Request.Cookies["user_level"].Value)));
+        }
+
+        public void ExportSumDetails(int page_index, int page_size, string agency_code, string channel,
+            DateTime apply_start, DateTime apply_end)
+        {
+            svr.ExportSumDetails(page_index, page_size, agency_code, channel, apply_start,
+                apply_end);
         }
 
         public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name)
         {
             svr.Export(page_index, page_size, salesman_card_id, salesman_name,
-                    Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value, int.Parse(Request.Cookies["user_level"].Value));
+                Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value,
+                int.Parse(Request.Cookies["user_level"].Value));
         }
 
         public string Import(HttpPostedFileBase file, string channel)
@@ -216,7 +235,7 @@ namespace Web.Controllers
             dic.Add(2, "salesman_sex");
             dic.Add(3, "salesman_card_type");
             dic.Add(4, "salesman_card_id");
-            dic.Add(5,"salesman_phone");
+            dic.Add(5, "salesman_phone");
             dic.Add(6, "salesman_hiredate");
             dic.Add(7, "salesman_bank_account_name");
             dic.Add(8, "salesman_bank_account_number");

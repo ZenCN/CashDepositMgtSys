@@ -22,7 +22,7 @@ namespace Service
 
             INTERFACE_MIO_BATCH_BZJ batch_interface =
                 db_interface.INTERFACE_MIO_BATCH_BZJ.SingleOrDefault(t => t.FromBatchNo == batch_id);
-            if (batch_interface != null && batch_interface.BatchStatus == 5)  //处理完成
+            if (batch_interface != null && batch_interface.BatchStatus == 5) //处理完成
             {
                 try
                 {
@@ -55,15 +55,47 @@ namespace Service
                         buckle = db.Generation_buckle.SingleOrDefault(b => b.id == t.generation_id);
                         if (buckle != null)
                         {
-                            if (t.status == 0)  //0表示处理成功
+                            if (t.status == 0) //0表示处理成功
                             {
                                 buckle.review_state = 5;
-                                buckle.gather_serial_num = DateTime.Now.Year.ToString();
+
+                                int count = 0;
+                                int cur_num = 1;
+                                string max_num = db.Generation_buckle.Max(g => g.gather_serial_num);
+                                /*--------------------生成流水号--------------------*/
+                                if (max_num != null)
+                                {
+                                    cur_num = int.Parse(max_num.Substring(12));
+                                    cur_num++;
+                                }
+                                max_num = cur_num.ToString();
+                                count = 8 - cur_num.ToString().Length;
+                                for (int i = 0; i < count; i++)
+                                {
+                                    max_num = "0" + max_num;
+                                }
+                                buckle.gather_serial_num = DateTime.Now.Year + buckle.agency_code + "88" + max_num;
+                                /*--------------------生成虚拟销售人员代码--------------------*/
+                                cur_num = 1;
+                                max_num = db.Generation_buckle.Max(g => g.salesman_code);
+                                if (max_num != null)
+                                {
+                                    cur_num = int.Parse(max_num.Substring(6));
+                                    cur_num++;
+                                }
+                                max_num = cur_num.ToString();
+                                count = 8 - cur_num.ToString().Length;
+                                for (int i = 0; i < count; i++)
+                                {
+                                    max_num = "0" + max_num;
+                                }
+                                buckle.salesman_code = buckle.agency_code + max_num;
+
                                 phones.Add(buckle.salesman_phone);
                             }
                             else
                             {
-                                buckle.review_state = -5;  //失败退回到市级未提交状态
+                                buckle.review_state = -5; //失败退回到市级未提交状态
                             }
                             buckle.process_result = batch_detail.ErrMsg;
                             buckle.finish_time = batch_detail.FinishTime;
@@ -131,7 +163,7 @@ namespace Service
                                 s =>
                                     s.FromBatchNo == batch_id && s.BankAcc == t.bank_account_no &&
                                     s.BankAccName == t.bank_account_name);
-                        t.status = batch_detail.MioStatus;  
+                        t.status = batch_detail.MioStatus;
                         t.result = batch_detail.ErrMsg; //将清单表信息复制过来
                         db.Update(t);
 
@@ -144,7 +176,7 @@ namespace Service
                             }
                             else
                             {
-                                gives.review_state = -1;  //失败退回到提交状态
+                                gives.review_state = -1; //失败退回到提交状态
                             }
                             gives.process_result = batch_detail.ErrMsg;
                             gives.finish_time = batch_detail.FinishTime;

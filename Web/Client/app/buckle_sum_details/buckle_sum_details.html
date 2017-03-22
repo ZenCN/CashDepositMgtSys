@@ -2,21 +2,32 @@
     <div class="col-sm-2 col-sm-offset-2">
         <div class="input-group input-group-md">
             <span class="input-group-addon">机构名称</span>
-            <select class="form-control">
+            <select class="form-control" ng-model="search.condition.agency_code">
+                <option value="">———</option>
                 <option value="430200">株洲</option>
                 <option value="430300">永州</option>
             </select>
         </div>
     </div>
+    <div class="col-sm-2">
+        <div class="input-group">
+            <span class="input-group-addon">渠道</span>
+            <select class="form-control" ng-model="search.condition.channel">
+                <option value="团险">团险</option>
+                <option value="银保">银保</option>
+                <option value="个险">个险</option>
+            </select>
+        </div>
+    </div>
     <div class="col-sm-4">
         <div class="input-group">
-            <span class="input-group-addon">代扣时间</span>
-            <input type="text" class="form-control" ng-model="model.salesman_hiredate" readonly
+            <span class="input-group-addon">申请时间</span>
+            <input type="text" class="form-control" ng-model="search.condition.apply_start" readonly
                    datepicker-popup="{{format}}" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
                    date-disabled="disabled(date, mode)" ng-click="open($event)" is-open="write_time_opened"
                    current-text="今天" close-text="关闭" clear-text="清除" ng-controller="datepicker_ctrl">
             <span class="input-group-addon">至</span>
-            <input type="text" class="form-control" ng-model="model.salesman_hiredate" readonly
+            <input type="text" class="form-control" ng-model="search.condition.apply_end" readonly
                    datepicker-popup="{{format}}" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
                    date-disabled="disabled(date, mode)" ng-click="open($event)" is-open="write_time_opened"
                    current-text="今天" close-text="关闭" clear-text="清除" ng-controller="datepicker_ctrl">
@@ -41,7 +52,7 @@
                 <thead>
                 <tr>
                     <th rowspan="2">管理机构</th>
-                    <th colspan="2">代扣统计时间</th>
+                    <th colspan="2">申请时间</th>
                     <th rowspan="2">项目</th>
                     <th rowspan="2">代扣笔数</th>
                     <th rowspan="2">总金额</th>
@@ -52,17 +63,15 @@
                     <th>结束时间</th>
                 </tr>
                 </thead>
-                <tbody ng-repeat="_this in search.result">
-                <tr>
-                    <td>{{_this.agency_code}}</td>
-                    <td>{{_this.channel}}</td>
-                    <td>{{_this.salesman_name}}</td>
-                    <td>{{_this.salesman_sex}}</td>
-                    <td>{{_this.salesman_card_type}}</td>
-                    <td>{{_this.salesman_card_id}}</td>
-                    <td>{{_this.salesman_phone}}</td>
-                    <td>{{_this.salesman_hiredate.split("T")[0]}}</td>
-                    <td>{{_this.salesman_bank_account_name}}</td>
+                <tbody>
+                <tr ng-if="search.result.sum">
+                    <td>{{search.result.sum.agency_code}}</td>
+                    <td>{{search.result.sum.apply_start}}</td>
+                    <td>{{search.result.sum.apply_end}}</td>
+                    <td>{{search.result.sum.item}}</td>
+                    <td>{{search.result.sum.count}}</td>
+                    <td>{{search.result.sum.amount}}</td>
+                    <td>{{search.result.sum.channel}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -100,20 +109,68 @@
 
                 </tr>
                 </thead>
-                <tbody ng-repeat="_this in search.result">
+                <tbody ng-repeat="_this in search.result.details">
                 <tr>
                     <td>{{_this.agency_code}}</td>
                     <td>{{_this.channel}}</td>
                     <td>{{_this.salesman_name}}</td>
-                    <td>{{_this.salesman_sex}}</td>
                     <td>{{_this.salesman_card_type}}</td>
                     <td>{{_this.salesman_card_id}}</td>
                     <td>{{_this.salesman_phone}}</td>
-                    <td>{{_this.salesman_hiredate.split("T")[0]}}</td>
                     <td>{{_this.salesman_bank_account_name}}</td>
+                    <td>{{_this.salesman_bank_account_number}}</td>
+                    <td>{{_this.salesman_bank_name}}</td>
+                    <td>{{_this.salesman_hiredate.split('T')[0]}}</td>
+                    <td>{{_this.review_state == 5 ? "确认完成" : "未完成"}}</td>
+                    <td>{{_this.finish_time.replace('T',' ')}}</td>
+                    <td>{{_this.process_result}}</td>
+                    <td>{{_this.salesman_cash_deposit}}</td>
+                    <td>{{_this.gather_serial_num}}</td>
+                    <td>{{_this.remark}}</td>
                 </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="form-group padding-0">
+                <label class="col-sm-2 control-label" style="margin-top: 5px;">每页显示</label>
+                <div class="col-sm-3">
+                    <select ng-change="search.from_svr()" ng-model="page.size" class="form-control input-sm">
+                        <option value="15">15</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+                <label class="col-sm-4 control-label" style="margin-top: 5px;">条，共{{page.all_items.the_last()}}页 {{page.record_count}}条记录</label>
+            </div>
+        </div>
+        <div class="col-sm-7 text-right">
+            <ul class="pagination" style="margin: 0;">
+                <li ng-click="page.turn_to(0)" ng-disabled="page.filtered.length == 1" class="paginate_button">
+                    <a href="javascript:void(0)">第一页</a>
+                </li>
+                <li ng-click="page.turn_to(page.index - 1)" ng-disabled="page.filtered.length == 1"
+                    class="paginate_button previous">
+                    <a href="javascript:void(0)">&laquo;</a>
+                </li>
+                <li ng-repeat="item in page.filtered track by $index" ng-click="page.turn_to(item - 1)"
+                    ng-class="{active: (page.index + 1) == item}" class="paginate_button">
+                    <a href="javascript:void(0)">
+                        {{item}}
+                    </a>
+                </li>
+                <li ng-click="page.turn_to(page.index + 1)" ng-disabled="page.filtered.length == 1"
+                    class="paginate_button next">
+                    <a href="javascript:void(0)">&raquo;</a>
+                </li>
+                <li ng-click="page.turn_to(page.all_items.length - 1)" ng-disabled="page.filtered.length == 1"
+                    class="paginate_button">
+                    <a href="javascript:void(0)">最后一页</a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

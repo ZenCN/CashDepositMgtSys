@@ -130,6 +130,9 @@
             }
         };
 
+        vm.page.size = 15;
+        vm.page.load_data = vm.load_page_data;
+
         vm.search = {
             condition: {
                 salesman_card_id: undefined,

@@ -157,14 +157,14 @@
             <div class="form-group padding-0">
                 <label class="col-sm-2 control-label" style="margin-top: 5px;">每页显示</label>
                 <div class="col-sm-3">
-                    <select ng-change="_case.search.from_server()" ng-model="page.size" class="form-control input-sm">
+                    <select ng-change="search.from_svr()" ng-model="page.size" class="form-control input-sm">
                         <option value="15">15</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
                 </div>
-                <label class="col-sm-4 control-label" style="margin-top: 5px;">条，共{{page.all_items.last()}}页 {{page.record_count}}条记录</label>
+                <label class="col-sm-4 control-label" style="margin-top: 5px;">条，共{{page.all_items.the_last()}}页 {{page.record_count}}条记录</label>
             </div>
         </div>
         <div class="col-sm-7 text-right">

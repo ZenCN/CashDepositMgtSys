@@ -34,6 +34,59 @@ namespace Service
             }
         }
 
+        public Result SumDetails(int page_index, int page_size, string agency_code, string channel, DateTime apply_start, DateTime apply_end)
+        {
+            db = new Db();
+
+            try
+            {
+                var query = db.Generation_buckle.Where(t =>
+                    t.channel == channel &&
+                    t.salesman_hiredate >= apply_start &&
+                    t.salesman_hiredate <= apply_end).AsQueryable();
+
+                if (!string.IsNullOrEmpty(agency_code))
+                {
+                    agency_code = agency_code.Substring(0, 4);
+                    query = query.Where(t => t.agency_code.StartsWith(agency_code));
+                }
+                else
+                {
+                    agency_code = "430000";
+                }
+
+                var list = query.ToList();
+
+                int page_count = 0;
+                int record_count = 0;
+                record_count = list.Count;
+                page_count = ((record_count + page_size) - 1) / page_size;
+
+                list = list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index * page_size).Take(page_size).ToList();
+
+                return new Result(ResultType.success, new
+                {
+                    record_count = record_count,
+                    page_count = page_count,
+                    sum = new
+                    {
+                        apply_start = apply_start.ToString("yyyy-MM-dd"),
+                        apply_end = apply_end.ToString("yyyy-MM-dd"),
+                        agency_code = agency_code,
+                        item = "代收",
+                        count = list.Count,
+                        amount = list.Sum(t => t.salesman_cash_deposit),
+                        channel = channel
+                    },
+                    details = list
+                });
+            }
+            catch (Exception ex)
+            {
+                return new Result(ResultType.error, new Message(ex).ErrorDetails);
+            }
+        }
+
         public Result Save(Generation_buckle buckle)
         {
             db = new Db();
@@ -119,7 +172,7 @@ namespace Service
             record_count = list.Count;
             page_count = ((record_count + page_size) - 1)/page_size;
 
-            list = list.OrderByDescending(t => t.record_date).Skip(page_index*page_size).Take(page_size).ToList();
+            list = list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index*page_size).Take(page_size).ToList();
 
             return new Result(ResultType.success,
                 new {record_count = record_count, page_count = page_count, list = list});
@@ -163,6 +216,56 @@ namespace Service
             catch (Exception ex)
             {
                 return new Result(ResultType.error, new Message(ex).ErrorDetails);
+            }
+        }
+
+        public void ExportSumDetails(int page_index, int page_size, string agency_code, string channel,
+            DateTime apply_start, DateTime apply_end)
+        {
+            db = new Db();
+
+            try
+            {
+                var query = db.Generation_buckle.Where(t =>
+                    t.channel == channel &&
+                    t.salesman_hiredate >= apply_start &&
+                    t.salesman_hiredate <= apply_end).AsQueryable();
+
+                if (!string.IsNullOrEmpty(agency_code))
+                {
+                    agency_code = agency_code.Substring(0, 4);
+                    query = query.Where(t => t.agency_code.StartsWith(agency_code));
+                }
+                else
+                {
+                    agency_code = "430000";
+                }
+
+                var list = query.ToList();
+
+                int page_count = 0;
+                int record_count = 0;
+                record_count = list.Count;
+                page_count = ((record_count + page_size) - 1) / page_size;
+
+                list = list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index * page_size).Take(page_size).ToList();
+
+                Sum sum = new Sum()
+                {
+                    apply_start = apply_start.ToString("yyyy-MM-dd"),
+                    apply_end = apply_end.ToString("yyyy-MM-dd"),
+                    agency_code = agency_code,
+                    item = "代收",
+                    count = list.Count,
+                    amount = list.Sum(t => t.salesman_cash_deposit),
+                    channel = channel
+                };
+
+                new Excel().ExportSumDetails(sum, list);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -213,7 +316,7 @@ namespace Service
             record_count = list.Count;
             page_count = ((record_count + page_size) - 1)/page_size;
 
-            list = list.OrderByDescending(t => t.record_date).Skip(page_index*page_size).Take(page_size).ToList();
+            list = list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index*page_size).Take(page_size).ToList();
 
             new Excel().Export(list);
         }
@@ -275,7 +378,7 @@ namespace Service
                                 batch.SumAmnt = sum_amount; //批次总金额
                                 batch.GenerateTime = DateTime.Now; //批次生成的时间
                                 batch.GenerateBy = HttpContext.Current.Request.Cookies["user_code"].Value;
-                                    //产生数据人员，八位ERP工号
+                                //产生数据人员，八位ERP工号
                                 batch.FromBatchNo = mio_batch.batch_id; //外部系统批次号
                                 batch.BatchStatus = 0; //批次状态（默认为0）
 
@@ -316,7 +419,8 @@ namespace Service
                             db.SaveChanges();
                             buckle_scope.Complete();
 
-                            QuartzManager<QueryBuckleInfo>.AddJob(mio_batch.batch_id, "0 1/1 * * * ?");  //1分钟之后执行第一次（对应“1/1”第一个1）,然后每隔1分钟执行一次（对应“1/1”第二个1）
+                            QuartzManager<QueryBuckleInfo>.AddJob(mio_batch.batch_id, "0 1/1 * * * ?");
+                            //1分钟之后执行第一次（对应“1/1”第一个1）,然后每隔1分钟执行一次（对应“1/1”第二个1）
                         }
                     }
                 }

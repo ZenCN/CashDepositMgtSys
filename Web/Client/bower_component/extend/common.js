@@ -5,7 +5,7 @@ window.isString = function(str) {
 
 //----------------------date----------------------
 Date.prototype.get_day = function(d) { //default today(undefined)、oneday: -7 7、lastday 0
-    var date = new Date(); //default today
+    var date = this; //default today  new Date()
 
     if (typeof d == 'number') {
         if (d != 0) { //oneday

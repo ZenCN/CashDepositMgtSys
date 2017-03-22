@@ -242,8 +242,9 @@
     <None Include="Client\bower_component\jquery-metis-menu\metisMenu.js.map" />
     <Content Include="packages.config" />
     <Content Include="Excel\保证金代扣模板.xls" />
-    <Content Include="Excel\Generation_buckle.xls" />
-    <Content Include="Excel\Generation_gives.xls" />
+    <Content Include="Excel\generation_buckle.xls" />
+    <Content Include="Excel\generation_gives.xls" />
+    <Content Include="Excel\buckle_sum_details.xls" />
     <None Include="Properties\PublishProfiles\Web.pubxml" />
   </ItemGroup>
   <PropertyGroup>
