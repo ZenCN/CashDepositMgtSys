@@ -110,9 +110,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Backup\CashDepositMgtSys.sql" />
+    <Content Include="Backup\基础数据.txt" />
     <Content Include="Client\app\app.config.js" />
     <Content Include="Client\app\app.module.js" />
     <Content Include="Client\app\app.service.js" />
+    <Content Include="Client\app\buckle_schedule\buckle_schedule.html" />
+    <Content Include="Client\app\buckle_schedule\buckle_schedule_ctrl.js" />
     <Content Include="Client\app\controller\datepicker_ctrl.js" />
     <Content Include="Client\app\controller\modal_ctrl.js" />
     <Content Include="Client\app\dashboard\dashboard.html" />
@@ -125,12 +128,16 @@
     <Content Include="Client\app\generation_gives\generation_gives_ctrl.js" />
     <Content Include="Client\app\generation_gives\generation_gives_record.html" />
     <Content Include="Client\app\generation_gives\refund_statement.html" />
+    <Content Include="Client\app\gives_schedule\gives_schedule.html" />
+    <Content Include="Client\app\gives_schedule\gives_schedule_ctrl.js" />
     <Content Include="Client\app\gives_sum_details\gives_sum_details.html" />
     <Content Include="Client\app\gives_sum_details\gives_sum_details_ctrl.js" />
     <Content Include="Client\app\login\login.html" />
     <Content Include="Client\app\login\login_ctrl.js" />
+    <Content Include="Client\app\service\buckle_schedule_svr.js" />
     <Content Include="Client\app\service\generation_buckle_svr.js" />
     <Content Include="Client\app\service\generation_gives_svr.js" />
+    <Content Include="Client\app\service\gives_schedule_svr.js" />
     <Content Include="Client\app\service\gives_sum_details_svr.js" />
     <Content Include="Client\app\service\login_svr.js" />
     <Content Include="Client\app\service\buckle_sum_details_svr.js" />
@@ -247,6 +254,7 @@
     <Content Include="Excel\generation_gives.xls" />
     <Content Include="Excel\buckle_sum_details.xls" />
     <Content Include="Excel\gives_sum_details.xls" />
+    <Content Include="Excel\schedule.xls" />
     <None Include="Properties\PublishProfiles\Web.pubxml" />
   </ItemGroup>
   <PropertyGroup>

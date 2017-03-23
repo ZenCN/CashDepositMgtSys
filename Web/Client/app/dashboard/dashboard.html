@@ -17,11 +17,17 @@
                     <li ng-show="user.role == 'accountant'" ng-class="{active: state == 'buckle_sum_details'}" ng-click="state = 'buckle_sum_details'">
                         <a ui-sref="dashboard.buckle_sum_details">代扣汇总清单 </a>
                     </li>
+                    <li ng-show="user.role == 'accountant'" ng-class="{active: state == 'buckle_schedule'}" ng-click="state = 'buckle_schedule'">
+                        <a ui-sref="dashboard.buckle_schedule">代扣计提表 </a>
+                    </li>
                     <li ng-class="{active: state == 'generation_gives'}" ng-click="state = 'generation_gives'">
                         <a ui-sref="dashboard.generation_gives">代付 </a>
                     </li>
                     <li ng-show="user.role == 'accountant'" ng-class="{active: state == 'gives_sum_details'}" ng-click="state = 'gives_sum_details'">
                         <a ui-sref="dashboard.gives_sum_details">代付汇总清单 </a>
+                    </li>
+                    <li ng-show="user.role == 'accountant'" ng-class="{active: state == 'gives_schedule'}" ng-click="state = 'gives_schedule'">
+                        <a ui-sref="dashboard.gives_schedule">代付计提表 </a>
                     </li>
                     <li ng-class="{active: state == 'sys_settings'}" ng-click="state = 'sys_settings'">
                         <a ui-sref="dashboard.sys_settings">系统设置 </a>

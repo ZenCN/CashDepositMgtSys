@@ -76,6 +76,15 @@
                     '../client/app/service/buckle_sum_details_svr.js'
                 ])
             })
+            .state('dashboard.buckle_schedule', {
+                url: '/buckle_schedule',
+                controller: 'buckle_schedule_ctrl',
+                templateUrl: '../client/app/buckle_schedule/buckle_schedule.html',
+                resolve: resolve_dep([
+                    '../client/app/buckle_schedule/buckle_schedule_ctrl.js',
+                    '../client/app/service/buckle_schedule_svr.js'
+                ])
+            })
             .state('dashboard.gives_sum_details', {
                 url: '/gives_sum_details',
                 controller: 'gives_sum_details_ctrl',
@@ -83,6 +92,15 @@
                 resolve: resolve_dep([
                     '../client/app/gives_sum_details/gives_sum_details_ctrl.js',
                     '../client/app/service/gives_sum_details_svr.js'
+                ])
+            })
+            .state('dashboard.gives_schedule', {
+                url: '/gives_schedule',
+                controller: 'gives_schedule_ctrl',
+                templateUrl: '../client/app/gives_schedule/gives_schedule.html',
+                resolve: resolve_dep([
+                    '../client/app/gives_schedule/gives_schedule_ctrl.js',
+                    '../client/app/service/gives_schedule_svr.js'
                 ])
             })
             .state('dashboard.sys_settings', {

@@ -96,6 +96,112 @@ namespace Service
             ResponseExcel(hssfworkbook);
         }
 
+        public void ExportSchedule(List<Generation_buckle> list, List<Agency> agency)
+        {
+            HSSFWorkbook hssfworkbook;
+            using (FileStream file = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/Excel/schedule.xls", FileMode.Open, FileAccess.Read))
+            {
+                hssfworkbook = new HSSFWorkbook(file);
+            }
+
+            ISheet sheet = hssfworkbook.GetSheet("计提表");
+
+            int strat_row = 1;
+            sheet = CreateCell(sheet, list.Count, 8, strat_row);
+
+            ICell cell = null;
+            ICellStyle cell_style = SetCellStyle(sheet);
+            for (int i = 0; i < list.Count; i++)
+            {
+                cell = sheet.GetRow(strat_row + i).GetCell(0);
+                cell.SetCellValue(list[i].salesman_name);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(1);
+                cell.SetCellValue(list[i].channel);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(2);
+                cell.SetCellValue(list[i].salesman_card_id);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(3);
+                cell.SetCellValue(list[i].salesman_hiredate == null ? "" : list[i].salesman_hiredate.Value.ToString("yyyy-MM-dd"));
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(4);
+                cell.SetCellValue("收");
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(5);
+                cell.SetCellValue(list[i].salesman_cash_deposit == null ? "" : list[i].salesman_cash_deposit.Value.ToString());
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(6);
+                cell.SetCellValue("1901007019022409963");
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(7);
+                cell.SetCellValue(agency.SingleOrDefault(t => t.code == list[i].agency_code).name);
+                cell.CellStyle = cell_style;
+            }
+
+            ResponseExcel(hssfworkbook);
+        }
+
+        public void ExportSchedule(List<Generation_gives> list, List<Agency> agency)
+        {
+            HSSFWorkbook hssfworkbook;
+            using (FileStream file = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/Excel/schedule.xls", FileMode.Open, FileAccess.Read))
+            {
+                hssfworkbook = new HSSFWorkbook(file);
+            }
+
+            ISheet sheet = hssfworkbook.GetSheet("计提表");
+
+            int strat_row = 1;
+            sheet = CreateCell(sheet, list.Count, 8, strat_row);
+
+            ICell cell = null;
+            ICellStyle cell_style = SetCellStyle(sheet);
+            for (int i = 0; i < list.Count; i++)
+            {
+                cell = sheet.GetRow(strat_row + i).GetCell(0);
+                cell.SetCellValue(list[i].salesman_name);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(1);
+                cell.SetCellValue(list[i].channel);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(2);
+                cell.SetCellValue(list[i].salesman_card_id);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(3);
+                cell.SetCellValue(list[i].salesman_hiredate == null ? "" : list[i].salesman_hiredate.Value.ToString("yyyy-MM-dd"));
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(4);
+                cell.SetCellValue("付");
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(5);
+                cell.SetCellValue(list[i].salesman_cash_deposit == null ? "" : list[i].salesman_cash_deposit.Value.ToString());
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(6);
+                cell.SetCellValue("6222256801000081");
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(7);
+                cell.SetCellValue(agency.SingleOrDefault(t => t.code == list[i].agency_code).name);
+                cell.CellStyle = cell_style;
+            }
+
+            ResponseExcel(hssfworkbook);
+        }
+
         public void ExportSumDetails(Sum sum, List<Generation_gives> list)
         {
             HSSFWorkbook hssfworkbook;

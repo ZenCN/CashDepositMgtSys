@@ -43,6 +43,23 @@ namespace Web.Controllers
                     DateTime.Parse(apply_end)));
         }
 
+        public string QuerySchedule(int page_index, int page_size, string agency_code, string channel, string apply_start,
+            string apply_end)
+        {
+            return
+                JsonConvert.SerializeObject(svr.QuerySchedule(page_index, page_size, agency_code, channel,
+                    DateTime.Parse(apply_start),
+                    DateTime.Parse(apply_end)));
+        }
+
+        public void ExportSchedule(int page_index, int page_size, string agency_code, string channel,
+            DateTime apply_start, DateTime apply_end)
+        {
+
+            svr.ExportSchedule(page_index, page_size, agency_code, channel, apply_start,
+                apply_end, Request["user_jurisdiction"] ?? "");
+        }
+
         public string ChangeReviewState(string ids, int state)
         {
             List<int> list = new List<int>();
@@ -137,7 +154,7 @@ namespace Web.Controllers
                         if (cell != null && cell.StringCellValue == "管理机构")
                         {
                             int startRow = 2;
-                            int rowCount = sheet.LastRowNum;
+                            int rowCount = sheet.PhysicalNumberOfRows;
                             int cellCount = sheet.GetRow(0).LastCellNum; //一行最后一个cell的编号 即总的列数
 
                             Dictionary<int, string> field = GetFieldDic();
@@ -147,7 +164,7 @@ namespace Web.Controllers
                             Type type = buckle.GetType();
                             System.Reflection.PropertyInfo property = null;
 
-                            for (int r = startRow; r <= rowCount; r++)
+                            for (int r = startRow; r < rowCount; r++)
                             {
                                 buckle = new Generation_buckle();
                                 for (int c = 0; c < cellCount; c++)

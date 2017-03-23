@@ -1,0 +1,118 @@
+﻿<div class="row">
+    <div class="col-sm-3 col-sm-offset-1">
+        <div class="input-group input-group-md">
+            <span class="input-group-addon">机构名称</span>
+            <select class="form-control" ng-model="search.condition.agency_code">
+                <option value="">————————</option>
+                <option ng-repeat="(key, val) in user.agency" value="{{key}}">{{val}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="input-group">
+            <span class="input-group-addon">渠道</span>
+            <select class="form-control" ng-model="search.condition.channel">
+                <option value="团险">团险</option>
+                <option value="银保">银保</option>
+                <option value="个险">个险</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="input-group">
+            <span class="input-group-addon">申请时间</span>
+            <input type="text" class="form-control" ng-model="search.condition.apply_start" readonly
+                   datepicker-popup="{{format}}" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
+                   date-disabled="disabled(date, mode)" ng-click="open($event)" is-open="write_time_opened"
+                   current-text="今天" close-text="关闭" clear-text="清除" ng-controller="datepicker_ctrl">
+            <span class="input-group-addon">至</span>
+            <input type="text" class="form-control" ng-model="search.condition.apply_end" readonly
+                   datepicker-popup="{{format}}" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
+                   date-disabled="disabled(date, mode)" ng-click="open($event)" is-open="write_time_opened"
+                   current-text="今天" close-text="关闭" clear-text="清除" ng-controller="datepicker_ctrl">
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="btn-group">
+            <button type="button" class="btn btn-md btn-primary" ng-click="search.from_svr()">
+                搜索
+            </button>
+            <button type="button" class="btn btn-md btn-success" ng-click="export()">
+                导出
+            </button>
+        </div>
+    </div>
+</div>
+<div class="jumbotron" style="padding: 10px;">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>渠道</th>
+                        <th>身份证号</th>
+                        <th>申请日期</th>
+                        <th>收付标识</th>
+                        <th>金额</th>
+                        <th>存入账号</th>
+                        <th>单位</th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="_this in search.result">
+                    <tr>
+                        <td>{{_this.salesman_name}}</td>
+                        <td>{{_this.channel}}</td>
+                        <td>{{_this.salesman_card_id}}</td>
+                        <td>{{_this.salesman_hiredate.split('T')[0]}}</td>
+                        <td>收</td>
+                        <td>{{_this.salesman_cash_deposit}}</td>
+                        <td>1901007019022409963</td>
+                        <td>{{user.agency[_this.agency_code.trim()]}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="form-group padding-0">
+                <label class="col-sm-2 control-label" style="margin-top: 5px;">每页显示</label>
+                <div class="col-sm-3">
+                    <select ng-change="search.from_svr()" ng-model="page.size" class="form-control input-sm">
+                        <option value="15">15</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+                <label class="col-sm-4 control-label" style="margin-top: 5px;">条，共{{page.all_items.the_last()}}页 {{page.record_count}}条记录</label>
+            </div>
+        </div>
+        <div class="col-sm-7 text-right">
+            <ul class="pagination" style="margin: 0;">
+                <li ng-click="page.turn_to(0)" ng-disabled="page.filtered.length == 1" class="paginate_button">
+                    <a href="javascript:void(0)">第一页</a>
+                </li>
+                <li ng-click="page.turn_to(page.index - 1)" ng-disabled="page.filtered.length == 1"
+                    class="paginate_button previous">
+                    <a href="javascript:void(0)">&laquo;</a>
+                </li>
+                <li ng-repeat="item in page.filtered track by $index" ng-click="page.turn_to(item - 1)"
+                    ng-class="{active: (page.index + 1) == item}" class="paginate_button">
+                    <a href="javascript:void(0)">
+                        {{item}}
+                    </a>
+                </li>
+                <li ng-click="page.turn_to(page.index + 1)" ng-disabled="page.filtered.length == 1"
+                    class="paginate_button next">
+                    <a href="javascript:void(0)">&raquo;</a>
+                </li>
+                <li ng-click="page.turn_to(page.all_items.length - 1)" ng-disabled="page.filtered.length == 1"
+                    class="paginate_button">
+                    <a href="javascript:void(0)">最后一页</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

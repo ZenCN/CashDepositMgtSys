@@ -36,6 +36,92 @@ namespace Service
             }
         }
 
+        public Result QuerySchedule(int page_index, int page_size, string agency_code, string channel, DateTime apply_start, DateTime apply_end)
+        {
+            db = new Db();
+
+            try
+            {
+                var query = db.Generation_gives.Where(t =>
+                    t.channel == channel && t.review_state == 6 &&
+                    t.salesman_hiredate >= apply_start &&
+                    t.salesman_hiredate <= apply_end).AsQueryable();
+
+                if (!string.IsNullOrEmpty(agency_code))
+                {
+                    agency_code = agency_code.Substring(0, 4);
+                    query = query.Where(t => t.agency_code.StartsWith(agency_code));
+                }
+                else
+                {
+                    agency_code = "4300";
+                }
+
+                var list = query.ToList();
+
+                int page_count = 0;
+                int record_count = 0;
+                record_count = list.Count;
+                page_count = ((record_count + page_size) - 1) / page_size;
+
+                list = list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index * page_size).Take(page_size).ToList();
+
+                return new Result(ResultType.success, new
+                {
+                    record_count = record_count,
+                    page_count = page_count,
+                    list = list
+                });
+            }
+            catch (Exception ex)
+            {
+                return new Result(ResultType.error, new Message(ex).ErrorDetails);
+            }
+        }
+
+        public void ExportSchedule(int page_index, int page_size, string agency_code, string channel, DateTime apply_start, DateTime apply_end, string user_jurisdiction)
+        {
+            db = new Db();
+
+            try
+            {
+                var query = db.Generation_gives.Where(t =>
+                    t.channel == channel && t.review_state == 6 &&
+                    t.salesman_hiredate >= apply_start &&
+                    t.salesman_hiredate <= apply_end).AsQueryable();
+
+                if (!string.IsNullOrEmpty(agency_code))
+                {
+                    agency_code = agency_code.Substring(0, 4);
+                    query = query.Where(t => t.agency_code.StartsWith(agency_code));
+                }
+                else
+                {
+                    agency_code = "4300";
+                }
+
+                var list = query.ToList();
+
+                int page_count = 0;
+                int record_count = 0;
+                record_count = list.Count;
+                page_count = ((record_count + page_size) - 1) / page_size;
+
+                list = list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index * page_size).Take(page_size).ToList();
+
+                List<string> p_codes = new List<string>();
+                string[] arr = HttpUtility.UrlDecode(user_jurisdiction).Split(new string[] { "、" }, StringSplitOptions.RemoveEmptyEntries);
+                p_codes.AddRange(arr);
+                var agency = db.Agency.Where(t => p_codes.Contains(t.p_code) || p_codes.Contains(t.code)).ToList();
+
+                new Excel().ExportSchedule(list, agency);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public Result SumDetails(int page_index, int page_size, string agency_code, string channel, DateTime apply_start, DateTime apply_end)
         {
             db = new Db();
