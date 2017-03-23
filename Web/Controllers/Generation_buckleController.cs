@@ -160,7 +160,7 @@ namespace Web.Controllers
                             Dictionary<int, string> field = GetFieldDic();
                             List<Generation_buckle> list = new List<Generation_buckle>();
                             Generation_buckle buckle = new Generation_buckle();
-
+                            .0
                             Type type = buckle.GetType();
                             System.Reflection.PropertyInfo property = null;
 
@@ -239,6 +239,13 @@ namespace Web.Controllers
             catch (Exception ex)
             {
                 result = new Result(ResultType.error, new Message(ex).ErrorDetails);
+            }
+            finally
+            {
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
             }
 
             return JsonConvert.SerializeObject(result);

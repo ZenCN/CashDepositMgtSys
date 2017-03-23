@@ -21,7 +21,7 @@ namespace Service
             }
 
             int strat_row = 2;
-            ISheet sheet = hssfworkbook.GetSheet("数据");
+            ISheet sheet = hssfworkbook.GetSheetAt(0);
             sheet = CreateCell(sheet, list.Count, 15, strat_row);
 
             ICell cell = null;
@@ -104,7 +104,7 @@ namespace Service
                 hssfworkbook = new HSSFWorkbook(file);
             }
 
-            ISheet sheet = hssfworkbook.GetSheet("计提表");
+            ISheet sheet = hssfworkbook.GetSheetAt(0);
 
             int strat_row = 1;
             sheet = CreateCell(sheet, list.Count, 8, strat_row);
@@ -157,7 +157,7 @@ namespace Service
                 hssfworkbook = new HSSFWorkbook(file);
             }
 
-            ISheet sheet = hssfworkbook.GetSheet("计提表");
+            ISheet sheet = hssfworkbook.GetSheetAt(0);
 
             int strat_row = 1;
             sheet = CreateCell(sheet, list.Count, 8, strat_row);
@@ -210,7 +210,7 @@ namespace Service
                 hssfworkbook = new HSSFWorkbook(file);
             }
 
-            ISheet sheet = hssfworkbook.GetSheet("汇总清单");
+            ISheet sheet = hssfworkbook.GetSheetAt(0);
 
             sheet.GetRow(3).GetCell(0).SetCellValue(sum.agency_code);
             sheet.GetRow(3).GetCell(1).SetCellValue(sum.apply_start);
@@ -303,7 +303,7 @@ namespace Service
                 hssfworkbook = new HSSFWorkbook(file);
             }
 
-            ISheet sheet = hssfworkbook.GetSheet("汇总清单");
+            ISheet sheet = hssfworkbook.GetSheetAt(0);
 
             sheet.GetRow(3).GetCell(0).SetCellValue(sum.agency_code);
             sheet.GetRow(3).GetCell(1).SetCellValue(sum.apply_start);
@@ -397,7 +397,7 @@ namespace Service
             }
 
             int strat_row = 2;
-            ISheet sheet = hssfworkbook.GetSheet("数据");
+            ISheet sheet = hssfworkbook.GetSheetAt(0);
             sheet = CreateCell(sheet, list.Count, 14, strat_row);
 
             ICell cell = null;
