@@ -52,7 +52,7 @@ namespace Service
                 }
                 else
                 {
-                    agency_code = "430000";
+                    agency_code = "4300";
                 }
 
                 var list = query.ToList();
@@ -72,7 +72,7 @@ namespace Service
                     {
                         apply_start = apply_start.ToString("yyyy-MM-dd"),
                         apply_end = apply_end.ToString("yyyy-MM-dd"),
-                        agency_code = agency_code,
+                        agency_code = agency_code + "00",
                         item = "代收",
                         count = list.Count,
                         amount = list.Sum(t => t.salesman_cash_deposit),
@@ -238,7 +238,7 @@ namespace Service
                 }
                 else
                 {
-                    agency_code = "430000";
+                    agency_code = "4300";
                 }
 
                 var list = query.ToList();
@@ -254,7 +254,7 @@ namespace Service
                 {
                     apply_start = apply_start.ToString("yyyy-MM-dd"),
                     apply_end = apply_end.ToString("yyyy-MM-dd"),
-                    agency_code = agency_code,
+                    agency_code = agency_code + "00",
                     item = "代收",
                     count = list.Count,
                     amount = list.Sum(t => t.salesman_cash_deposit),

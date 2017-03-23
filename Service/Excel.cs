@@ -96,6 +96,99 @@ namespace Service
             ResponseExcel(hssfworkbook);
         }
 
+        public void ExportSumDetails(Sum sum, List<Generation_gives> list)
+        {
+            HSSFWorkbook hssfworkbook;
+            using (FileStream file = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/Excel/gives_sum_details.xls", FileMode.Open, FileAccess.Read))
+            {
+                hssfworkbook = new HSSFWorkbook(file);
+            }
+
+            ISheet sheet = hssfworkbook.GetSheet("汇总清单");
+
+            sheet.GetRow(3).GetCell(0).SetCellValue(sum.agency_code);
+            sheet.GetRow(3).GetCell(1).SetCellValue(sum.apply_start);
+            sheet.GetRow(3).GetCell(2).SetCellValue(sum.apply_end);
+            sheet.GetRow(3).GetCell(3).SetCellValue(sum.item);
+            sheet.GetRow(3).GetCell(4).SetCellValue(sum.count);
+            sheet.GetRow(3).GetCell(5).SetCellValue(sum.amount == null ? "" : sum.amount.ToString());
+            sheet.GetRow(3).GetCell(6).SetCellValue(sum.channel);
+
+            int strat_row = 8;
+            sheet = CreateCell(sheet, list.Count, 16, strat_row);
+
+            ICell cell = null;
+            ICellStyle cell_style = SetCellStyle(sheet);
+            for (int i = 0; i < list.Count; i++)
+            {
+                cell = sheet.GetRow(strat_row + i).GetCell(0);
+                cell.SetCellValue(list[i].agency_code);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(1);
+                cell.SetCellValue(list[i].channel);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(2);
+                cell.SetCellValue(list[i].salesman_name);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(3);
+                cell.SetCellValue(list[i].salesman_card_type);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(4);
+                cell.SetCellValue(list[i].salesman_card_id);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(5);
+                cell.SetCellValue(list[i].salesman_phone);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(6);
+                cell.SetCellValue(list[i].salesman_bank_account_name);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(7);
+                cell.SetCellValue(list[i].salesman_bank_account_number);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(8);
+                cell.SetCellValue(list[i].salesman_bank_name);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(9);
+                cell.SetCellValue(list[i].salesman_hiredate == null ? "" : list[i].salesman_hiredate.Value.ToString("yyyy-MM-dd"));
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(10);
+                cell.SetCellValue(list[i].review_state == 6 ? "确认完成" : "未完成");
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(11);
+                cell.SetCellValue(list[i].finish_time == null ? "" : list[i].finish_time.Value.ToString("yyyy-MM-dd HH:mm:ss"));
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(12);
+                cell.SetCellValue(list[i].process_result);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(13);
+                cell.SetCellValue(list[i].salesman_refunds == null ? "" : list[i].salesman_refunds.Value.ToString());
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(14);
+                cell.SetCellValue(list[i].gather_serial_num);
+                cell.CellStyle = cell_style;
+
+                cell = sheet.GetRow(strat_row + i).GetCell(15);
+                cell.SetCellValue(list[i].remark);
+                cell.CellStyle = cell_style;
+            }
+
+            ResponseExcel(hssfworkbook);
+        }
+
         public void ExportSumDetails(Sum sum, List<Generation_buckle> list)
         {
             HSSFWorkbook hssfworkbook;

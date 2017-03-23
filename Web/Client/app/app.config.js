@@ -81,7 +81,8 @@
                 controller: 'gives_sum_details_ctrl',
                 templateUrl: '../client/app/gives_sum_details/gives_sum_details.html',
                 resolve: resolve_dep([
-                    '../client/app/gives_sum_details/gives_sum_details_ctrl.js'
+                    '../client/app/gives_sum_details/gives_sum_details_ctrl.js',
+                    '../client/app/service/gives_sum_details_svr.js'
                 ])
             })
             .state('dashboard.sys_settings', {

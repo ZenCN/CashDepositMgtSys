@@ -90,7 +90,7 @@
                             "ResultData": {
                                 "ErpNo": "14354546",
                                 "RealName": "永州",
-                                "BranchNo": "430300",
+                                "BranchNo": "432900",
                                 "BranchName": "湖南省永州市分公司"
                             },
                             "ErrInfo": ""
@@ -118,7 +118,7 @@
                             "ResultData": {
                                 "ErpNo": "14386546",
                                 "RealName": "祁阳-1",
-                                "BranchNo": "430301",
+                                "BranchNo": "432901",
                                 "BranchName": "湖南省永州市祁阳县分公司"
                             },
                             "ErrInfo": ""
@@ -132,7 +132,7 @@
                             "ResultData": {
                                 "ErpNo": "14382446",
                                 "RealName": "祁阳-2",
-                                "BranchNo": "430301",
+                                "BranchNo": "432901",
                                 "BranchName": "湖南省永州市祁阳县分公司"
                             },
                             "ErrInfo": ""
@@ -168,6 +168,10 @@
 
                             if (response.data.extra.jurisdiction != null) {
                                 $.cookie('user_jurisdiction', response.data.extra.jurisdiction);
+                            }
+
+                            if (response.data.extra.agency != null) {
+                                $.cookie('agency', response.data.extra.agency);
                             }
                             
                             $state.go('dashboard.generation_buckle');

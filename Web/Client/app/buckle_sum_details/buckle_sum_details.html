@@ -1,11 +1,10 @@
 ﻿<div class="row">
-    <div class="col-sm-2 col-sm-offset-2">
+    <div class="col-sm-3 col-sm-offset-1">
         <div class="input-group input-group-md">
             <span class="input-group-addon">机构名称</span>
             <select class="form-control" ng-model="search.condition.agency_code">
-                <option value="">———</option>
-                <option value="430200">株洲</option>
-                <option value="430300">永州</option>
+                <option value="">————————</option>
+                <option ng-repeat="(key, val) in user.agency" value="{{key}}">{{val}}</option>
             </select>
         </div>
     </div>

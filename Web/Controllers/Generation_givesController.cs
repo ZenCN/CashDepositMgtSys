@@ -33,6 +33,22 @@ namespace Web.Controllers
             return JsonConvert.SerializeObject(svr.Delete(list));
         }
 
+        public string SumDetails(int page_index, int page_size, string agency_code, string channel, string apply_start,
+            string apply_end)
+        {
+            return
+                JsonConvert.SerializeObject(svr.SumDetails(page_index, page_size, agency_code, channel,
+                    DateTime.Parse(apply_start),
+                    DateTime.Parse(apply_end)));
+        }
+
+        public void ExportSumDetails(int page_index, int page_size, string agency_code, string channel,
+            DateTime apply_start, DateTime apply_end)
+        {
+            svr.ExportSumDetails(page_index, page_size, agency_code, channel, apply_start,
+                apply_end);
+        }
+
         public string Save(string generation_gives, string deducted_items)
         {
             result = svr.Save(generation_gives, deducted_items, int.Parse(Request.Cookies["user_level"].Value));

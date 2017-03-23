@@ -131,6 +131,7 @@
     <Content Include="Client\app\login\login_ctrl.js" />
     <Content Include="Client\app\service\generation_buckle_svr.js" />
     <Content Include="Client\app\service\generation_gives_svr.js" />
+    <Content Include="Client\app\service\gives_sum_details_svr.js" />
     <Content Include="Client\app\service\login_svr.js" />
     <Content Include="Client\app\service\buckle_sum_details_svr.js" />
     <Content Include="Client\app\buckle_sum_details\buckle_sum_details.html" />
@@ -245,6 +246,7 @@
     <Content Include="Excel\generation_buckle.xls" />
     <Content Include="Excel\generation_gives.xls" />
     <Content Include="Excel\buckle_sum_details.xls" />
+    <Content Include="Excel\gives_sum_details.xls" />
     <None Include="Properties\PublishProfiles\Web.pubxml" />
   </ItemGroup>
   <PropertyGroup>

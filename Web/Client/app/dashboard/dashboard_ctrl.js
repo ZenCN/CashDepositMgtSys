@@ -30,6 +30,10 @@
             if (isString($.cookie('user_jurisdiction'))) {
                 vm.user.jurisdiction = $.cookie('user_jurisdiction').split('、');
             }
+
+            if (isString($.cookie('agency'))) {
+                vm.user.agency = JSON.parse($.cookie('agency'));
+            }
         }
 
         vm.state = $state.$current.name.split('.').the_last();

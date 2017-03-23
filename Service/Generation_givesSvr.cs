@@ -36,6 +36,109 @@ namespace Service
             }
         }
 
+        public Result SumDetails(int page_index, int page_size, string agency_code, string channel, DateTime apply_start, DateTime apply_end)
+        {
+            db = new Db();
+
+            try
+            {
+                var query = db.Generation_gives.Where(t =>
+                    t.channel == channel &&
+                    t.salesman_hiredate >= apply_start &&
+                    t.salesman_hiredate <= apply_end).AsQueryable();
+
+                if (!string.IsNullOrEmpty(agency_code))
+                {
+                    agency_code = agency_code.Substring(0, 4);
+                    query = query.Where(t => t.agency_code.StartsWith(agency_code));
+                }
+                else
+                {
+                    agency_code = "4300";
+                }
+
+                var list = query.ToList();
+
+                int page_count = 0;
+                int record_count = 0;
+                record_count = list.Count;
+                page_count = ((record_count + page_size) - 1) / page_size;
+
+                list = list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index * page_size).Take(page_size).ToList();
+
+                return new Result(ResultType.success, new
+                {
+                    record_count = record_count,
+                    page_count = page_count,
+                    sum = new
+                    {
+                        apply_start = apply_start.ToString("yyyy-MM-dd"),
+                        apply_end = apply_end.ToString("yyyy-MM-dd"),
+                        agency_code = agency_code + "00",
+                        item = "代收",
+                        count = list.Count,
+                        amount = list.Sum(t => t.salesman_refunds),
+                        channel = channel
+                    },
+                    details = list
+                });
+            }
+            catch (Exception ex)
+            {
+                return new Result(ResultType.error, new Message(ex).ErrorDetails);
+            }
+        }
+
+        public void ExportSumDetails(int page_index, int page_size, string agency_code, string channel,
+            DateTime apply_start, DateTime apply_end)
+        {
+            db = new Db();
+
+            try
+            {
+                var query = db.Generation_gives.Where(t =>
+                    t.channel == channel &&
+                    t.salesman_hiredate >= apply_start &&
+                    t.salesman_hiredate <= apply_end).AsQueryable();
+
+                if (!string.IsNullOrEmpty(agency_code))
+                {
+                    agency_code = agency_code.Substring(0, 4);
+                    query = query.Where(t => t.agency_code.StartsWith(agency_code));
+                }
+                else
+                {
+                    agency_code = "4300";
+                }
+
+                var list = query.ToList();
+
+                int page_count = 0;
+                int record_count = 0;
+                record_count = list.Count;
+                page_count = ((record_count + page_size) - 1) / page_size;
+
+                list = list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index * page_size).Take(page_size).ToList();
+
+                Sum sum = new Sum()
+                {
+                    apply_start = apply_start.ToString("yyyy-MM-dd"),
+                    apply_end = apply_end.ToString("yyyy-MM-dd"),
+                    agency_code = agency_code + "00",
+                    item = "代收",
+                    count = list.Count,
+                    amount = list.Sum(t => t.salesman_refunds),
+                    channel = channel
+                };
+
+                new Excel().ExportSumDetails(sum, list);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public Result Save(string generation_gives, string deducted_items, int level)
         {
             db = new Db();
