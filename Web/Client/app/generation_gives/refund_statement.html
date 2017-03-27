@@ -11,17 +11,17 @@
                 $('#salesman_name').text(window.opener.refund_statement.salesman_name);
                 $('#salesman_code').text(window.opener.refund_statement.salesman_code);
                 $('#gather_serial_num').text(window.opener.refund_statement.gather_serial_num);
-                $('#cash_deposit').text(window.opener.refund_statement.salesman_cash_deposit);
-                $('#cash_deducted').text(Number(window.opener.refund_statement.salesman_cash_deducted) > 0 ? window.opener.refund_statement.salesman_cash_deducted : 0);
-                $('#cash_return').text(window.opener.refund_statement.salesman_refunds);
+                $('#cash_deposit').text('￥' + window.opener.refund_statement.salesman_cash_deposit);
+                $('#cash_deducted').text('￥' + Number(window.opener.refund_statement.salesman_cash_deducted) > 0 ? window.opener.refund_statement.salesman_cash_deducted : 0);
+                $('#cash_return').text('￥' + window.opener.refund_statement.salesman_refunds);
                 $('#bank_name').text(window.opener.refund_statement.salesman_bank_name);
                 $('#bank_acc_number').text(window.opener.refund_statement.salesman_bank_account_number);
                 $('#bank_acc_name').text(window.opener.refund_statement.salesman_bank_account_name);
 
                 $.each(window.opener.refund_statement.deducted_items, function() {
-                    $('table').append('<tr><td>' + this.item + '</td><td>' + this.amount + '</td></tr>');
+                    $('table').append('<tr><td>' + this.item + '</td><td>￥' + this.amount + '</td></tr>');
                 });
-                $('table').append('<tr><td align="right">以上物品合计</td><td>' +
+                $('table').append('<tr><td align="right">以上物品合计</td><td>￥' +
                     (Number(window.opener.refund_statement.cash_deducted_total) > 0 ? window.opener.refund_statement.cash_deducted_total : '') + '</td></tr>');
 
                 $('#operator').text(window.opener.refund_statement.operator);

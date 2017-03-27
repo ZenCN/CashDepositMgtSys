@@ -150,6 +150,7 @@ namespace Web.Controllers
 
                     if (sheet != null)
                     {
+                        IRow row = null;
                         ICell cell = sheet.GetRow(0).GetCell(0);
                         if (cell != null && cell.StringCellValue == "管理机构")
                         {
@@ -160,56 +161,60 @@ namespace Web.Controllers
                             Dictionary<int, string> field = GetFieldDic();
                             List<Generation_buckle> list = new List<Generation_buckle>();
                             Generation_buckle buckle = new Generation_buckle();
-                            .0
                             Type type = buckle.GetType();
                             System.Reflection.PropertyInfo property = null;
 
                             for (int r = startRow; r < rowCount; r++)
                             {
-                                buckle = new Generation_buckle();
-                                for (int c = 0; c < cellCount; c++)
+                                row = sheet.GetRow(r);
+                                if (row != null)
                                 {
-                                    cell = sheet.GetRow(r).GetCell(c);
-
-                                    if (cell != null)
+                                    buckle = new Generation_buckle();
+                                    for (int c = 0; c < cellCount; c++)
                                     {
-                                        property = type.GetProperty(field[c]);
+                                        cell = row.GetCell(c);
 
-                                        if (cell.CellType == CellType.Numeric)
+                                        if (cell != null)
                                         {
-                                            if (field[c] == "salesman_hiredate")
+                                            property = type.GetProperty(field[c]);
+
+                                            if (cell.CellType == CellType.Numeric)
                                             {
-                                                property.SetValue(buckle, cell.DateCellValue, null);
+                                                if (field[c] == "salesman_hiredate")
+                                                {
+                                                    property.SetValue(buckle, cell.DateCellValue, null);
+                                                }
+                                                else
+                                                {
+                                                    property.SetValue(buckle, Convert.ToDecimal(cell.NumericCellValue),
+                                                        null);
+                                                }
                                             }
                                             else
                                             {
-                                                property.SetValue(buckle, Convert.ToDecimal(cell.NumericCellValue), null);
+                                                property.SetValue(buckle, cell.StringCellValue, null);
                                             }
                                         }
-                                        else
-                                        {
-                                            property.SetValue(buckle, cell.StringCellValue, null);
-                                        }
                                     }
+                                    buckle.agency_code = Request.Cookies["agency_code"].Value;
+                                    buckle.recorder_code = Request.Cookies["user_code"].Value;
+                                    buckle.record_date = DateTime.Now;
+                                    buckle.channel = channel;
+                                    int level = int.Parse(Request.Cookies["user_level"].Value);
+                                    switch (level)
+                                    {
+                                        case 2:
+                                            buckle.review_state = 2;
+                                            break;
+                                        case 3:
+                                            buckle.review_state = 1;
+                                            break;
+                                        case 4:
+                                            buckle.review_state = 0;
+                                            break;
+                                    }
+                                    list.Add(buckle);
                                 }
-                                buckle.agency_code = Request.Cookies["agency_code"].Value;
-                                buckle.recorder_code = Request.Cookies["user_code"].Value;
-                                buckle.record_date = DateTime.Now;
-                                buckle.channel = channel;
-                                int level = int.Parse(Request.Cookies["user_level"].Value);
-                                switch (level)
-                                {
-                                    case 2:
-                                        buckle.review_state = 2;
-                                        break;
-                                    case 3:
-                                        buckle.review_state = 1;
-                                        break;
-                                    case 4:
-                                        buckle.review_state = 0;
-                                        break;
-                                }
-                                list.Add(buckle);
                             }
 
                             if (list.Any())
@@ -264,8 +269,10 @@ namespace Web.Controllers
             dic.Add(7, "salesman_bank_account_name");
             dic.Add(8, "salesman_bank_account_number");
             dic.Add(9, "salesman_bank_name");
-            dic.Add(10, "salesman_cash_deposit");
-            dic.Add(11, "remark");
+            dic.Add(10, "salesman_bank_province");
+            dic.Add(11, "salesman_bank_city");
+            dic.Add(12, "salesman_cash_deposit");
+            dic.Add(13, "remark");
 
             return dic;
         }

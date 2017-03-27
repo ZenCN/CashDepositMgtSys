@@ -129,7 +129,7 @@ namespace Service
             try
             {
                 var query = db.Generation_gives.Where(t =>
-                    t.channel == channel &&
+                    t.channel == channel && t.review_state == 6 &&
                     t.salesman_hiredate >= apply_start &&
                     t.salesman_hiredate <= apply_end).AsQueryable();
 
@@ -183,7 +183,7 @@ namespace Service
             try
             {
                 var query = db.Generation_gives.Where(t =>
-                    t.channel == channel &&
+                    t.channel == channel && t.review_state == 6 &&
                     t.salesman_hiredate >= apply_start &&
                     t.salesman_hiredate <= apply_end).AsQueryable();
 
@@ -299,7 +299,7 @@ namespace Service
             }
         }
 
-        public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name,
+        public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name, string salesman_code, string review_state,
             string user_code, string agency_code, int level)
         {
             db = new Db();
@@ -376,12 +376,23 @@ namespace Service
 
             if (!string.IsNullOrEmpty(salesman_card_id))
             {
-                query = query.Where(t => t.salesman_card_id.Contains(salesman_card_id));
+                query = query.Where(t => t.salesman_card_id.StartsWith(salesman_card_id));
             }
 
             if (!string.IsNullOrEmpty(salesman_name))
             {
                 query = query.Where(t => t.salesman_name.Contains(salesman_name));
+            }
+
+            if (!string.IsNullOrEmpty(salesman_code))
+            {
+                query = query.Where(t => t.salesman_code.StartsWith(salesman_code));
+            }
+
+            if (!string.IsNullOrEmpty(review_state))
+            {
+                int state = int.Parse(review_state);
+                query = query.Where(t => t.review_state == state);
             }
 
             list = query.ToList();
@@ -409,7 +420,7 @@ namespace Service
             }
         }
 
-        public Result Search(int page_index, int page_size, string salesman_card_id, string salesman_name,
+        public Result Search(int page_index, int page_size, string salesman_card_id, string salesman_name, string salesman_code, string review_state,
             string user_code, string agency_code, int level)
         {
             db = new Db();
@@ -488,12 +499,23 @@ namespace Service
 
                 if (!string.IsNullOrEmpty(salesman_card_id))
                 {
-                    query = query.Where(t => t.salesman_card_id.Contains(salesman_card_id));
+                    query = query.Where(t => t.salesman_card_id.StartsWith(salesman_card_id));
                 }
 
                 if (!string.IsNullOrEmpty(salesman_name))
                 {
                     query = query.Where(t => t.salesman_name.Contains(salesman_name));
+                }
+
+                if (!string.IsNullOrEmpty(salesman_code))
+                {
+                    query = query.Where(t => t.salesman_code.StartsWith(salesman_code));
+                }
+
+                if (!string.IsNullOrEmpty(review_state))
+                {
+                    int state = int.Parse(review_state);
+                    query = query.Where(t => t.review_state == state);
                 }
 
                 list = query.ToList();

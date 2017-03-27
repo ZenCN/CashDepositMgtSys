@@ -78,15 +78,15 @@ namespace Web.Controllers
             return JsonConvert.SerializeObject(svr.GetDeducteds(id));
         }
 
-        public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name)
+        public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name, string salesman_code, string review_state)
         {
-            svr.Export(page_index, page_size, salesman_card_id, salesman_name,
+            svr.Export(page_index, page_size, salesman_card_id, salesman_name, salesman_code, review_state,
                 Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value, int.Parse(Request.Cookies["user_level"].Value));
         }
 
-        public string Search(int page_index, int page_size, string salesman_card_id, string salesman_name)
+        public string Search(int page_index, int page_size, string salesman_card_id, string salesman_name, string salesman_code, string review_state)
         {
-            return JsonConvert.SerializeObject(svr.Search(page_index, page_size, salesman_card_id, salesman_name,
+            return JsonConvert.SerializeObject(svr.Search(page_index, page_size, salesman_card_id, salesman_name, salesman_code, review_state, 
                 Request["user_code"], Request["agency_code"], int.Parse(Request["user_level"])));
         }
 

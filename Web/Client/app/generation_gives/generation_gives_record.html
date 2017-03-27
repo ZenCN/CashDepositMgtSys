@@ -9,7 +9,7 @@
                 <div class="col-sm-4">
                     <div class="input-group">
                         <span class="input-group-addon">姓名</span>
-                        <input type="text" class="form-control" ng-model="model.salesman_name" required ng-maxlength="6"/>
+                        <input type="text" class="form-control" ng-model="model.salesman_name" disabled required ng-maxlength="6"/>
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -71,7 +71,8 @@
                 <div class="col-sm-5">
                     <div class="input-group">
                         <span class="input-group-addon">账户名</span>
-                        <input type="text" class="form-control" ng-model="model.salesman_bank_account_name" required ng-maxlength="25"/>
+                        <span class="input-group-addon" ng-if="model.review_state != -6 || model.review_state == -6 && model.process_result.indexOf('户名') < 0">{{model.salesman_bank_account_name}}</span>
+                        <input type="text" class="form-control" ng-if="model.review_state == -6 && model.process_result.indexOf('户名') >= 0" ng-model="model.salesman_bank_account_name" required ng-maxlength="25"/>
                     </div>
                 </div>
                 <div class="col-sm-7">
@@ -96,13 +97,13 @@
                 <div class="col-sm-6">
                     <div class="input-group">
                         <span class="input-group-addon">缴款金额</span>
-                        <input type="number" class="form-control" ng-model="model.salesman_cash_deposit" ng-blur="generation_gives.compute_salesman_refunds()" required ng-maxlength="6"/>
+                        <span class="input-group-addon">￥{{model.salesman_cash_deposit}}</span>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="input-group">
                         <span class="input-group-addon">退款金额</span>
-                        <input type="text" class="form-control" ng-model="model.salesman_refunds" readonly/>
+                        <span class="input-group-addon">￥{{model.salesman_refunds}}</span>
                     </div>
                 </div>
             </div>
@@ -140,7 +141,7 @@
                 </div>
                 <div class="col-sm-6 text-center" style="margin-bottom: 8px;">
                     <div class="input-group">
-                        <span class="input-group-addon">扣款金额</span>
+                        <span class="input-group-addon">扣款金额￥</span>
                         <input type="text" class="form-control" ng-model="model.deducted.amount"/>
                     </div>
                 </div>
@@ -161,14 +162,14 @@
                         </tr>
                         </thead>
                         <tbody ng-repeat="_this in model.deducted_items">
-                            <tr>
-                                <td>
-                                    <input type="checkbox" name="checkbox" style="width: 15px; height: 15px;" ng-model="_this.checked" />
-                                </td>
-                                <td>{{_this.item}}</td>
-                                <td>{{_this.amount}}</td>
-                                <td>{{_this.remark}}</td>
-                            </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="checkbox" style="width: 15px; height: 15px;" ng-model="_this.checked"/>
+                            </td>
+                            <td>{{_this.item}}</td>
+                            <td>￥{{_this.amount}}</td>
+                            <td>{{_this.remark}}</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

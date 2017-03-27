@@ -143,8 +143,6 @@
     <Content Include="Client\app\service\buckle_sum_details_svr.js" />
     <Content Include="Client\app\buckle_sum_details\buckle_sum_details.html" />
     <Content Include="Client\app\buckle_sum_details\buckle_sum_details_ctrl.js" />
-    <Content Include="Client\app\sys_settings\sys_settings.html" />
-    <Content Include="Client\app\sys_settings\sys_settings_ctrl.js" />
     <Content Include="Client\bower_component\angular-loading-bar\loading-bar.css" />
     <Content Include="Client\bower_component\angular-loading-bar\loading-bar.js" />
     <Content Include="Client\bower_component\angular-loading-bar\loading-bar.min.css" />

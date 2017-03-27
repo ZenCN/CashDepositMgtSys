@@ -104,6 +104,8 @@
                     page_size: vm.page.size,
                     salesman_card_id: search.condition.salesman_card_id,
                     salesman_name: search.condition.salesman_name,
+                    salesman_code: search.condition.salesman_code,
+                    review_state: search.condition.review_state,
                     t: Math.random()
                 }
             }, function(response) {

@@ -84,6 +84,7 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
+                    <th style="max-width: 47px;" rowspan="2">序号</th>
                     <th rowspan="2">管理机构</th>
                     <th rowspan="2">渠道</th>
                     <th colspan="4">销售人员信息</th>
@@ -110,6 +111,7 @@
                 </thead>
                 <tbody ng-repeat="_this in search.result.details">
                 <tr>
+                    <td>{{$index + 1}}</td>
                     <td>{{_this.agency_code}}</td>
                     <td>{{_this.channel}}</td>
                     <td>{{_this.salesman_name}}</td>

@@ -127,7 +127,7 @@ namespace Service
             try
             {
                 var query = db.Generation_buckle.Where(t =>
-                    t.channel == channel &&
+                    t.channel == channel && t.review_state == 5 &&
                     t.salesman_hiredate >= apply_start &&
                     t.salesman_hiredate <= apply_end).AsQueryable();
 
@@ -295,9 +295,9 @@ namespace Service
                     Entity.SaveChanges(db);
 
                 if (ignore.Count > 0)
-                    return new Result(ResultType.success, "但部分人员信息因已存在已被忽略导入，详见表格", ignore);
+                    return new Result(ResultType.success, "成功导入" + (list.Count - ignore.Count) + "条，部分人员信息已存在已被忽略导入，详见表格", ignore);
                 else
-                    return new Result(ResultType.success, "人员信息全部成功导入");
+                    return new Result(ResultType.success, "成功导入" + list.Count + "条");
             }
             catch (Exception ex)
             {
@@ -313,7 +313,7 @@ namespace Service
             try
             {
                 var query = db.Generation_buckle.Where(t =>
-                    t.channel == channel &&
+                    t.channel == channel && t.review_state == 5 &&
                     t.salesman_hiredate >= apply_start &&
                     t.salesman_hiredate <= apply_end).AsQueryable();
 

@@ -102,14 +102,6 @@
                     '../client/app/gives_schedule/gives_schedule_ctrl.js',
                     '../client/app/service/gives_schedule_svr.js'
                 ])
-            })
-            .state('dashboard.sys_settings', {
-                url: '/sys_settings',
-                controller: 'sys_settings_ctrl',
-                templateUrl: '../client/app/sys_settings/sys_settings.html',
-                resolve: resolve_dep([
-                    '../client/app/sys_settings/sys_settings_ctrl.js'
-                ])
             });
     }
 })();

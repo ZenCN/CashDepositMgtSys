@@ -1,7 +1,7 @@
 <div class=dashboard-page>
     <div class=container-fluid>
         <div class=row>
-            <div class="col-sm-3 col-md-2 sidebar">
+            <div class="sidebar" style="max-width: 217px;">
                 <div class=text-center>
                     <h2 class=brand>保证金
                         <small>管理系统</small>
@@ -29,12 +29,9 @@
                     <li ng-show="user.role == 'accountant'" ng-class="{active: state == 'gives_schedule'}" ng-click="state = 'gives_schedule'">
                         <a ui-sref="dashboard.gives_schedule">代付计提表 </a>
                     </li>
-                    <li ng-class="{active: state == 'sys_settings'}" ng-click="state = 'sys_settings'">
-                        <a ui-sref="dashboard.sys_settings">系统设置 </a>
-                    </li>
                 </ul>
             </div>
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ui-view>
+            <div class="main" style="margin-left: 217px;" ui-view>
 
             </div>
         </div>

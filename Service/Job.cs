@@ -176,7 +176,7 @@ namespace Service
                             }
                             else
                             {
-                                gives.review_state = -1; //失败退回到提交状态
+                                gives.review_state = -6; //失败退回到提交状态
                             }
                             gives.process_result = batch_detail.ErrMsg;
                             gives.finish_time = batch_detail.FinishTime;

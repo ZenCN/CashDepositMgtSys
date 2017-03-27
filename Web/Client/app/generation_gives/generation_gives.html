@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" style="margin-bottom: 10px;">
     <div class="col-sm-3">
         <div class="btn-group">
             <div class="btn-group" ng-if="user.level == 2 && user.role != 'financial' || user.level == 3">
@@ -47,7 +47,7 @@
                     ng-click="open_dialog('add')">
                 新增
             </button>
-            <button type="button" class="btn btn-md btn-primary" ng-controller="modal_ctrl"
+            <button type="button" class="btn btn-md btn-primary" ng-if="authority('modify')" ng-controller="modal_ctrl"
                     ng-click="open_dialog('modify','gives')">
                 修改
             </button>
@@ -59,6 +59,14 @@
             </button>
         </div>
     </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <div class="input-group input-group-md">
+            <span class="input-group-addon">工号</span>
+            <input type="text" class="form-control" ng-model="search.condition.salesman_code" />
+        </div>
+    </div>
     <div class="col-sm-3">
         <div class="input-group input-group-md">
             <span class="input-group-addon">证件号</span>
@@ -68,16 +76,16 @@
     <div class="col-sm-2">
         <div class="input-group input-group-md">
             <span class="input-group-addon">姓名</span>
-            <input type="text" class="form-control" ng-model="search.condition.salesman_name"/>
+            <input type="text" class="form-control" ng-model="search.condition.salesman_name" />
         </div>
     </div>
     <div class="col-sm-2">
         <div class="input-group input-group-md">
             <span class="input-group-addon">状态</span>
-            <select class="form-control">
-                <option value="处理中">处理中...</option>
-                <option value="代付成功">代付成功</option>
-                <option value="代付成功">代付失败</option>
+            <select class="form-control" ng-model="search.condition.review_state">
+                <option value="">————</option>
+                <option value="6">代付成功</option>
+                <option value="-6">代付失败</option>
             </select>
         </div>
     </div>
@@ -100,8 +108,9 @@
                     <tr>
                         <th rowspan="2" style="width: 32px;">
                             <input type="checkbox" name="checkbox" style="width: 15px; height: 15px;" ng-if="search.result.length > 0 && !search.has_repeated"
-                                   ng-model="select.checked" ng-click="select.all()" />
+                                   ng-model="select.checked" ng-click="select.all()"/>
                         </th>
+                        <th style="max-width: 47px;" rowspan="2">序号</th>
                         <th rowspan="2">管理机构</th>
                         <th rowspan="2">渠道</th>
                         <th colspan="6">销售人员信息</th>
@@ -129,8 +138,9 @@
                 <tbody ng-repeat="_this in search.result">
                     <tr ng-class="{ 'font-red-bold': search.has_repeated }" ng-click="select.one(_this)">
                         <td>
-                            <input type="checkbox" name="checkbox" style="width: 15px; height: 15px;" ng-if="!search.has_repeated && show_check_box(_this.review_state)" ng-model="_this.checked" />
+                            <input type="checkbox" name="checkbox" style="width: 15px; height: 15px;" ng-if="!search.has_repeated && show_check_box(_this)" ng-model="_this.checked"/>
                         </td>
+                        <td>{{$index + 1}}</td>
                         <td>{{_this.agency_code}}</td>
                         <td>{{_this.channel}}</td>
                         <td>{{_this.salesman_name}}</td>
@@ -142,8 +152,8 @@
                         <td>{{_this.salesman_bank_account_name}}</td>
                         <td>{{_this.salesman_bank_account_number}}</td>
                         <td>{{_this.salesman_bank_name}}</td>
-                        <td>{{_this.salesman_cash_deposit}}</td>
-                        <td>{{_this.salesman_refunds}}</td>
+                        <td>￥{{_this.salesman_cash_deposit}}</td>
+                        <td>￥{{_this.salesman_refunds}}</td>
                         <td>{{_this.remark}}</td>
                         <td title="{{review_state.name(_this.review_state)}}">
                             <span class="glyphicon glyphicon-remove" ng-if="search.has_repeated" style="color: red"></span>
@@ -155,7 +165,7 @@
                             <span class="glyphicon glyphicon-option-horizontal" ng-if="_this.review_state == 4" style="font-size: 19px;"></span>
                             <span class="glyphicon glyphicon-option-horizontal" ng-if="_this.review_state == 5" style="font-size: 19px;"></span>
                             <span class="glyphicon glyphicon-file" ng-if="_this.review_state == 6" style="font-size: 19px;"></span>
-                            <span class="glyphicon glyphicon-info-sign" ng-if="_this.review_state == -1" style="font-size: 19px;"></span>
+                            <span class="glyphicon glyphicon-info-sign" ng-if="_this.review_state == -6" style="font-size: 19px;"></span>
                         </td>
                         <td>
                             {{_this.process_result}}

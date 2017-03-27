@@ -83,18 +83,19 @@
         <div class="col-sm-12">
             <table class="table table-bordered">
                 <thead>
-                    <tr>
-                        <th rowspan="2">管理机构</th>
-                        <th rowspan="2">渠道</th>
-                        <th colspan="4">销售人员信息</th>
-                        <th colspan="3">销售人员银行账户信息</th>
-                        <th rowspan="2">申请日期</th>
-                        <th rowspan="2">状态</th>
-                        <th colspan="2">银行代付信息</th>
-                        <th rowspan="2">金额</th>
-                        <th rowspan="2">流水号</th>
-                        <th rowspan="2">备注</th>
-                    </tr>
+                <tr>
+                    <th style="max-width: 47px;" rowspan="2">序号</th>
+                    <th rowspan="2">管理机构</th>
+                    <th rowspan="2">渠道</th>
+                    <th colspan="4">销售人员信息</th>
+                    <th colspan="3">销售人员银行账户信息</th>
+                    <th rowspan="2">申请日期</th>
+                    <th rowspan="2">状态</th>
+                    <th colspan="2">银行代付信息</th>
+                    <th rowspan="2">金额</th>
+                    <th rowspan="2">流水号</th>
+                    <th rowspan="2">备注</th>
+                </tr>
                     <tr>
                         <th>姓名</th>
                         <th>证件类别</th>
@@ -109,24 +110,25 @@
                     </tr>
                 </thead>
                 <tbody ng-repeat="_this in search.result.details">
-                    <tr>
-                        <td>{{_this.agency_code}}</td>
-                        <td>{{_this.channel}}</td>
-                        <td>{{_this.salesman_name}}</td>
-                        <td>{{_this.salesman_card_type}}</td>
-                        <td>{{_this.salesman_card_id}}</td>
-                        <td>{{_this.salesman_phone}}</td>
-                        <td>{{_this.salesman_bank_account_name}}</td>
-                        <td>{{_this.salesman_bank_account_number}}</td>
-                        <td>{{_this.salesman_bank_name}}</td>
-                        <td>{{_this.salesman_hiredate.split('T')[0]}}</td>
-                        <td>{{_this.review_state == 6 ? "确认完成" : "未完成"}}</td>
-                        <td>{{_this.finish_time.replace('T',' ')}}</td>
-                        <td>{{_this.process_result}}</td>
-                        <td>{{_this.salesman_refunds}}</td>
-                        <td>{{_this.gather_serial_num}}</td>
-                        <td>{{_this.remark}}</td>
-                    </tr>
+                <tr>
+                    <td>{{$index + 1}}</td>
+                    <td>{{_this.agency_code}}</td>
+                    <td>{{_this.channel}}</td>
+                    <td>{{_this.salesman_name}}</td>
+                    <td>{{_this.salesman_card_type}}</td>
+                    <td>{{_this.salesman_card_id}}</td>
+                    <td>{{_this.salesman_phone}}</td>
+                    <td>{{_this.salesman_bank_account_name}}</td>
+                    <td>{{_this.salesman_bank_account_number}}</td>
+                    <td>{{_this.salesman_bank_name}}</td>
+                    <td>{{_this.salesman_hiredate.split('T')[0]}}</td>
+                    <td>{{_this.review_state == 6 ? "确认完成" : "未完成"}}</td>
+                    <td>{{_this.finish_time.replace('T',' ')}}</td>
+                    <td>{{_this.process_result}}</td>
+                    <td>{{_this.salesman_refunds}}</td>
+                    <td>{{_this.gather_serial_num}}</td>
+                    <td>{{_this.remark}}</td>
+                </tr>
                 </tbody>
             </table>
         </div>
