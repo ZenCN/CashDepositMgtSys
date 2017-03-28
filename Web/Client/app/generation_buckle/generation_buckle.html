@@ -1,23 +1,5 @@
 <div class="row" style="margin-bottom: 10px;">
-    <div class="col-sm-2">
-        <div class="input-group">
-            <span class="input-group-addon">渠道</span>
-            <select class="form-control" ng-model="import_channel">
-                <option value="团险">团险</option>
-                <option value="银保">银保</option>
-                <option value="个险">个险</option>
-            </select>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <input name="file" type="file" class="file" multiple data-show-preview="false" single-upload/>
-    </div>
-    <div class="col-sm-4">
-        <a class="btn btn-info" href="../../../Excel/保证金代扣模板.xls">下载模板</a>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <div class="btn-group">
             <button type="button" class="btn btn-md btn-success" ng-if="user.level == 4" ng-click="review_state.change(1)">
                 提交
@@ -54,9 +36,39 @@
             <button ng-if="authority('push')" type="button" class="btn btn-md btn-primary" ng-click="review_state.change(4)">
                 <span class="glyphicon glyphicon-usd" style="color: #ab3434" aria-hidden="true"></span> 推送
             </button>
+            <a class="btn btn-info" href="../../../Excel/保证金代扣模板.xls">下载模板</a>
         </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
+        <div class="input-group">
+            <span class="input-group-addon">渠道</span>
+            <select class="form-control" ng-model="import_channel">
+                <option value="团险">团险</option>
+                <option value="银保">银保</option>
+                <option value="个险">个险</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <input name="file" type="file" class="file" multiple data-show-preview="false" single-upload/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="input-group">
+            <span class="input-group-addon">申请时间</span>
+            <input type="text" class="form-control" ng-model="search.condition.apply_start" readonly
+                   datepicker-popup="{{format}}" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
+                   date-disabled="disabled(date, mode)" ng-click="open($event)" is-open="write_time_opened"
+                   current-text="今天" close-text="关闭" clear-text="清除" ng-controller="datepicker_ctrl">
+            <span class="input-group-addon">至</span>
+            <input type="text" class="form-control" ng-model="search.condition.apply_end" readonly
+                   datepicker-popup="{{format}}" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
+                   date-disabled="disabled(date, mode)" ng-click="open($event)" is-open="write_time_opened"
+                   current-text="今天" close-text="关闭" clear-text="清除" ng-controller="datepicker_ctrl">
+        </div>
+    </div>
+    <div class="col-sm-2">
         <div class="input-group input-group-md">
             <span class="input-group-addon">证件号</span>
             <input type="text" class="form-control" ng-model="search.condition.salesman_card_id"/>
@@ -66,6 +78,17 @@
         <div class="input-group input-group-md">
             <span class="input-group-addon">姓名</span>
             <input type="text" class="form-control" ng-model="search.condition.salesman_name"/>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="input-group input-group-md">
+            <span class="input-group-addon">状态</span>
+            <select class="form-control" ng-model="search.condition.review_state">
+                <option value="">全部</option>
+                <option value="normal">处理中...</option>
+                <option value="5">代扣成功</option>
+                <option value="-5">代扣失败</option>
+            </select>
         </div>
     </div>
     <div class="col-sm-2">
@@ -105,7 +128,7 @@
                     <th>证件类别</th>
                     <th>证件号</th>
                     <th>手机号</th>
-                    <th>入职时间</th>
+                    <th>申请日期</th>
                     <th>账户名</th>
                     <th>账号</th>
                     <th>开户行</th>
@@ -113,10 +136,10 @@
                     <th>处理时间</th>
                 </tr>
                 </thead>
-                <tbody ng-repeat="_this in search.result">
-                <tr ng-class="{ 'font-red-bold': search.has_repeated }" ng-click="select.one(_this)">
+                <tbody>
+                <tr ng-repeat="_this in search.result" ng-class="{'font-red-bold':search.has_repeated,error:_this.review_state == -5,success:_this.review_state == 5}" ng-click="select.one(_this)">
                     <td>
-                        <input type="checkbox" name="checkbox" style="width: 15px; height: 15px;" ng-if="!search.has_repeated && show_check_box(_this.review_state)" ng-model="_this.checked"/>
+                        <input type="checkbox" name="checkbox" style="width: 15px; height: 15px;" ng-if="!search.has_repeated && show_check_box(_this)" ng-model="_this.checked"/>
                     </td>
                     <td>{{$index + 1}}</td>
                     <td>{{_this.agency_code}}</td>

@@ -73,7 +73,8 @@
         };
 
         vm.export = function() {
-            var url = 'generation_gives/export?page_index=' + vm.page.index + '&page_size=' + vm.page.size;
+            var url = 'generation_gives/export?page_index=' + vm.page.index + '&page_size=' + vm.page.size + '&apply_start=' + vm.search.condition.apply_start.to_str()
+                + ' 00:00:00&apply_end=' + vm.search.condition.apply_end.to_str() + ' 23:59:59';
 
             if (isString(vm.search.condition.salesman_card_id)) {
                 url += '&salesman_card_id=' + vm.search.condition.salesman_card_id;
@@ -156,7 +157,9 @@
                 salesman_card_id: undefined,
                 salesman_name: undefined,
                 salesman_code: undefined,
-                review_state: ''
+                review_state: '',
+                apply_start: new Date().get_day(-30),
+                apply_end: new Date()
             },
             result: [],
             from_svr: function() {

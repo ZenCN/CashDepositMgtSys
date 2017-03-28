@@ -60,8 +60,8 @@
                     <th>单位</th>
                 </tr>
                 </thead>
-                <tbody ng-repeat="_this in search.result">
-                <tr>
+                <tbody>
+                <tr ng-repeat="_this in search.result">
                     <td>{{$index + 1}}</td>
                     <td>{{_this.salesman_name}}</td>
                     <td>{{_this.channel}}</td>

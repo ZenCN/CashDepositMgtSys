@@ -24,7 +24,7 @@ namespace Web.Controllers
         {
             List<int> list = new List<int>();
 
-            var str_arr = ids.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            var str_arr = ids.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var id in str_arr)
             {
                 list.Add(int.Parse(id));
@@ -33,7 +33,8 @@ namespace Web.Controllers
             return JsonConvert.SerializeObject(svr.Delete(list));
         }
 
-        public string QuerySchedule(int page_index, int page_size, string agency_code, string channel, string apply_start,
+        public string QuerySchedule(int page_index, int page_size, string agency_code, string channel,
+            string apply_start,
             string apply_end)
         {
             return
@@ -45,7 +46,6 @@ namespace Web.Controllers
         public void ExportSchedule(int page_index, int page_size, string agency_code, string channel,
             DateTime apply_start, DateTime apply_end)
         {
-
             svr.ExportSchedule(page_index, page_size, agency_code, channel, apply_start,
                 apply_end, Request["user_jurisdiction"] ?? "");
         }
@@ -78,16 +78,21 @@ namespace Web.Controllers
             return JsonConvert.SerializeObject(svr.GetDeducteds(id));
         }
 
-        public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name, string salesman_code, string review_state)
+        public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name,
+            string salesman_code, string review_state, DateTime apply_start, DateTime apply_end)
         {
-            svr.Export(page_index, page_size, salesman_card_id, salesman_name, salesman_code, review_state,
-                Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value, int.Parse(Request.Cookies["user_level"].Value));
+            svr.Export(page_index, page_size, salesman_card_id, salesman_name, salesman_code, review_state, apply_start,
+                apply_end, Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value,
+                int.Parse(Request.Cookies["user_level"].Value));
         }
 
-        public string Search(int page_index, int page_size, string salesman_card_id, string salesman_name, string salesman_code, string review_state)
+        public string Search(int page_index, int page_size, string salesman_card_id, string salesman_name,
+            string salesman_code, string review_state, string apply_start, string apply_end)
         {
-            return JsonConvert.SerializeObject(svr.Search(page_index, page_size, salesman_card_id, salesman_name, salesman_code, review_state, 
-                Request["user_code"], Request["agency_code"], int.Parse(Request["user_level"])));
+            return
+                JsonConvert.SerializeObject(svr.Search(page_index, page_size, salesman_card_id, salesman_name,
+                    salesman_code, review_state, DateTime.Parse(apply_start), DateTime.Parse(apply_end),
+                    Request["user_code"], Request["agency_code"], int.Parse(Request["user_level"])));
         }
 
         public string ChangeReviewState(string ids, int state)

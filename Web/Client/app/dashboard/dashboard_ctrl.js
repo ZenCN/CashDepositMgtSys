@@ -106,6 +106,8 @@
                     salesman_name: search.condition.salesman_name,
                     salesman_code: search.condition.salesman_code,
                     review_state: search.condition.review_state,
+                    apply_start: search.condition.apply_start.to_str() + ' 00:00:00',
+                    apply_end: search.condition.apply_end.to_str() + ' 23:59:59',
                     t: Math.random()
                 }
             }, function(response) {

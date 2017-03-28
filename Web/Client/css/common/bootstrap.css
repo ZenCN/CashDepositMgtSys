@@ -24,6 +24,16 @@ table tr:hover td {
     background-color: #f5f5f5;
 }
 
+table tr.error td {
+    background-color: #e8a1a1;
+    color: rgb(2, 2, 2);
+}
+
+table tr.success td {
+    background-color: #ade2ad;
+    color: rgb(2, 2, 2);
+}
+
 fieldset {
     text-align: left !important;
     padding: 10px !important;

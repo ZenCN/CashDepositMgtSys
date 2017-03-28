@@ -55,7 +55,8 @@
                     '../client/app/service/generation_buckle_svr.js',
                     '../client/bower_component/bootstrap-fileinput/css/fileinput.min.css',
                     '../client/bower_component/bootstrap-fileinput/js/fileinput.min.js',
-                    '../client/app/directive/sing_upload.js'
+                    '../client/app/directive/sing_upload.js',
+                    '../client/app/directive/regexp.js'
                 ])
             })
             .state('dashboard.generation_gives', {
@@ -64,7 +65,8 @@
                 templateUrl: '../client/app/generation_gives/generation_gives.html',
                 resolve: resolve_dep([
                     '../client/app/generation_gives/generation_gives_ctrl.js',
-                    '../client/app/service/generation_gives_svr.js'
+                    '../client/app/service/generation_gives_svr.js',
+                    '../client/app/directive/regexp.js'
                 ])
             })
             .state('dashboard.buckle_sum_details', {

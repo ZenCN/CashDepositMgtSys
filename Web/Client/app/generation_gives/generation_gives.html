@@ -1,5 +1,5 @@
 <div class="row" style="margin-bottom: 10px;">
-    <div class="col-sm-3">
+    <div class="col-sm-4">
         <div class="btn-group">
             <div class="btn-group" ng-if="user.level == 2 && user.role != 'financial' || user.level == 3">
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
@@ -61,13 +61,21 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-2">
-        <div class="input-group input-group-md">
-            <span class="input-group-addon">工号</span>
-            <input type="text" class="form-control" ng-model="search.condition.salesman_code" />
+    <div class="col-sm-4">
+        <div class="input-group">
+            <span class="input-group-addon">申请时间</span>
+            <input type="text" class="form-control" ng-model="search.condition.apply_start" readonly
+                   datepicker-popup="{{format}}" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
+                   date-disabled="disabled(date, mode)" ng-click="open($event)" is-open="write_time_opened"
+                   current-text="今天" close-text="关闭" clear-text="清除" ng-controller="datepicker_ctrl">
+            <span class="input-group-addon">至</span>
+            <input type="text" class="form-control" ng-model="search.condition.apply_end" readonly
+                   datepicker-popup="{{format}}" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions"
+                   date-disabled="disabled(date, mode)" ng-click="open($event)" is-open="write_time_opened"
+                   current-text="今天" close-text="关闭" clear-text="清除" ng-controller="datepicker_ctrl">
         </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
         <div class="input-group input-group-md">
             <span class="input-group-addon">证件号</span>
             <input type="text" class="form-control" ng-model="search.condition.salesman_card_id" />
@@ -75,15 +83,16 @@
     </div>
     <div class="col-sm-2">
         <div class="input-group input-group-md">
-            <span class="input-group-addon">姓名</span>
-            <input type="text" class="form-control" ng-model="search.condition.salesman_name" />
+            <span class="input-group-addon">工号</span>
+            <input type="text" class="form-control" ng-model="search.condition.salesman_code" />
         </div>
     </div>
     <div class="col-sm-2">
         <div class="input-group input-group-md">
             <span class="input-group-addon">状态</span>
             <select class="form-control" ng-model="search.condition.review_state">
-                <option value="">————</option>
+                <option value="">全部</option>
+                <option value="normal">处理中...</option>
                 <option value="6">代付成功</option>
                 <option value="-6">代付失败</option>
             </select>
@@ -127,7 +136,7 @@
                         <th>证件类别</th>
                         <th>证件号</th>
                         <th>手机号</th>
-                        <th>入职时间</th>
+                        <th>申请日期</th>
                         <th>账户名</th>
                         <th>账号</th>
                         <th>开户行</th>
@@ -135,8 +144,8 @@
                         <th>处理时间</th>
                     </tr>
                 </thead>
-                <tbody ng-repeat="_this in search.result">
-                    <tr ng-class="{ 'font-red-bold': search.has_repeated }" ng-click="select.one(_this)">
+                <tbody>
+                    <tr ng-repeat="_this in search.result" ng-class="{error:_this.review_state == -6,success:_this.review_state == 6}" ng-click="select.one(_this)">
                         <td>
                             <input type="checkbox" name="checkbox" style="width: 15px; height: 15px;" ng-if="!search.has_repeated && show_check_box(_this)" ng-model="_this.checked"/>
                         </td>

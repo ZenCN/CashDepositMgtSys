@@ -24,7 +24,7 @@
                 <div class="col-sm-5">
                     <div class="input-group">
                         <span class="input-group-addon">手机号</span>
-                        <input type="text" class="form-control" ng-model="model.salesman_phone" required ng-maxlength="15"/>
+                        <input type="text" class="form-control" ng-model="model.salesman_phone" ng-regexp="phone_num" required ng-maxlength="15"/>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                 <div class="col-sm-7">
                     <div class="input-group">
                         <span class="input-group-addon">证件号</span>
-                        <input type="text" class="form-control" ng-model="model.salesman_card_id" required ng-maxlength="20"/>
+                        <input type="text" class="form-control" ng-model="model.salesman_card_id" ng-regexp="idcard" required ng-maxlength="20"/>
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                 <div class="col-sm-10">
                     <div class="input-group">
                         <span class="input-group-addon">账号</span>
-                        <input type="text" class="form-control" ng-model="model.salesman_bank_account_number" required ng-maxlength="25"/>
+                        <input type="text" class="form-control" ng-model="model.salesman_bank_account_number" ng-regexp="bank_acc_num" required ng-maxlength="25"/>
                     </div>
                 </div>
             </div>

@@ -34,7 +34,8 @@ namespace Service
             }
         }
 
-        public Result QuerySchedule(int page_index, int page_size, string agency_code, string channel, DateTime apply_start, DateTime apply_end)
+        public Result QuerySchedule(int page_index, int page_size, string agency_code, string channel,
+            DateTime apply_start, DateTime apply_end)
         {
             db = new Db();
 
@@ -60,9 +61,10 @@ namespace Service
                 int page_count = 0;
                 int record_count = 0;
                 record_count = list.Count;
-                page_count = ((record_count + page_size) - 1) / page_size;
+                page_count = ((record_count + page_size) - 1)/page_size;
 
-                list = list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index * page_size).Take(page_size).ToList();
+                list =
+                    list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index*page_size).Take(page_size).ToList();
 
                 return new Result(ResultType.success, new
                 {
@@ -77,7 +79,8 @@ namespace Service
             }
         }
 
-        public void ExportSchedule(int page_index, int page_size, string agency_code, string channel, DateTime apply_start, DateTime apply_end, string user_jurisdiction)
+        public void ExportSchedule(int page_index, int page_size, string agency_code, string channel,
+            DateTime apply_start, DateTime apply_end, string user_jurisdiction)
         {
             db = new Db();
 
@@ -103,12 +106,14 @@ namespace Service
                 int page_count = 0;
                 int record_count = 0;
                 record_count = list.Count;
-                page_count = ((record_count + page_size) - 1) / page_size;
+                page_count = ((record_count + page_size) - 1)/page_size;
 
-                list = list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index * page_size).Take(page_size).ToList();
+                list =
+                    list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index*page_size).Take(page_size).ToList();
 
                 List<string> p_codes = new List<string>();
-                string[] arr = HttpUtility.UrlDecode(user_jurisdiction).Split(new string[] { "、" }, StringSplitOptions.RemoveEmptyEntries);
+                string[] arr = HttpUtility.UrlDecode(user_jurisdiction)
+                    .Split(new string[] {"、"}, StringSplitOptions.RemoveEmptyEntries);
                 p_codes.AddRange(arr);
                 var agency = db.Agency.Where(t => p_codes.Contains(t.p_code) || p_codes.Contains(t.code)).ToList();
 
@@ -120,7 +125,8 @@ namespace Service
             }
         }
 
-        public Result SumDetails(int page_index, int page_size, string agency_code, string channel, DateTime apply_start, DateTime apply_end)
+        public Result SumDetails(int page_index, int page_size, string agency_code, string channel, DateTime apply_start,
+            DateTime apply_end)
         {
             db = new Db();
 
@@ -146,9 +152,10 @@ namespace Service
                 int page_count = 0;
                 int record_count = 0;
                 record_count = list.Count;
-                page_count = ((record_count + page_size) - 1) / page_size;
+                page_count = ((record_count + page_size) - 1)/page_size;
 
-                list = list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index * page_size).Take(page_size).ToList();
+                list =
+                    list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index*page_size).Take(page_size).ToList();
 
                 return new Result(ResultType.success, new
                 {
@@ -212,6 +219,7 @@ namespace Service
         }
 
         public Result Search(int page_index, int page_size, string salesman_card_id, string salesman_name,
+            string review_state, DateTime apply_start, DateTime apply_end,
             string user_code, string agency_code, int level)
         {
             db = new Db();
@@ -220,11 +228,13 @@ namespace Service
             int page_count = 0;
             int record_count = 0;
 
-            IQueryable<Generation_buckle> query = db.Generation_buckle.Where(t => t.is_deleted != 1);
+            IQueryable<Generation_buckle> query =
+                db.Generation_buckle.Where(
+                    t => t.is_deleted != 1 && t.salesman_hiredate >= apply_start && t.salesman_hiredate <= apply_end);
             switch (level)
             {
                 case 2:
-                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3);
+                    query = query.Where(t => t.review_state >= 2 || t.review_state == -5);
                     break;
                 case 3:
                     string code = agency_code.Substring(0, 4);
@@ -253,12 +263,25 @@ namespace Service
                 query = query.Where(t => t.salesman_name.Contains(salesman_name));
             }
 
+            if (!string.IsNullOrEmpty(review_state))
+            {
+                if (review_state == "normal")
+                {
+                    query = query.Where(t => t.review_state != 5 && t.review_state != -5);
+                }
+                else
+                {
+                    int state = int.Parse(review_state);
+                    query = query.Where(t => t.review_state == state);
+                }
+            }
+
             list = query.ToList();
 
             record_count = list.Count;
             page_count = ((record_count + page_size) - 1)/page_size;
 
-            list = list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index*page_size).Take(page_size).ToList();
+            list = list.OrderBy(t => t.salesman_hiredate).Skip(page_index*page_size).Take(page_size).ToList();
 
             return new Result(ResultType.success,
                 new {record_count = record_count, page_count = page_count, list = list});
@@ -295,7 +318,8 @@ namespace Service
                     Entity.SaveChanges(db);
 
                 if (ignore.Count > 0)
-                    return new Result(ResultType.success, "成功导入" + (list.Count - ignore.Count) + "条，部分人员信息已存在已被忽略导入，详见表格", ignore);
+                    return new Result(ResultType.success,
+                        "成功导入" + (list.Count - ignore.Count) + "条，部分人员信息已存在已被忽略导入，详见表格", ignore);
                 else
                     return new Result(ResultType.success, "成功导入" + list.Count + "条");
             }
@@ -332,9 +356,10 @@ namespace Service
                 int page_count = 0;
                 int record_count = 0;
                 record_count = list.Count;
-                page_count = ((record_count + page_size) - 1) / page_size;
+                page_count = ((record_count + page_size) - 1)/page_size;
 
-                list = list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index * page_size).Take(page_size).ToList();
+                list =
+                    list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index*page_size).Take(page_size).ToList();
 
                 Sum sum = new Sum()
                 {
@@ -356,6 +381,7 @@ namespace Service
         }
 
         public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name,
+            string review_state, DateTime apply_start, DateTime apply_end,
             string user_code, string agency_code, int level)
         {
             db = new Db();
@@ -364,11 +390,13 @@ namespace Service
             int page_count = 0;
             int record_count = 0;
 
-            IQueryable<Generation_buckle> query = db.Generation_buckle.Where(t => t.is_deleted != 1);
+            IQueryable<Generation_buckle> query =
+                db.Generation_buckle.Where(
+                    t => t.is_deleted != 1 && t.salesman_hiredate >= apply_start && t.salesman_hiredate <= apply_end);
             switch (level)
             {
                 case 2:
-                    query = query.Where(t => t.review_state >= 2 || t.review_state == -3);
+                    query = query.Where(t => t.review_state >= 2 || t.review_state == -5);
                     break;
                 case 3:
                     string code = agency_code.Substring(0, 4);
@@ -397,12 +425,25 @@ namespace Service
                 query = query.Where(t => t.salesman_name.Contains(salesman_name));
             }
 
+            if (!string.IsNullOrEmpty(review_state))
+            {
+                if (review_state == "normal")
+                {
+                    query = query.Where(t => t.review_state != 5 && t.review_state != -5);
+                }
+                else
+                {
+                    int state = int.Parse(review_state);
+                    query = query.Where(t => t.review_state == state);
+                }
+            }
+
             list = query.ToList();
 
             record_count = list.Count;
             page_count = ((record_count + page_size) - 1)/page_size;
 
-            list = list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index*page_size).Take(page_size).ToList();
+            list = list.OrderBy(t => t.salesman_hiredate).Skip(page_index*page_size).Take(page_size).ToList();
 
             new Excel().Export(list);
         }

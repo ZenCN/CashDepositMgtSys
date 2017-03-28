@@ -43,7 +43,8 @@ namespace Web.Controllers
                     DateTime.Parse(apply_end)));
         }
 
-        public string QuerySchedule(int page_index, int page_size, string agency_code, string channel, string apply_start,
+        public string QuerySchedule(int page_index, int page_size, string agency_code, string channel,
+            string apply_start,
             string apply_end)
         {
             return
@@ -55,7 +56,6 @@ namespace Web.Controllers
         public void ExportSchedule(int page_index, int page_size, string agency_code, string channel,
             DateTime apply_start, DateTime apply_end)
         {
-
             svr.ExportSchedule(page_index, page_size, agency_code, channel, apply_start,
                 apply_end, Request["user_jurisdiction"] ?? "");
         }
@@ -103,10 +103,12 @@ namespace Web.Controllers
             return JsonConvert.SerializeObject(svr.Save(generation_buckle));
         }
 
-        public string Search(int page_index, int page_size, string salesman_card_id, string salesman_name)
+        public string Search(int page_index, int page_size, string salesman_card_id, string salesman_name,
+            string review_state, string apply_start, string apply_end)
         {
             return
                 JsonConvert.SerializeObject(svr.Search(page_index, page_size, salesman_card_id, salesman_name,
+                    review_state, DateTime.Parse(apply_start), DateTime.Parse(apply_end),
                     Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value,
                     int.Parse(Request.Cookies["user_level"].Value)));
         }
@@ -118,9 +120,10 @@ namespace Web.Controllers
                 apply_end);
         }
 
-        public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name)
+        public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name,
+            string review_state, string apply_start, string apply_end)
         {
-            svr.Export(page_index, page_size, salesman_card_id, salesman_name,
+            svr.Export(page_index, page_size, salesman_card_id, salesman_name, review_state, DateTime.Parse(apply_start), DateTime.Parse(apply_end),
                 Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value,
                 int.Parse(Request.Cookies["user_level"].Value));
         }

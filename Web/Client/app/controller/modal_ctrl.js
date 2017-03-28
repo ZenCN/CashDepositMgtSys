@@ -14,6 +14,7 @@
             var html = undefined;
             vm.model = {
                 title: undefined,
+                action: action,
                 salesman_sex: "男",
                 salesman_card_type: "身份证",
                 channel: "个险"

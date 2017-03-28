@@ -109,8 +109,8 @@
 
                 </tr>
                 </thead>
-                <tbody ng-repeat="_this in search.result.details">
-                <tr>
+                <tbody>
+                <tr ng-repeat="_this in search.result.details">
                     <td>{{$index + 1}}</td>
                     <td>{{_this.agency_code}}</td>
                     <td>{{_this.channel}}</td>
