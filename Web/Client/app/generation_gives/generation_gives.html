@@ -13,7 +13,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" ng-click="review_state.change(-3)">
+                        <a href="javascript:void(0)" ng-controller="modal_ctrl" ng-click="open_dialog(-3,'remark')">
                             <span class="glyphicon glyphicon-remove-circle" style="color: red" aria-hidden="true"></span> 初审拒绝
                         </a>
                     </li>
@@ -25,7 +25,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" ng-click="review_state.change(-4)">
+                        <a href="javascript:void(0)" ng-controller="modal_ctrl" ng-click="open_dialog(-4,'remark')">
                             <span class="glyphicon glyphicon-remove-circle" style="color: red" aria-hidden="true"></span> 复审拒绝
                         </a>
                     </li>
@@ -37,7 +37,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" ng-click="review_state.change(-2)">
+                        <a href="javascript:void(0)" ng-controller="modal_ctrl" ng-click="open_dialog(-2,'remark')">
                             <span class="glyphicon glyphicon-remove-circle" style="color: red" aria-hidden="true"></span> 拒绝
                         </a>
                     </li>

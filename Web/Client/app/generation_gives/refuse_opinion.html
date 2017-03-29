@@ -1,0 +1,12 @@
+﻿<form role="form" name="form" class="form-horizontal" novalidate>
+    <div class="modal-header">
+        <h3 class="modal-title">{{model.title}}</h3>
+    </div>
+    <div class="modal-body">
+        <textarea class="form-control" rows="3" ng-model="model.opinion"></textarea>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-click="save()">保存</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</form>

@@ -233,6 +233,38 @@ namespace Service
             }
         }
 
+        public Result SaveOpinion(List<int> ids, string opinion, int review_state)
+        {
+            db = new Db();
+
+            try
+            {
+                var list = db.Generation_gives.Where(t => ids.Contains(t.id)).ToList();
+
+                if (list.Any())
+                {
+                    list.ForEach(t =>
+                    {
+                        t.remark = opinion;
+                        t.review_state = review_state;
+                        db.Update(t);
+                    });
+
+                    db.SaveChanges();
+
+                    return new Result(ResultType.success);
+                }
+                else
+                {
+                    return new Result(ResultType.query_nothing);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Result(ResultType.error, new Message(ex).ErrorDetails);
+            }
+        }
+
         public Result Save(string generation_gives, string deducted_items, int level)
         {
             db = new Db();

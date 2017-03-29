@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using Infrastructure.Exception;
@@ -17,14 +18,14 @@ namespace Web.Controllers
 {
     public class Generation_givesController : Controller
     {
-        private Result result = null;
-        private Generation_givesSvr svr = new Generation_givesSvr();
+        private Result result;
+        private readonly Generation_givesSvr svr = new Generation_givesSvr();
 
         public string Delete(string ids)
         {
-            List<int> list = new List<int>();
+            var list = new List<int>();
 
-            var str_arr = ids.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries);
+            var str_arr = ids.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var id in str_arr)
             {
                 list.Add(int.Parse(id));
@@ -66,6 +67,18 @@ namespace Web.Controllers
                 apply_end);
         }
 
+        public string SaveOpinion(string ids, string opinion, int review_state)
+        {
+            List<int> list = new List<int>();
+            string[] arr = ids.Split(new string[] {"，"}, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < arr.Length; i++)
+            {
+                list.Add(int.Parse(arr[i]));
+            }
+
+            return JsonConvert.SerializeObject(svr.SaveOpinion(list, opinion, review_state));
+        }
+
         public string Save(string generation_gives, string deducted_items)
         {
             result = svr.Save(generation_gives, deducted_items, int.Parse(Request.Cookies["user_level"].Value));
@@ -97,9 +110,9 @@ namespace Web.Controllers
 
         public string ChangeReviewState(string ids, int state)
         {
-            List<int> list = new List<int>();
+            var list = new List<int>();
 
-            var str_arr = ids.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries);
+            var str_arr = ids.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var id in str_arr)
             {
                 list.Add(int.Parse(id));
@@ -133,28 +146,28 @@ namespace Web.Controllers
 
                     if (sheet != null)
                     {
-                        ICell cell = sheet.GetRow(0).GetCell(0);
+                        var cell = sheet.GetRow(0).GetCell(0);
                         if (cell != null && cell.StringCellValue == "管理机构")
                         {
-                            int startRow = 2;
-                            int rowCount = sheet.LastRowNum;
+                            var startRow = 2;
+                            var rowCount = sheet.LastRowNum;
                             int cellCount = sheet.GetRow(0).LastCellNum; //一行最后一个cell的编号 即总的列数
 
-                            Dictionary<int, string> field = GetFieldDic();
-                            List<Generation_gives> list = new List<Generation_gives>();
-                            Generation_gives gives = new Generation_gives();
+                            var field = GetFieldDic();
+                            var list = new List<Generation_gives>();
+                            var gives = new Generation_gives();
 
-                            Type type = gives.GetType();
-                            System.Reflection.PropertyInfo property = null;
+                            var type = gives.GetType();
+                            PropertyInfo property = null;
 
-                            for (int r = startRow; r <= rowCount; r++)
+                            for (var r = startRow; r <= rowCount; r++)
                             {
                                 gives = new Generation_gives();
                                 gives.agency_code = Request.Cookies["agency_code"].Value;
                                 gives.recorder_code = Request.Cookies["user_code"].Value;
                                 gives.record_date = DateTime.Now;
                                 gives.review_state = 0;
-                                for (int c = 0; c < cellCount; c++)
+                                for (var c = 0; c < cellCount; c++)
                                 {
                                     cell = sheet.GetRow(r).GetCell(c);
                                     property = type.GetProperty(field[c]);
@@ -212,7 +225,7 @@ namespace Web.Controllers
 
         private Dictionary<int, string> GetFieldDic()
         {
-            Dictionary<int, string> dic = new Dictionary<int, string>();
+            var dic = new Dictionary<int, string>();
             dic.Add(0, "agency_code");
             dic.Add(1, "salesman_name");
             dic.Add(2, "salesman_sex");

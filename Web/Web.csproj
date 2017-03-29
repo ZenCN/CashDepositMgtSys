@@ -129,6 +129,7 @@
     <Content Include="Client\app\generation_gives\generation_gives_ctrl.js" />
     <Content Include="Client\app\generation_gives\generation_gives_record.html" />
     <Content Include="Client\app\generation_gives\refund_statement.html" />
+    <Content Include="Client\app\generation_gives\refuse_opinion.html" />
     <Content Include="Client\app\gives_schedule\gives_schedule.html" />
     <Content Include="Client\app\gives_schedule\gives_schedule_ctrl.js" />
     <Content Include="Client\app\gives_sum_details\gives_sum_details.html" />
