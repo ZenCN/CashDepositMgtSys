@@ -216,7 +216,7 @@
                         this.compute_salesman_refunds();
                     }
                 },
-                print: function () {
+                print: function() {
                     /*var exist = false;
                     $.each(vm.model.deducted_items, function () {
                         if (this.id == undefined) {
@@ -259,37 +259,37 @@
                 },
                 save: function($valid) {
                     //if ($valid) {
-                    if (isString(vm.model.deducted.item) && confirm('新的扣款项目尚未录入')) {
-                        return;
+                    if (vm.model.deducted && isString(vm.model.deducted.item)) {
+                        return msg('新的扣款项目尚未录入');
                     }
 
                     var generation_gives = angular.copy(vm.model);
-                        delete generation_gives.$$hashKey;
-                        delete generation_gives.deducted;
+                    delete generation_gives.$$hashKey;
+                    delete generation_gives.deducted;
 
-                        if (!generation_gives.id && typeof generation_gives.salesman_hiredate == "object") {
-                            generation_gives.salesman_hiredate = generation_gives.salesman_hiredate.to_str("-");
-                        }
+                    if (!generation_gives.id && typeof generation_gives.salesman_hiredate == "object") {
+                        generation_gives.salesman_hiredate = generation_gives.salesman_hiredate.to_str("-");
+                    }
 
-                        generation_gives =
-                            $.extend(generation_gives, {
-                                recorder_code: $.cookie("user_code"),
-                                review_state: 0,
-                                agency_code: $.cookie("agency_code")
-                            });
+                    generation_gives =
+                        $.extend(generation_gives, {
+                            recorder_code: $.cookie("user_code"),
+                            review_state: 0,
+                            agency_code: $.cookie("agency_code")
+                        });
 
-                        var deducted_items = generation_gives.deducted_items;
-                        delete generation_gives.deducted_items;
+                    var deducted_items = generation_gives.deducted_items;
+                    delete generation_gives.deducted_items;
 
-                        svr.http("generation_gives/save?generation_gives=" + angular.toJson(generation_gives) +
-                            "&deducted_items=" + (deducted_items ? angular.toJson(deducted_items) : ""), function(response) {
-                                if (response.data.result == "success") {
-                                    msg("保存成功!");
-                                    $modalInstance.close("save");
-                                } else {
-                                    msg(response.data.msg, 2000);
-                                }
-                            });
+                    svr.http("generation_gives/save?generation_gives=" + angular.toJson(generation_gives) +
+                        "&deducted_items=" + (deducted_items ? angular.toJson(deducted_items) : ""), function(response) {
+                            if (response.data.result == "success") {
+                                msg("保存成功!");
+                                $modalInstance.close("save");
+                            } else {
+                                msg(response.data.msg, 2000);
+                            }
+                        });
 
                     /*} else {
                         msg('销售人员信息不完整，请完成所有必填项！', 1500);

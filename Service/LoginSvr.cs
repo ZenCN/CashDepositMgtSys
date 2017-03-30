@@ -7,7 +7,7 @@ using Service.Model;
 
 namespace Service
 {
-    public class LoginSvr: BaseSvr
+    public class LoginSvr : BaseSvr
     {
         public Result QueryUserInfo(string user_code)
         {
@@ -15,26 +15,42 @@ namespace Service
 
             if (staff != null)
             {
-                string agency = "";
-
                 if (staff.role == "accountant")
                 {
+                    Agencys agency_info = null;
+                    List<Agencys> agencys = null;
+
                     List<string> p_codes = new List<string>();
                     string[] arr = staff.jurisdiction.Split(new string[] {"、"}, StringSplitOptions.RemoveEmptyEntries);
                     p_codes.AddRange(arr);
-                    var list = (from t in db.Agency
-                        where p_codes.Contains(t.p_code) || p_codes.Contains(t.code)
-                        select new
+
+                    agencys = (from t in db.Agency
+                        where p_codes.Contains(t.code)
+                        select new Agencys()
                         {
                             code = t.code,
                             name = t.name
                         }).ToList();
-                    agency = "{";
-                    list.ForEach(t =>
+
+                    agencys.ForEach(_this =>
                     {
-                        agency += "\"" + t.code.Trim() + "\":\"" + t.name.Trim() + "\",";
+                        _this.lower = (from t in db.Agency
+                            where t.p_code == _this.code
+                            select new Agencys()
+                            {
+                                code = t.code,
+                                name = t.name
+                            }).ToList();
                     });
-                    agency = agency.Remove(agency.Length - 1) + "}";
+
+                    return new Result(ResultType.success,
+                        new
+                        {
+                            role = staff.role,
+                            authority = staff.authority,
+                            jurisdiction = staff.jurisdiction,
+                            agency = agencys
+                        });
                 }
                 else
                 {
@@ -44,21 +60,36 @@ namespace Service
                             code = t.code,
                             name = t.name
                         }).ToList();
-                    agency = "{";
+                    string agency = "{";
                     list.ForEach(t =>
                     {
                         agency += "\"" + t.code.Trim() + "\":\"" + t.name.Trim() + "\",";
                     });
                     agency = agency.Remove(agency.Length - 1) + "}";
-                }
 
-                return new Result(ResultType.success,
-                    new {role = staff.role, authority = staff.authority, jurisdiction = staff.jurisdiction, agency = agency });
+                    return new Result(ResultType.success,
+                        new
+                        {
+                            role = staff.role,
+                            authority = staff.authority,
+                            jurisdiction = staff.jurisdiction,
+                            agency = agency
+                        });
+                }
             }
             else
             {
                 return new Result(ResultType.query_nothing);
             }
         }
+    }
+
+    public class Agencys
+    {
+        public string code { get; set; }
+
+        public string name { get; set; }
+
+        public List<Agencys> lower { get; set; }
     }
 }

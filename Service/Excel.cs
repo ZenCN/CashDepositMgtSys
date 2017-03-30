@@ -22,7 +22,7 @@ namespace Service
 
             int strat_row = 2;
             ISheet sheet = hssfworkbook.GetSheetAt(0);
-            sheet = CreateCell(sheet, list.Count, 15, strat_row);
+            sheet = CreateCell(sheet, list.Count + 1, 15, strat_row);
 
             ICell cell = null;
             ICellStyle cell_style = SetCellStyle(sheet);
@@ -92,6 +92,14 @@ namespace Service
                     : list[i].finish_time.Value.ToString("yyyy/M/d HH:mm"));
                 cell.CellStyle = cell_style;
             }
+
+            cell = sheet.GetRow(strat_row + list.Count).GetCell(10);
+            cell.SetCellValue("退款合计");
+
+            decimal? salesman_refunds = list.Sum(t => t.salesman_refunds);
+            cell = sheet.GetRow(strat_row + list.Count).GetCell(11);
+            cell.SetCellValue(salesman_refunds == null ? "" : salesman_refunds.ToString());
+            cell.CellStyle = cell_style;
 
             ResponseExcel(hssfworkbook);
         }
@@ -228,8 +236,10 @@ namespace Service
             sheet.GetRow(3).GetCell(5).SetCellValue(sum.amount == null ? "" : sum.amount.ToString());
             sheet.GetRow(3).GetCell(6).SetCellValue(sum.channel);
 
-            int strat_row = 8;
-            sheet = CreateCell(sheet, list.Count, 16, strat_row);
+            sheet = hssfworkbook.GetSheetAt(1);
+
+            int strat_row = 3;
+            sheet = CreateCell(sheet, list.Count + 2, 16, strat_row);
 
             ICell cell = null;
             ICellStyle cell_style = SetCellStyle(sheet);
@@ -299,6 +309,21 @@ namespace Service
                 cell.SetCellValue(list[i].remark);
                 cell.CellStyle = cell_style;
             }
+            cell = sheet.GetRow(strat_row + list.Count).GetCell(7);
+            cell.SetCellValue("主管：");
+            cell.CellStyle = Center(sheet);
+
+            cell = sheet.GetRow(strat_row + list.Count).GetCell(10);
+            cell.SetCellValue("复核：");
+            cell.CellStyle = Center(sheet);
+
+            cell = sheet.GetRow(strat_row + list.Count).GetCell(13);
+            cell.SetCellValue("制表：");
+            cell.CellStyle = Right(sheet);
+
+            cell = sheet.GetRow(strat_row + list.Count + 1).GetCell(13);
+            cell.SetCellValue("打印时间：");
+            cell.CellStyle = Right(sheet);
 
             ResponseExcel(hssfworkbook);
         }
@@ -321,8 +346,10 @@ namespace Service
             sheet.GetRow(3).GetCell(5).SetCellValue(sum.amount == null ? "" : sum.amount.ToString());
             sheet.GetRow(3).GetCell(6).SetCellValue(sum.channel);
 
-            int strat_row = 8;
-            sheet = CreateCell(sheet, list.Count, 16, strat_row);
+            sheet = hssfworkbook.GetSheetAt(1);
+
+            int strat_row = 3;
+            sheet = CreateCell(sheet, list.Count + 2, 16, strat_row);
 
             ICell cell = null;
             ICellStyle cell_style = SetCellStyle(sheet);
@@ -392,6 +419,21 @@ namespace Service
                 cell.SetCellValue(list[i].remark);
                 cell.CellStyle = cell_style;
             }
+            cell = sheet.GetRow(strat_row + list.Count).GetCell(7);
+            cell.SetCellValue("主管：");
+            cell.CellStyle = Center(sheet);
+
+            cell = sheet.GetRow(strat_row + list.Count).GetCell(10);
+            cell.SetCellValue("复核：");
+            cell.CellStyle = Center(sheet);
+
+            cell = sheet.GetRow(strat_row + list.Count).GetCell(13);
+            cell.SetCellValue("制表：");
+            cell.CellStyle = Right(sheet);
+
+            cell = sheet.GetRow(strat_row + list.Count + 1).GetCell(13);
+            cell.SetCellValue("打印时间：");
+            cell.CellStyle = Right(sheet);
 
             ResponseExcel(hssfworkbook);
         }
@@ -406,7 +448,7 @@ namespace Service
 
             int strat_row = 2;
             ISheet sheet = hssfworkbook.GetSheetAt(0);
-            sheet = CreateCell(sheet, list.Count, 16, strat_row);
+            sheet = CreateCell(sheet, list.Count + 1, 16, strat_row);
 
             ICell cell = null;
             ICellStyle cell_style = SetCellStyle(sheet);
@@ -480,6 +522,13 @@ namespace Service
                     : list[i].finish_time.Value.ToString("yyyy/M/d HH:mm"));
                 cell.CellStyle = cell_style;
             }
+            cell = sheet.GetRow(strat_row + list.Count).GetCell(11);
+            cell.SetCellValue("金额合计");
+
+            decimal? salesman_cash_deposit = list.Sum(t => t.salesman_cash_deposit);
+            cell = sheet.GetRow(strat_row + list.Count).GetCell(12);
+            cell.SetCellValue(salesman_cash_deposit == null ? "" : salesman_cash_deposit.ToString());
+            cell.CellStyle = cell_style;
 
             ResponseExcel(hssfworkbook);
         }
@@ -517,6 +566,19 @@ namespace Service
             style.BorderLeft = BorderStyle.Thin;
             style.BorderRight = BorderStyle.Thin;
             style.BorderTop = BorderStyle.Thin;
+            return style;
+        }
+        private ICellStyle Center(ISheet sheet)
+        {
+            ICellStyle style = sheet.Workbook.CreateCellStyle();
+            style.Alignment = HorizontalAlignment.Center;//水平对齐居中
+            return style;
+        }
+
+        private ICellStyle Right(ISheet sheet)
+        {
+            ICellStyle style = sheet.Workbook.CreateCellStyle();
+            style.Alignment = HorizontalAlignment.Right;
             return style;
         }
 

@@ -9,3 +9,12 @@ ul.nav.nav-sidebar li.active a{
     color: #234254 !important;
     font-weight: bolder;
 }
+
+.main {
+    margin-left: 217px;
+}
+
+.main.sso {
+    margin-left: 0;
+    padding: 10px;
+}

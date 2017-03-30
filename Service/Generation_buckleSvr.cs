@@ -139,12 +139,19 @@ namespace Service
 
                 if (!string.IsNullOrEmpty(agency_code))
                 {
-                    agency_code = agency_code.Substring(0, 4);
-                    query = query.Where(t => t.agency_code.StartsWith(agency_code));
+                    if (agency_code.Substring(4) == "00") //市级
+                    {
+                        string tmp = agency_code.Substring(0, 4);
+                        query = query.Where(t => t.agency_code.StartsWith(tmp));
+                    }
+                    else
+                    {
+                        query = query.Where(t => t.agency_code == agency_code);
+                    }
                 }
                 else
                 {
-                    agency_code = "4300";
+                    agency_code = "430000";
                 }
 
                 var list = query.ToList();
@@ -165,7 +172,7 @@ namespace Service
                     {
                         apply_start = apply_start.ToString("yyyy-MM-dd"),
                         apply_end = apply_end.ToString("yyyy-MM-dd"),
-                        agency_code = agency_code + "00",
+                        agency_code = agency_code,
                         item = "代收",
                         count = list.Count,
                         amount = list.Sum(t => t.salesman_cash_deposit),
@@ -343,12 +350,19 @@ namespace Service
 
                 if (!string.IsNullOrEmpty(agency_code))
                 {
-                    agency_code = agency_code.Substring(0, 4);
-                    query = query.Where(t => t.agency_code.StartsWith(agency_code));
+                    if (agency_code.Substring(4) == "00") //市级
+                    {
+                        string tmp = agency_code.Substring(0, 4);
+                        query = query.Where(t => t.agency_code.StartsWith(tmp));
+                    }
+                    else
+                    {
+                        query = query.Where(t => t.agency_code == agency_code);
+                    }
                 }
                 else
                 {
-                    agency_code = "4300";
+                    agency_code = "430000";
                 }
 
                 var list = query.ToList();
@@ -365,7 +379,7 @@ namespace Service
                 {
                     apply_start = apply_start.ToString("yyyy-MM-dd"),
                     apply_end = apply_end.ToString("yyyy-MM-dd"),
-                    agency_code = agency_code + "00",
+                    agency_code = agency_code,
                     item = "代收",
                     count = list.Count,
                     amount = list.Sum(t => t.salesman_cash_deposit),

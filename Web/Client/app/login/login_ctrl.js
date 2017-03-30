@@ -104,36 +104,36 @@
                             "ResultData": {
                                 "ErpNo": "14372546",
                                 "RealName": "株洲茶陵",
-                                "BranchNo": "430201",
+                                "BranchNo": "430224",
                                 "BranchName": "湖南省株洲市茶陵县分公司"
                             },
                             "ErrInfo": ""
                         }
                     };
                     break;
-                case '祁阳1':
+                case '零陵1':
                     response = {
                         data: {
                             "Success": true,
                             "ResultData": {
                                 "ErpNo": "14386546",
-                                "RealName": "祁阳-1",
+                                "RealName": "零陵-1",
                                 "BranchNo": "432901",
-                                "BranchName": "湖南省永州市祁阳县分公司"
+                                "BranchName": "湖南省永州市零陵县分公司"
                             },
                             "ErrInfo": ""
                         }
                     };
                     break;
-                case '祁阳2':
+                case '零陵2':
                     response = {
                         data: {
                             "Success": true,
                             "ResultData": {
                                 "ErpNo": "14382446",
-                                "RealName": "祁阳-2",
+                                "RealName": "零陵-2",
                                 "BranchNo": "432901",
-                                "BranchName": "湖南省永州市祁阳县分公司"
+                                "BranchName": "湖南省永州市零陵县分公司"
                             },
                             "ErrInfo": ""
                         }
@@ -151,6 +151,7 @@
                     level = 4;
                 }
 
+                $.cookie('sso', 0);
                 $.cookie('user_level', level);
                 $.cookie('user_code', response.data.ResultData.ErpNo);
                 $.cookie('user_name', response.data.ResultData.RealName);
@@ -171,7 +172,7 @@
                             }
 
                             if (response.data.extra.agency != null) {
-                                $.cookie('agency', response.data.extra.agency);
+                                $.cookie('agency', angular.toJson(response.data.extra.agency));
                             }
                             
                             $state.go('dashboard.generation_buckle');
@@ -188,25 +189,50 @@
 
             /*login_svr.validate(vm.user, function(response) {
                 if (response.data.Success) {
-                    $.extend(vm.user, {
-                        name: response.data.ResultData.RealName,
-                        agency: {
-                            code: response.data.ResultData.BranchNo,
-                            name: response.data.ResultData.BranchName
-                        },
-                        dept_name: response.data.ResultData.DeptName
-                    });
-
-                    delete vm.user.password;
-                    delete vm.user.$$hashKey;
-                    $r_scope.user = vm.user;
-
-                    //console.log(vm.user);
-
-                    $state.go('dashboard.generation_buckle');
+                var level = undefined;
+                if (response.data.ResultData.BranchNo.slice(2) == '0000') {
+                    level = 2;
+                } else if (response.data.ResultData.BranchNo.slice(4) == '00') {
+                    level = 3;
                 } else {
-                    vm.validate.error = response.data.ErrInfo;
+                    level = 4;
                 }
+
+                $.cookie('sso', 0);
+                $.cookie('user_level', level);
+                $.cookie('user_code', response.data.ResultData.ErpNo);
+                $.cookie('user_name', response.data.ResultData.RealName);
+                $.cookie('agency_code', response.data.ResultData.BranchNo);
+                $.cookie('agency_name', response.data.ResultData.BranchName);
+
+                if (level == 2) {
+                    svr.query_user_info(response.data.ResultData.ErpNo, function (response) {
+                        if (response.data.result == 'success') {
+                            $.cookie('user_role', response.data.extra.role);
+
+                            if (response.data.extra.authority != null) {
+                                $.cookie('user_authority', response.data.extra.authority);
+                            }
+
+                            if (response.data.extra.jurisdiction != null) {
+                                $.cookie('user_jurisdiction', response.data.extra.jurisdiction);
+                            }
+
+                            if (response.data.extra.agency != null) {
+                                $.cookie('agency', angular.toJson(response.data.extra.agency));
+                            }
+                            
+                            $state.go('dashboard.generation_buckle');
+                        } else {
+                            msg('无使用权限，非法操作！');
+                        }
+                    });
+                } else {
+                    $state.go('dashboard.generation_buckle');
+                }
+            } else {
+                vm.validate.error = response.data.ErrInfo;
+            }
             });*/
         };
 

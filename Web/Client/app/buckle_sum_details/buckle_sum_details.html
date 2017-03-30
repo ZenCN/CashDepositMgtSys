@@ -3,8 +3,10 @@
         <div class="input-group input-group-md">
             <span class="input-group-addon">机构名称</span>
             <select class="form-control" ng-model="search.condition.agency_code">
-                <option value="">————————</option>
-                <option ng-repeat="(key, val) in user.agency" value="{{key}}">{{val}}</option>
+                <option value="">所有机构</option>
+                <option ng-repeat="agency in user.agency" value="{{agency.code}}">
+                    {{agency.is_lower ? '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + agency.name : agency.name}}
+                </option>
             </select>
         </div>
     </div>

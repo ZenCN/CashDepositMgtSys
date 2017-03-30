@@ -9,6 +9,7 @@
 
     function dashboard_ctrl(vm, svr, $state) {
         vm.user = {
+            sso: Number($.cookie('sso')) > 0 ? true : false,
             level: Number($.cookie('user_level')),
             code: $.cookie('user_code'),
             name: $.cookie('user_name'),
@@ -18,7 +19,7 @@
             }
         }
 
-        if (typeof vm.user.level != "number") {
+        if (typeof vm.user.level != "number" || vm.user.sso && location.href.indexOf('?') < 0) {
             $state.go('login');
         } else if (vm.user.level == 2) {
             vm.user.role = $.cookie('user_role');
@@ -33,6 +34,21 @@
 
             if (isString($.cookie('agency'))) {
                 vm.user.agency = JSON.parse($.cookie('agency'));
+                var arr = [];
+                $.each(vm.user.agency, function () {
+                    arr.push({
+                        code: this.code,
+                        name: this.name
+                    });
+                    $.each(this.lower, function () {
+                        arr.push({
+                            code: this.code,
+                            name: this.name,
+                            is_lower: true
+                        });
+                    });
+                });
+                vm.user.agency = arr;
             }
         }
 
@@ -96,7 +112,7 @@
             }
         };
 
-        vm.load_page_data = function (search) {
+        vm.load_page_data = function(search) {
             svr.http({
                 url: $state.$current.name.split('.').the_last() + '/search',
                 params: {

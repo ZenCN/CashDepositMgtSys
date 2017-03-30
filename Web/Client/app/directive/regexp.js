@@ -15,6 +15,7 @@
 
                 if (vm[arr[0]][arr[1]] == "" || vm[arr[0]][arr[1]] == undefined) {
                     $element.parent().removeClass('has-error');
+                    $element.next().fadeOut();
                     return;
                 }
 
@@ -36,8 +37,10 @@
 
                 if (!result) {
                     $element.parent().addClass('has-error');
+                    $element.next().fadeIn();
                 } else {
                     $element.parent().removeClass('has-error');
+                    $element.next().fadeOut();
                 }
             });
         }
