@@ -190,12 +190,17 @@
                     svr.review.change_state(ids, state, function(response) {
                         if (response.data.result == 'success') {
                             var remove = [-2, -3, -4].exist(state);
+                            var pass = [2, 3, 4].exist(state);
                             $.each(selected, function() {
                                 if (remove) {
                                     vm.search.result.seek('id', this.id, 'del');
                                 } else {
                                     this.checked = false;
                                     this.review_state = state;
+
+                                    if (pass) {
+                                        this.remark = undefined;
+                                    }
                                 }
                             });
 

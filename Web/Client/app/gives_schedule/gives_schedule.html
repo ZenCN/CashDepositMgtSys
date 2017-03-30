@@ -73,8 +73,8 @@
                     <td>付</td>
                     <td>{{_this.salesman_cash_deposit}}</td>
                     <td><span class="glyphicon glyphicon-ok"></span></td>
-                    <td>6222256801000081</td>
-                    <td>{{user.agency[_this.agency_code.trim()]}}</td>
+                    <td>{{user.account_pay}}</td>
+                    <td>{{user.agency.seek('code',_this.agency_code,'name')}}</td>
                 </tr>
                 </tbody>
             </table>

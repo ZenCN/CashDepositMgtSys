@@ -174,6 +174,14 @@
                             if (response.data.extra.agency != null) {
                                 $.cookie('agency', angular.toJson(response.data.extra.agency));
                             }
+
+                            if (response.data.extra.account_pay != null) {
+                                $.cookie('account_pay', response.data.extra.account_pay);
+                            }
+
+                            if (response.data.extra.account_gather != null) {
+                                $.cookie('account_gather', response.data.extra.account_gather);
+                            }
                             
                             $state.go('dashboard.generation_buckle');
                         } else {
@@ -220,6 +228,14 @@
 
                             if (response.data.extra.agency != null) {
                                 $.cookie('agency', angular.toJson(response.data.extra.agency));
+                            }
+
+                            if (response.data.extra.account_pay != null) {
+                                $.cookie('account_pay', response.data.extra.account_pay);
+                            }
+
+                            if (response.data.extra.account_gather != null) {
+                                $.cookie('account_gather', response.data.extra.account_gather);
                             }
                             
                             $state.go('dashboard.generation_buckle');

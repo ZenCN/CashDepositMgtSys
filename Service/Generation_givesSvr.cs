@@ -619,6 +619,8 @@ namespace Service
 
                     if (state == 2) //市级审核通过后，判断是否为上线后的数据，如果是则直接提交到省财务
                     {
+                        t.remark = null;
+
                         buckle_success =
                             db.Generation_buckle.SingleOrDefault(b => b.salesman_card_id == t.salesman_card_id
                                                                       && b.salesman_hiredate == t.salesman_hiredate &&
@@ -628,6 +630,10 @@ namespace Service
                         {
                             t.review_state = 4; //上线后的直接推送到省财务,等待财务推送
                         }
+                    }
+                    else if (state == 3 || state == 4)  //初审、复审通过
+                    {
+                        t.remark = null;
                     }
                 });
 
