@@ -356,11 +356,11 @@ namespace Service
             {
                 Generation_gives gives = JsonConvert.DeserializeObject<Generation_gives>(generation_gives);
 
-                var old_gives =
-                    db.Generation_gives.SingleOrDefault(
+                var list = db.Generation_gives.Where(
                         t =>
                             t.salesman_card_id == gives.salesman_card_id &&
-                            t.salesman_hiredate == gives.salesman_hiredate);
+                            t.salesman_hiredate == gives.salesman_hiredate).ToList();
+                var old_gives = list.Any() ? list.First() : null;
 
                 if (old_gives == null || gives.id > 0)
                 {

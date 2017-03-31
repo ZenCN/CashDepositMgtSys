@@ -175,7 +175,7 @@
                     msg('菜单登录出错！');
                 }
 
-                /*$http.get('login/decode?userno=' + userno + '&pwd=' + pwd, function (response) {
+                /*$http.get('login/decodeuserinfo?userno=' + userno + '&pwd=' + pwd, function (response) {
                     $http.get('http://10.20.147.103:8080/api/json/reply/login?username=' + response.data.userno + '&password='
                         + response.data.pwd + '&t' + Math.random()).then(function (response) {
                         if (response.data.Success) {

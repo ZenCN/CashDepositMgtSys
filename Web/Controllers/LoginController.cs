@@ -27,7 +27,7 @@ namespace Web.Controllers
 
         public string DecodeUserInfo(string userno, string pwd)
         {
-            return "{\"userno\":\"" + Decode(userno) + "\",\"pwd\":\"" + Decode(pwd) + "\"}";
+            return "{\"userno\":\"" + Decode(userno.Replace(" ", "+")) + "\",\"pwd\":\"" + Decode(pwd.Replace(" ", "+")) + "\"}";
         }
 
         private string Decode(string decryptString)
@@ -35,7 +35,7 @@ namespace Web.Controllers
             try
             {
                 byte[] Keys = { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };
-                string decryptKey = "qianxun8";
+                string decryptKey = "minglong";
                 decryptKey = GetSubString(decryptKey, 8, "");
                 decryptKey = decryptKey.PadRight(8, ' ');
                 byte[] rgbKey = Encoding.UTF8.GetBytes(decryptKey);
@@ -49,9 +49,9 @@ namespace Web.Controllers
                 cStream.FlushFinalBlock();
                 return Encoding.UTF8.GetString(mStream.ToArray());
             }
-            catch
+            catch(Exception ex)
             {
-                return "";
+                return ex.Message;
             }
         }
 

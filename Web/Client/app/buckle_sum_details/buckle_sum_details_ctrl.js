@@ -50,7 +50,7 @@
             condition: {
                 agency_code: '',
                 channel: "个险",
-                apply_start: new Date().get_day(-7),
+                apply_start: new Date().get_day(-30),
                 apply_end: new Date()
             },
             result: {
