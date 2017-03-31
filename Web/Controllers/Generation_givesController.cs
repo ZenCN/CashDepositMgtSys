@@ -41,14 +41,14 @@ namespace Web.Controllers
             return
                 JsonConvert.SerializeObject(svr.QuerySchedule(page_index, page_size, agency_code, channel,
                     DateTime.Parse(apply_start),
-                    DateTime.Parse(apply_end)));
+                    DateTime.Parse(apply_end), HttpUtility.UrlDecode(Request.Cookies["user_jurisdiction"].Value)));
         }
 
         public void ExportSchedule(int page_index, int page_size, string agency_code, string channel,
             DateTime apply_start, DateTime apply_end)
         {
             svr.ExportSchedule(page_index, page_size, agency_code, channel, apply_start,
-                apply_end, Request["user_jurisdiction"] ?? "");
+                apply_end, HttpUtility.UrlDecode(Request.Cookies["user_jurisdiction"].Value));
         }
 
         public string SumDetails(int page_index, int page_size, string agency_code, string channel, string apply_start,
@@ -57,14 +57,14 @@ namespace Web.Controllers
             return
                 JsonConvert.SerializeObject(svr.SumDetails(page_index, page_size, agency_code, channel,
                     DateTime.Parse(apply_start),
-                    DateTime.Parse(apply_end)));
+                    DateTime.Parse(apply_end), HttpUtility.UrlDecode(Request.Cookies["user_jurisdiction"].Value)));
         }
 
         public void ExportSumDetails(int page_index, int page_size, string agency_code, string channel,
             DateTime apply_start, DateTime apply_end)
         {
             svr.ExportSumDetails(page_index, page_size, agency_code, channel, apply_start,
-                apply_end);
+                apply_end, HttpUtility.UrlDecode(Request.Cookies["user_jurisdiction"].Value));
         }
 
         public string SaveOpinion(string ids, string opinion, int review_state)

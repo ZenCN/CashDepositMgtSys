@@ -6,6 +6,7 @@ using System.Text;
 using System.Transactions;
 using System.Web;
 using Infrastructure.Exception;
+using Infrastructure.Helper;
 using Infrastructure.Operation;
 using Quartz;
 using Service.Model;
@@ -35,7 +36,7 @@ namespace Service
         }
 
         public Result QuerySchedule(int page_index, int page_size, string agency_code, string channel,
-            DateTime apply_start, DateTime apply_end)
+            DateTime apply_start, DateTime apply_end, string user_jurisdiction)
         {
             db = new Db();
 
@@ -48,12 +49,32 @@ namespace Service
 
                 if (!string.IsNullOrEmpty(agency_code))
                 {
-                    agency_code = agency_code.Substring(0, 4);
-                    query = query.Where(t => t.agency_code.StartsWith(agency_code));
+                    if (agency_code.Substring(4) == "00") //市级
+                    {
+                        string tmp = agency_code.Substring(0, 4);
+                        query = query.Where(t => t.agency_code.StartsWith(tmp));
+                    }
+                    else
+                    {
+                        query = query.Where(t => t.agency_code == agency_code);
+                    }
                 }
                 else
                 {
-                    agency_code = "4300";
+                    if (!string.IsNullOrEmpty(user_jurisdiction))
+                    {
+                        var expression = PredicateBuilder.False<Generation_buckle>();
+                        var arr = user_jurisdiction.Split(new string[] { "、" },
+                            StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < arr.Length; i++)
+                        {
+
+                            string city_code = arr[i].Substring(0, 4);
+                            expression = expression.Or(t => t.agency_code.StartsWith(city_code));
+                        }
+
+                        query = query.Where(expression.Compile()).AsQueryable();
+                    }
                 }
 
                 var list = query.ToList();
@@ -61,10 +82,10 @@ namespace Service
                 int page_count = 0;
                 int record_count = 0;
                 record_count = list.Count;
-                page_count = ((record_count + page_size) - 1)/page_size;
+                page_count = ((record_count + page_size) - 1) / page_size;
 
                 list =
-                    list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index*page_size).Take(page_size).ToList();
+                    list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index * page_size).Take(page_size).ToList();
 
                 return new Result(ResultType.success, new
                 {
@@ -93,27 +114,41 @@ namespace Service
 
                 if (!string.IsNullOrEmpty(agency_code))
                 {
-                    agency_code = agency_code.Substring(0, 4);
-                    query = query.Where(t => t.agency_code.StartsWith(agency_code));
+                    if (agency_code.Substring(4) == "00") //市级
+                    {
+                        string tmp = agency_code.Substring(0, 4);
+                        query = query.Where(t => t.agency_code.StartsWith(tmp));
+                    }
+                    else
+                    {
+                        query = query.Where(t => t.agency_code == agency_code);
+                    }
                 }
                 else
                 {
-                    agency_code = "4300";
+                    if (!string.IsNullOrEmpty(user_jurisdiction))
+                    {
+                        var expression = PredicateBuilder.False<Generation_buckle>();
+                        var str_arr = user_jurisdiction.Split(new string[] { "、" },
+                            StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < str_arr.Length; i++)
+                        {
+
+                            string city_code = str_arr[i].Substring(0, 4);
+                            expression = expression.Or(t => t.agency_code.StartsWith(city_code));
+                        }
+
+                        query = query.Where(expression.Compile()).AsQueryable();
+                    }
                 }
 
                 var list = query.ToList();
 
-                int page_count = 0;
-                int record_count = 0;
-                record_count = list.Count;
-                page_count = ((record_count + page_size) - 1)/page_size;
-
                 list =
-                    list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index*page_size).Take(page_size).ToList();
+                    list.OrderByDescending(t => t.salesman_hiredate).Skip(page_index * page_size).Take(page_size).ToList();
 
                 List<string> p_codes = new List<string>();
-                string[] arr = HttpUtility.UrlDecode(user_jurisdiction)
-                    .Split(new string[] {"、"}, StringSplitOptions.RemoveEmptyEntries);
+                string[] arr = user_jurisdiction.Split(new string[] {"、"}, StringSplitOptions.RemoveEmptyEntries);
                 p_codes.AddRange(arr);
                 var agency = db.Agency.Where(t => p_codes.Contains(t.p_code) || p_codes.Contains(t.code)).ToList();
 
@@ -126,7 +161,7 @@ namespace Service
         }
 
         public Result SumDetails(int page_index, int page_size, string agency_code, string channel, DateTime apply_start,
-            DateTime apply_end)
+            DateTime apply_end, string user_jurisdiction)
         {
             db = new Db();
 
@@ -152,6 +187,21 @@ namespace Service
                 else
                 {
                     agency_code = "430000";
+
+                    if (!string.IsNullOrEmpty(user_jurisdiction))
+                    {
+                        var expression = PredicateBuilder.False<Generation_buckle>();
+                        var arr = user_jurisdiction.Split(new string[] {"、"},
+                            StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < arr.Length; i++)
+                        {
+                            
+                            string city_code = arr[i].Substring(0, 4);
+                            expression = expression.Or(t => t.agency_code.StartsWith(city_code));
+                        }
+
+                        query = query.Where(expression.Compile()).AsQueryable();
+                    }
                 }
 
                 var list = query.ToList();
@@ -337,7 +387,7 @@ namespace Service
         }
 
         public void ExportSumDetails(int page_index, int page_size, string agency_code, string channel,
-            DateTime apply_start, DateTime apply_end)
+            DateTime apply_start, DateTime apply_end, string user_jurisdiction)
         {
             db = new Db();
 
@@ -363,6 +413,21 @@ namespace Service
                 else
                 {
                     agency_code = "430000";
+
+                    if (!string.IsNullOrEmpty(user_jurisdiction))
+                    {
+                        var expression = PredicateBuilder.False<Generation_buckle>();
+                        var arr = user_jurisdiction.Split(new string[] { "、" },
+                            StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < arr.Length; i++)
+                        {
+
+                            string city_code = arr[i].Substring(0, 4);
+                            expression = expression.Or(t => t.agency_code.StartsWith(city_code));
+                        }
+
+                        query = query.Where(expression.Compile()).AsQueryable();
+                    }
                 }
 
                 var list = query.ToList();
