@@ -73,8 +73,8 @@
                     <td>收</td>
                     <td>{{_this.salesman_cash_deposit}}</td>
                     <td><span class="glyphicon glyphicon-ok"></span></td>
-                    <td>1901007019022409963</td>
-                    <td>{{user.agency[_this.agency_code.trim()]}}</td>
+                    <td>{{user.account_gather}}</td>
+                    <td>{{user.agency.seek('code',_this.agency_code,'name')}}</td>
                 </tr>
                 </tbody>
             </table>

@@ -49,7 +49,9 @@ namespace Service
                             role = staff.role,
                             authority = staff.authority,
                             jurisdiction = staff.jurisdiction,
-                            agency = agencys
+                            agency = agencys,
+                            account_pay = db.Account.SingleOrDefault(t => t.type == "O").number,
+                            account_gather = db.Account.SingleOrDefault(t => t.type == "I").number
                         });
                 }
                 else

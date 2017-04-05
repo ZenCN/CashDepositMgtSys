@@ -32,6 +32,14 @@
                 vm.user.jurisdiction = $.cookie('user_jurisdiction').split('、');
             }
 
+            if (isString($.cookie('account_pay'))) {
+                vm.user.account_pay = $.cookie('account_pay');
+            }
+
+            if (isString($.cookie('account_gather'))) {
+                vm.user.account_gather = $.cookie('account_gather');
+            }
+
             if (isString($.cookie('agency'))) {
                 vm.user.agency = JSON.parse($.cookie('agency'));
                 var arr = [];

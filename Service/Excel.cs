@@ -119,6 +119,12 @@ namespace Service
 
             ICell cell = null;
             ICellStyle cell_style = SetCellStyle(sheet);
+
+            Db db = new Db();
+            string account_num = db.Account.SingleOrDefault(t => t.type == "I").number;
+
+            Agency agency_info = null;
+
             for (int i = 0; i < list.Count; i++)
             {
                 cell = sheet.GetRow(strat_row + i).GetCell(0);
@@ -150,11 +156,12 @@ namespace Service
                 cell.CellStyle = cell_style;
 
                 cell = sheet.GetRow(strat_row + i).GetCell(7);
-                cell.SetCellValue("1901007019022409963");
+                cell.SetCellValue(account_num);
                 cell.CellStyle = cell_style;
 
+                agency_info = agency.SingleOrDefault(t => t.code == list[i].agency_code);  //有空格
                 cell = sheet.GetRow(strat_row + i).GetCell(8);
-                cell.SetCellValue(agency.SingleOrDefault(t => t.code == list[i].agency_code).name);
+                cell.SetCellValue(agency_info == null ? "单位不存在" : agency_info.name);
                 cell.CellStyle = cell_style;
             }
 
@@ -176,6 +183,12 @@ namespace Service
 
             ICell cell = null;
             ICellStyle cell_style = SetCellStyle(sheet);
+
+            Db db = new Db();
+            string account_num = db.Account.SingleOrDefault(t => t.type == "O").number;
+
+            Agency agency_info = null;
+
             for (int i = 0; i < list.Count; i++)
             {
                 cell = sheet.GetRow(strat_row + i).GetCell(0);
@@ -207,11 +220,12 @@ namespace Service
                 cell.CellStyle = cell_style;
 
                 cell = sheet.GetRow(strat_row + i).GetCell(7);
-                cell.SetCellValue("6222256801000081");
+                cell.SetCellValue(account_num);
                 cell.CellStyle = cell_style;
 
+                agency_info = agency.SingleOrDefault(t => t.code == list[i].agency_code);  //有空格
                 cell = sheet.GetRow(strat_row + i).GetCell(8);
-                cell.SetCellValue(agency.SingleOrDefault(t => t.code == list[i].agency_code).name);
+                cell.SetCellValue(agency_info == null ? "单位不存在" : agency_info.name);
                 cell.CellStyle = cell_style;
             }
 
