@@ -16,6 +16,10 @@
         function http(config, complete) { //定义通用的http回调方法
             config = typeof config == 'string' ? { url: config } : config;
 
+            if (window.app_path) {
+                config.url = window.app_path + config.url;
+            }
+
             return $http(config)
                 .then(complete)
                 .catch(function(error) {

@@ -54,26 +54,10 @@ namespace Service
                 }
                 else
                 {
-                    var list = (from t in db.Agency
-                        select new
-                        {
-                            code = t.code,
-                            name = t.name
-                        }).ToList();
-                    string agency = "{";
-                    list.ForEach(t =>
-                    {
-                        agency += "\"" + t.code.Trim() + "\":\"" + t.name.Trim() + "\",";
-                    });
-                    agency = agency.Remove(agency.Length - 1) + "}";
-
                     return new Result(ResultType.success,
                         new
                         {
-                            role = staff.role,
-                            authority = staff.authority,
-                            jurisdiction = staff.jurisdiction,
-                            agency = agency
+                            role = staff.role
                         });
                 }
             }

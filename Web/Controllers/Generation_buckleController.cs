@@ -84,20 +84,7 @@ namespace Web.Controllers
                 generation_buckle.agency_code = Request.Cookies["agency_code"].Value;
                 generation_buckle.recorder_code = Request.Cookies["user_code"].Value;
                 generation_buckle.record_date = DateTime.Now;
-
-                int level = int.Parse(Request.Cookies["user_level"].Value);
-                switch (level)
-                {
-                    case 2:
-                        generation_buckle.review_state = 2;
-                        break;
-                    case 3:
-                        generation_buckle.review_state = 1;
-                        break;
-                    case 4:
-                        generation_buckle.review_state = 0;
-                        break;
-                }
+                generation_buckle.review_state = 0;
             }
 
             return JsonConvert.SerializeObject(svr.Save(generation_buckle));
@@ -110,7 +97,7 @@ namespace Web.Controllers
                 JsonConvert.SerializeObject(svr.Search(page_index, page_size, salesman_card_id, salesman_name,
                     review_state, DateTime.Parse(apply_start), DateTime.Parse(apply_end),
                     Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value,
-                    int.Parse(Request.Cookies["user_level"].Value)));
+                    int.Parse(Request.Cookies["user_level"].Value), Request.Cookies["user_role"].Value));
         }
 
         public void ExportSumDetails(int page_index, int page_size, string agency_code, string channel,
@@ -125,7 +112,7 @@ namespace Web.Controllers
         {
             svr.Export(page_index, page_size, salesman_card_id, salesman_name, review_state, DateTime.Parse(apply_start), DateTime.Parse(apply_end),
                 Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value,
-                int.Parse(Request.Cookies["user_level"].Value));
+                int.Parse(Request.Cookies["user_level"].Value), Request.Cookies["user_role"].Value);
         }
 
         public string Import(HttpPostedFileBase file, string channel)

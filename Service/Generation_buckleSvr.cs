@@ -227,7 +227,7 @@ namespace Service
 
         public Result Search(int page_index, int page_size, string salesman_card_id, string salesman_name,
             string review_state, DateTime apply_start, DateTime apply_end,
-            string user_code, string agency_code, int level)
+            string user_code, string agency_code, int level, string user_role)
         {
             db = new Db();
             List<Generation_buckle> list = null;
@@ -245,12 +245,22 @@ namespace Service
                     break;
                 case 3:
                     string code = agency_code.Substring(0, 4);
-                    query =
+                    if (user_role == "leader")
+                    {
+                        query =
+                            query.Where(
+                                t =>
+                                    t.agency_code.StartsWith(code) &&
+                                    (t.reviewer_code == null || t.reviewer_code == user_code) &&
+                                    t.review_state != 0 && t.review_state != -2);
+                    }
+                    else  //worker
+                    {
+                        query =
                         query.Where(
                             t =>
-                                t.agency_code.StartsWith(code) &&
-                                (t.reviewer_code == null || t.reviewer_code == user_code) &&
-                                t.review_state != 0 && t.review_state != -2);
+                                t.agency_code == agency_code && t.recorder_code == user_code);
+                    }
                     break;
                 case 4:
                     query =
@@ -396,7 +406,7 @@ namespace Service
 
         public void Export(int page_index, int page_size, string salesman_card_id, string salesman_name,
             string review_state, DateTime apply_start, DateTime apply_end,
-            string user_code, string agency_code, int level)
+            string user_code, string agency_code, int level, string user_role)
         {
             db = new Db();
             List<Generation_buckle> list = null;
@@ -414,12 +424,22 @@ namespace Service
                     break;
                 case 3:
                     string code = agency_code.Substring(0, 4);
-                    query =
+                    if (user_role == "leader")
+                    {
+                        query =
+                            query.Where(
+                                t =>
+                                    t.agency_code.StartsWith(code) &&
+                                    (t.reviewer_code == null || t.reviewer_code == user_code) &&
+                                    t.review_state != 0 && t.review_state != -2);
+                    }
+                    else  //worker
+                    {
+                        query =
                         query.Where(
                             t =>
-                                t.agency_code.StartsWith(code) &&
-                                (t.reviewer_code == null || t.reviewer_code == user_code) &&
-                                t.review_state != 0 && t.review_state != -2);
+                                t.agency_code == agency_code && t.recorder_code == user_code);
+                    }
                     break;
                 case 4:
                     query =
