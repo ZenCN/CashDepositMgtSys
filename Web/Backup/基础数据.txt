@@ -1,4 +1,216 @@
-﻿insert into Staff (code,role,authority,jurisdiction) values ('14308026','accountant',0,'430200、432900');
+﻿USE [CashDepositMgtSys]
+GO
+/****** Object:  Table [dbo].[BZJ_Staff]    Script Date: 04/06/2017 18:22:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[BZJ_Staff](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[code] [nvarchar](max) NULL,
+	[role] [nvarchar](max) NULL,
+	[authority] [int] NULL,
+	[jurisdiction] [nvarchar](max) NULL,
+	[agency_code] [nvarchar](max) NULL,
+ CONSTRAINT [PK_dbo.BZJ_Staff] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[BZJ_MioList]    Script Date: 04/06/2017 18:22:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[BZJ_MioList](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[batch_id] [nvarchar](max) NULL,
+	[generation_id] [int] NOT NULL,
+	[mio_type] [nvarchar](max) NULL,
+	[bank_account_name] [nvarchar](max) NULL,
+	[bank_account_no] [nvarchar](max) NULL,
+	[cash_deposit] [decimal](18, 2) NULL,
+	[status] [int] NULL,
+	[result] [nvarchar](max) NULL,
+ CONSTRAINT [PK_dbo.BZJ_MioList] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[BZJ_MioBatch]    Script Date: 04/06/2017 18:22:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[BZJ_MioBatch](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[batch_id] [nvarchar](max) NULL,
+	[record_count] [int] NOT NULL,
+	[sum_amount] [decimal](18, 2) NOT NULL,
+	[mio_type] [nvarchar](max) NULL,
+	[reviewer_code] [nvarchar](max) NULL,
+	[review_date] [datetime] NULL,
+	[push_result] [nvarchar](max) NULL,
+	[push_date] [datetime] NULL,
+	[done_date] [datetime] NULL,
+ CONSTRAINT [PK_dbo.BZJ_MioBatch] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[BZJ_Generation_gives]    Script Date: 04/06/2017 18:22:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[BZJ_Generation_gives](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[record_date] [datetime] NULL,
+	[recorder_code] [nvarchar](max) NULL,
+	[reviewer_code] [nvarchar](max) NULL,
+	[review_state] [int] NULL,
+	[review_date] [datetime] NULL,
+	[agency_code] [nvarchar](max) NULL,
+	[salesman_name] [nvarchar](max) NULL,
+	[salesman_sex] [nvarchar](max) NULL,
+	[salesman_code] [nvarchar](max) NULL,
+	[gather_serial_num] [nvarchar](max) NULL,
+	[salesman_card_type] [nvarchar](max) NULL,
+	[salesman_card_id] [nvarchar](max) NULL,
+	[salesman_phone] [nvarchar](max) NULL,
+	[salesman_hiredate] [datetime] NULL,
+	[salesman_bank_account_name] [nvarchar](max) NULL,
+	[salesman_bank_account_number] [nvarchar](max) NULL,
+	[salesman_bank_name] [nvarchar](max) NULL,
+	[salesman_bank_province] [nvarchar](max) NULL,
+	[salesman_bank_city] [nvarchar](max) NULL,
+	[salesman_cash_deposit] [decimal](18, 2) NULL,
+	[salesman_refunds] [decimal](18, 2) NULL,
+	[salesman_refunds_state] [int] NULL,
+	[remark] [nvarchar](max) NULL,
+	[is_deleted] [int] NULL,
+	[channel] [nvarchar](max) NULL,
+	[process_result] [nvarchar](max) NULL,
+	[finish_time] [datetime] NULL,
+ CONSTRAINT [PK_dbo.BZJ_Generation_gives] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[BZJ_Generation_buckle]    Script Date: 04/06/2017 18:22:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[BZJ_Generation_buckle](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[record_date] [datetime] NULL,
+	[recorder_code] [nvarchar](max) NULL,
+	[reviewer_code] [nvarchar](max) NULL,
+	[review_state] [int] NULL,
+	[review_date] [datetime] NULL,
+	[agency_code] [nvarchar](max) NULL,
+	[salesman_name] [nvarchar](max) NULL,
+	[salesman_sex] [nvarchar](max) NULL,
+	[salesman_code] [nvarchar](max) NULL,
+	[gather_serial_num] [nvarchar](max) NULL,
+	[salesman_card_type] [nvarchar](max) NULL,
+	[salesman_card_id] [nvarchar](max) NULL,
+	[salesman_phone] [nvarchar](max) NULL,
+	[salesman_hiredate] [datetime] NULL,
+	[salesman_bank_account_name] [nvarchar](max) NULL,
+	[salesman_bank_account_number] [nvarchar](max) NULL,
+	[salesman_bank_name] [nvarchar](max) NULL,
+	[salesman_bank_province] [nvarchar](max) NULL,
+	[salesman_bank_city] [nvarchar](max) NULL,
+	[salesman_cash_deposit] [decimal](18, 2) NULL,
+	[remark] [nvarchar](max) NULL,
+	[is_deleted] [int] NULL,
+	[channel] [nvarchar](max) NULL,
+	[process_result] [nvarchar](max) NULL,
+	[finish_time] [datetime] NULL,
+ CONSTRAINT [PK_dbo.BZJ_Generation_buckle] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[BZJ_Deducted]    Script Date: 04/06/2017 18:22:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[BZJ_Deducted](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[generation_gives_id] [int] NULL,
+	[item] [nvarchar](max) NULL,
+	[amount] [decimal](18, 2) NULL,
+	[remark] [nvarchar](max) NULL,
+ CONSTRAINT [PK_dbo.BZJ_Deducted] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[BZJ_Agency]    Script Date: 04/06/2017 18:22:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[BZJ_Agency](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[code] [nvarchar](max) NULL,
+	[p_code] [nvarchar](max) NULL,
+	[name] [nvarchar](max) NULL,
+	[type] [nvarchar](max) NULL,
+ CONSTRAINT [PK_dbo.BZJ_Agency] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[BZJ_Account]    Script Date: 04/06/2017 18:22:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[BZJ_Account](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[type] [nvarchar](max) NULL,
+	[number] [nvarchar](max) NULL,
+ CONSTRAINT [PK_dbo.BZJ_Account] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[__MigrationHistory]    Script Date: 04/06/2017 18:22:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[__MigrationHistory](
+	[MigrationId] [nvarchar](150) NOT NULL,
+	[ContextKey] [nvarchar](300) NOT NULL,
+	[Model] [varbinary](max) NOT NULL,
+	[ProductVersion] [nvarchar](32) NOT NULL,
+ CONSTRAINT [PK_dbo.__MigrationHistory] PRIMARY KEY CLUSTERED 
+(
+	[MigrationId] ASC,
+	[ContextKey] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+
+insert into Staff (code,role,authority,jurisdiction) values ('14308026','accountant',0,'430200、432900');
 insert into Staff (code,role,authority,jurisdiction) values ('14308126','accountant',1,'430200、432900');
 insert into Staff (code,role,authority,jurisdiction) values ('14308146','financial',null,'');
 

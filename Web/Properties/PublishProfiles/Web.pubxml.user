@@ -6,7 +6,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>F:\web</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\Administrator.ALW0MGS3XY7A443\Desktop\BZJ</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Backup/CashDepositMgtSys.sql">
@@ -19,7 +19,7 @@
       <publishTime>03/22/2017 22:16:40</publishTime>
     </File>
     <File Include="Backup/基础数据.txt">
-      <publishTime>03/30/2017 22:00:09</publishTime>
+      <publishTime>04/06/2017 18:22:48</publishTime>
     </File>
     <File Include="bin/Common.Logging.Core.dll">
       <publishTime>11/14/2015 13:35:30</publishTime>
@@ -82,7 +82,7 @@
       <publishTime>01/05/2011 15:45:38</publishTime>
     </File>
     <File Include="bin/Web.dll">
-      <publishTime>04/06/2017 17:32:19</publishTime>
+      <publishTime>04/06/2017 19:52:43</publishTime>
     </File>
     <File Include="bin/zh-Hans/EntityFramework.resources.dll">
       <publishTime>03/02/2015 09:32:38</publishTime>
@@ -91,7 +91,7 @@
       <publishTime>03/02/2015 09:32:38</publishTime>
     </File>
     <File Include="Client/app/app.config.js">
-      <publishTime>04/06/2017 16:14:47</publishTime>
+      <publishTime>04/06/2017 18:34:49</publishTime>
     </File>
     <File Include="Client/app/app.module.js">
       <publishTime>03/06/2017 11:03:37</publishTime>
@@ -136,7 +136,7 @@
       <publishTime>02/17/2017 15:57:55</publishTime>
     </File>
     <File Include="Client/app/generation_buckle/generation_buckle.html">
-      <publishTime>04/06/2017 09:43:11</publishTime>
+      <publishTime>04/06/2017 18:56:32</publishTime>
     </File>
     <File Include="Client/app/generation_buckle/generation_buckle_ctrl.js">
       <publishTime>04/06/2017 15:54:26</publishTime>
@@ -418,7 +418,7 @@
       <publishTime>03/22/2017 22:16:40</publishTime>
     </File>
     <File Include="Client/index.html">
-      <publishTime>04/06/2017 15:19:45</publishTime>
+      <publishTime>04/06/2017 17:42:03</publishTime>
     </File>
     <File Include="coding.txt">
       <publishTime>03/06/2017 19:41:40</publishTime>

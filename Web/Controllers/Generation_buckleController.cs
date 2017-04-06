@@ -190,19 +190,7 @@ namespace Web.Controllers
                                     buckle.recorder_code = Request.Cookies["user_code"].Value;
                                     buckle.record_date = DateTime.Now;
                                     buckle.channel = channel;
-                                    int level = int.Parse(Request.Cookies["user_level"].Value);
-                                    switch (level)
-                                    {
-                                        case 2:
-                                            buckle.review_state = 2;
-                                            break;
-                                        case 3:
-                                            buckle.review_state = 1;
-                                            break;
-                                        case 4:
-                                            buckle.review_state = 0;
-                                            break;
-                                    }
+                                    buckle.review_state = 0;
                                     list.Add(buckle);
                                 }
                             }
