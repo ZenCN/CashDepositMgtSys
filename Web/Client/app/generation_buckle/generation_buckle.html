@@ -1,10 +1,10 @@
 <div class="row" style="margin-bottom: 10px;">
     <div class="col-sm-3">
         <div class="btn-group">
-            <button type="button" class="btn btn-md btn-success" ng-if="user.level == 4" ng-click="review_state.change(1)">
+            <button type="button" class="btn btn-md btn-success" ng-if="authority('submit')" ng-click="review_state.change(1)">
                 提交
             </button>
-            <div class="btn-group" ng-if="user.level == 3">
+            <div class="btn-group"  ng-if="authority('check')">
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                     审核
                     <span class="caret"></span>
@@ -22,11 +22,11 @@
                     </li>
                 </ul>
             </div>
-            <button type="button" class="btn btn-md btn-primary" ng-controller="modal_ctrl"
+            <button ng-if="authority('new')" type="button" class="btn btn-md btn-primary" ng-controller="modal_ctrl"
                     ng-click="open_dialog('add','buckle')">
                 新增
             </button>
-            <button type="button" class="btn btn-md btn-primary" ng-controller="modal_ctrl"
+            <button ng-if="authority('modify')" type="button" class="btn btn-md btn-primary" ng-controller="modal_ctrl"
                     ng-click="open_dialog('modify','buckle')">
                 修改
             </button>

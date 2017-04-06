@@ -21,7 +21,7 @@
 
         if (typeof vm.user.level != "number" || vm.user.sso && location.href.indexOf('?') < 0) {
             $state.go('login');
-        } else if (vm.user.level == 2) {
+        } else if (vm.user.level < 4) {
             vm.user.role = $.cookie('user_role');
 
             if (isString($.cookie('user_authority'))) {

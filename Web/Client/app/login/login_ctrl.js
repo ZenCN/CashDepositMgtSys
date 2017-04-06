@@ -69,13 +69,27 @@
                         }
                     };
                     break;
-                case '株洲':
+                case '株洲1':
                     response = {
                         data: {
                             "Success": true,
                             "ResultData": {
                                 "ErpNo": "14354826",
-                                "RealName": "株洲",
+                                "RealName": "株洲1",
+                                "BranchNo": "430200",
+                                "BranchName": "湖南省株洲市分公司"
+                            },
+                            "ErrInfo": ""
+                        }
+                    };
+                    break;
+                case '株洲2':
+                    response = {
+                        data: {
+                            "Success": true,
+                            "ResultData": {
+                                "ErpNo": "14326854",
+                                "RealName": "株洲2",
                                 "BranchNo": "430200",
                                 "BranchName": "湖南省株洲市分公司"
                             },
@@ -158,31 +172,25 @@
                 $.cookie('agency_code', response.data.ResultData.BranchNo);
                 $.cookie('agency_name', response.data.ResultData.BranchName);
 
-                if (level == 2) {
+                if (level < 4) {
                     svr.query_user_info(response.data.ResultData.ErpNo, function (response) {
                         if (response.data.result == 'success') {
                             $.cookie('user_role', response.data.extra.role);
 
-                            if (response.data.extra.authority != null) {
-                                $.cookie('user_authority', response.data.extra.authority);
+                            if (level == 2 && response.data.extra.role == 'accountant') {
+                                if (response.data.extra.authority != null) {
+                                    $.cookie('user_authority', response.data.extra.authority);
+                                }
+
+                                if (response.data.extra.jurisdiction != null) {
+                                    $.cookie('user_jurisdiction', response.data.extra.jurisdiction);
+                                }
+
+                                if (response.data.extra.agency != null) {
+                                    $.cookie('agency', angular.toJson(response.data.extra.agency));
+                                }
                             }
 
-                            if (response.data.extra.jurisdiction != null) {
-                                $.cookie('user_jurisdiction', response.data.extra.jurisdiction);
-                            }
-
-                            if (response.data.extra.agency != null) {
-                                $.cookie('agency', angular.toJson(response.data.extra.agency));
-                            }
-
-                            if (response.data.extra.account_pay != null) {
-                                $.cookie('account_pay', response.data.extra.account_pay);
-                            }
-
-                            if (response.data.extra.account_gather != null) {
-                                $.cookie('account_gather', response.data.extra.account_gather);
-                            }
-                            
                             $state.go('dashboard.generation_buckle');
                         } else {
                             msg('无使用权限，非法操作！');
@@ -228,14 +236,6 @@
 
                             if (response.data.extra.agency != null) {
                                 $.cookie('agency', angular.toJson(response.data.extra.agency));
-                            }
-
-                            if (response.data.extra.account_pay != null) {
-                                $.cookie('account_pay', response.data.extra.account_pay);
-                            }
-
-                            if (response.data.extra.account_gather != null) {
-                                $.cookie('account_gather', response.data.extra.account_gather);
                             }
                             
                             $state.go('dashboard.generation_buckle');
