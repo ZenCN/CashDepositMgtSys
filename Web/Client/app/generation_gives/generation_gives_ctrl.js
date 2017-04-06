@@ -73,7 +73,7 @@
         };
 
         vm.export = function() {
-            var url = 'generation_gives/export?page_index=' + vm.page.index + '&page_size=' + vm.page.size + '&apply_start=' + vm.search.condition.apply_start.to_str()
+            var url = (window.app_path ? window.app_path : '') + 'generation_gives/export?page_index=' + vm.page.index + '&page_size=' + vm.page.size + '&apply_start=' + vm.search.condition.apply_start.to_str()
                 + ' 00:00:00&apply_end=' + vm.search.condition.apply_end.to_str() + ' 23:59:59';
 
             if (isString(vm.search.condition.salesman_card_id)) {
@@ -169,7 +169,9 @@
             }
         };
 
-        vm.search.from_svr();
+        if (isString(vm.user.code)) {
+            vm.search.from_svr();
+        }
 
         vm.review_state = {
             name: svr.review.state_name,

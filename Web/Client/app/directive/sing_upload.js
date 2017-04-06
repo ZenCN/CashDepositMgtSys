@@ -12,7 +12,7 @@
             $(function() {
                 $element.fileinput({
                     language: "zh",
-                    uploadUrl: $state.$current.name.split('.').the_last() + '/import',
+                    uploadUrl: (window.app_path ? window.app_path : '') + $state.$current.name.split('.').the_last() + '/import',
                     allowedFileExtensions: ['xls', 'xlsx'],
                     layoutTemplates: {
                         btnBrowse: '<div tabindex="500" class="{css}"{status}>{icon}</div>',

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -27,7 +28,14 @@ namespace Web.Controllers
 
         public string DecodeUserInfo(string userno, string pwd)
         {
-            return "{\"userno\":\"" + Decode(userno.Replace(" ", "+")) + "\",\"pwd\":\"" + Decode(pwd.Replace(" ", "+")) + "\"}";
+            userno = Decode(userno.Replace(" ", "+"));
+            pwd = Decode(pwd.Replace(" ", "+"));
+
+            var client = new WebClient();
+            client.Encoding = Encoding.UTF8;
+            string url = string.Format("http://10.20.147.103:8080/api/json/reply/login?username={0}&password={1}", userno, pwd);
+
+            return client.DownloadString(url);
         }
 
         private string Decode(string decryptString)

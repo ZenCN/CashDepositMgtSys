@@ -20,7 +20,7 @@
                 };
 
                 if (type == "buckle") {
-                    html = "../client/app/generation_buckle/generation_buckle_record.html";
+                    html = (window.app_path ? window.app_path : '') + "client/app/generation_buckle/generation_buckle_record.html";
 
                     if (action == "add") {
                         vm.model.title = "新增代扣数据";
@@ -43,7 +43,7 @@
                     }
 
                 } else {
-                    html = "../client/app/generation_gives/generation_gives_record.html";
+                    html = (window.app_path ? window.app_path : '') + "client/app/generation_gives/generation_gives_record.html";
 
                     if (action == "add") {
                         vm.model.title = "新增代付申请";
@@ -125,7 +125,7 @@
 
                 if (ids.length > 0) {
                     $modal.open({
-                        templateUrl: "../client/app/generation_gives/refuse_opinion.html",
+                        templateUrl: (window.app_path ? window.app_path : '') + "client/app/generation_gives/refuse_opinion.html",
                         controller: "modal_instance_ctrl",
                         resolve: {
                             model: function() {

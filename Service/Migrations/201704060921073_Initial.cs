@@ -8,7 +8,7 @@ namespace Service.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Account",
+                "dbo.BZJ_Account",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
@@ -18,7 +18,7 @@ namespace Service.Migrations
                 .PrimaryKey(t => t.id);
             
             CreateTable(
-                "dbo.Agency",
+                "dbo.BZJ_Agency",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
@@ -30,7 +30,7 @@ namespace Service.Migrations
                 .PrimaryKey(t => t.id);
             
             CreateTable(
-                "dbo.Deducted",
+                "dbo.BZJ_Deducted",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
@@ -42,7 +42,7 @@ namespace Service.Migrations
                 .PrimaryKey(t => t.id);
             
             CreateTable(
-                "dbo.Generation_buckle",
+                "dbo.BZJ_Generation_buckle",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
@@ -75,7 +75,7 @@ namespace Service.Migrations
                 .PrimaryKey(t => t.id);
             
             CreateTable(
-                "dbo.Generation_gives",
+                "dbo.BZJ_Generation_gives",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
@@ -110,7 +110,7 @@ namespace Service.Migrations
                 .PrimaryKey(t => t.id);
             
             CreateTable(
-                "dbo.MioBatch",
+                "dbo.BZJ_MioBatch",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
@@ -127,7 +127,7 @@ namespace Service.Migrations
                 .PrimaryKey(t => t.id);
             
             CreateTable(
-                "dbo.MioList",
+                "dbo.BZJ_MioList",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
@@ -143,7 +143,7 @@ namespace Service.Migrations
                 .PrimaryKey(t => t.id);
             
             CreateTable(
-                "dbo.Staff",
+                "dbo.BZJ_Staff",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
@@ -159,14 +159,14 @@ namespace Service.Migrations
         
         public override void Down()
         {
-            DropTable("dbo.Staff");
-            DropTable("dbo.MioList");
-            DropTable("dbo.MioBatch");
-            DropTable("dbo.Generation_gives");
-            DropTable("dbo.Generation_buckle");
-            DropTable("dbo.Deducted");
-            DropTable("dbo.Agency");
-            DropTable("dbo.Account");
+            DropTable("dbo.BZJ_Staff");
+            DropTable("dbo.BZJ_MioList");
+            DropTable("dbo.BZJ_MioBatch");
+            DropTable("dbo.BZJ_Generation_gives");
+            DropTable("dbo.BZJ_Generation_buckle");
+            DropTable("dbo.BZJ_Deducted");
+            DropTable("dbo.BZJ_Agency");
+            DropTable("dbo.BZJ_Account");
         }
     }
 }

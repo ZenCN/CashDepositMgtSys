@@ -95,9 +95,9 @@
     <Compile Include="Job.cs" />
     <Compile Include="LoginSvr.cs" />
     <Compile Include="Migrations.Interface\Configuration.cs" />
-    <Compile Include="Migrations\201703301319226_Initial.cs" />
-    <Compile Include="Migrations\201703301319226_Initial.Designer.cs">
-      <DependentUpon>201703301319226_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201704060921073_Initial.cs" />
+    <Compile Include="Migrations\201704060921073_Initial.Designer.cs">
+      <DependentUpon>201704060921073_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Account.cs" />
@@ -136,8 +136,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703301319226_Initial.resx">
-      <DependentUpon>201703301319226_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704060921073_Initial.resx">
+      <DependentUpon>201704060921073_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

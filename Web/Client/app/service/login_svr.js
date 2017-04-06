@@ -14,7 +14,11 @@
         };
 
         function validate(user, callback) {
-            return svr.http('http://10.20.147.103:8080/api/json/reply/login?username=' + user.code + '&password=' + user.password + '&t' + Math.random(), callback);
+            $.ajax({
+                url: 'http://10.20.147.103:8080/api/json/reply/login?username=' + user.code + '&password=' + user.password + '&t' + Math.random(),
+                dataType: 'jsonp',
+                success: callback
+            });
         };
 
         function query_user_info(user_code, callback) {

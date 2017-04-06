@@ -105,18 +105,15 @@ namespace Service
 
                     db.SaveChanges();
 
-                    HttpWebRequest request = null;
-                    string url = null;
-                    /*phones.ForEach(phone =>
+                    var client = new WebClient();
+                    client.Encoding = Encoding.UTF8;
+                    phones.ForEach(phone =>
                     {
-                        url =
-                            "http://10.20.147.103:8080/api/json/reply/sendmsg?username=43010271000014&password=170046&systemid=0&mobile=" +
-                            phone + "&content=银行代扣成功&dept=信息技术部&clerk=李轩";
 
-                        request = (HttpWebRequest) HttpWebRequest.Create(url);
-                        request.Method = "post";
-                        request.GetResponse();
-                    });*/
+                        client.DownloadString(
+                            "http://10.20.147.103:8080/api/json/reply/sendmsg?username=43010271000014&password=170046&systemid=0&mobile=" +
+                            phone + "&content=银行代扣成功&dept=信息技术部&clerk=李轩");
+                    });
                 }
                 finally
                 {
