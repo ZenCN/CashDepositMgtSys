@@ -113,7 +113,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Backup\CashDepositMgtSys.sql" />
     <Content Include="Backup\基础数据.txt" />
     <Content Include="Client\app\app.config.js" />
     <Content Include="Client\app\app.module.js" />

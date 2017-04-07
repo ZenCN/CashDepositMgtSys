@@ -8,7 +8,7 @@
     config.$inject = ['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider'];
 
     function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
-        、、window.app_path = 'bzj/';   //应用程序路径 
+        //window.app_path = 'bzj/';   //应用程序路径，开发时应注释掉
 
         $ocLazyLoadProvider.config({
             debug: false,
