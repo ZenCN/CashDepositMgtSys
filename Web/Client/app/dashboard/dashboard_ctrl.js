@@ -13,7 +13,7 @@
             var userno = cur_url.substr(cur_url.indexOf('userno=') + 7, cur_url.indexOf('&pwd=') - cur_url.indexOf('userno=') - 7);
             var pwd = cur_url.substr(cur_url.indexOf('&pwd=') + 5);
 
-            /*var response = undefined;
+            var response = undefined;
             switch (decodeURI(userno)) {
                 case '湖南-会计-初审':
                     response = {
@@ -57,13 +57,27 @@
                         }
                     };
                     break;
-                case '株洲':
+                case '株洲1':
                     response = {
                         data: {
                             "Success": true,
                             "ResultData": {
                                 "ErpNo": "14354826",
-                                "RealName": "株洲",
+                                "RealName": "株洲1",
+                                "BranchNo": "430200",
+                                "BranchName": "湖南省株洲市分公司"
+                            },
+                            "ErrInfo": ""
+                        }
+                    };
+                    break;
+                case '株洲2':
+                    response = {
+                        data: {
+                            "Success": true,
+                            "ResultData": {
+                                "ErpNo": "14326854",
+                                "RealName": "株洲2",
                                 "BranchNo": "430200",
                                 "BranchName": "湖南省株洲市分公司"
                             },
@@ -177,9 +191,9 @@
                 }
             } else {
                 msg('菜单登录出错！');
-            }*/
+            }
 
-            $.ajax({
+            /*$.ajax({
                 url: (window.app_path ? window.app_path : '') + 'login/decodeuserinfo?userno=' + userno + '&pwd=' + pwd,
                 async: false,
                 success: function (data) {
@@ -233,7 +247,7 @@
                         msg('菜单登录出错！');
                     }
                 }
-            });
+            });*/
         }
 
         vm.user = {

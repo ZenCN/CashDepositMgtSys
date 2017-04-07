@@ -1,7 +1,7 @@
 <div class="row" style="margin-bottom: 10px;">
     <div class="col-sm-4">
         <div class="btn-group">
-            <div class="btn-group" ng-if="user.level == 2 && user.role != 'financial' || user.level == 3">
+            <div class="btn-group" ng-if="user.level == 2 && user.role != 'financial' || user.level == 3 && user.role == 'leader'">
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                     审核
                     <span class="caret"></span>

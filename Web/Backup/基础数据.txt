@@ -1,9 +1,11 @@
 ﻿insert into BZJ_Account (type,number) values ('I','6222520647650742');
 insert into BZJ_Account (type,number) values ('O','1952351000014254685');
 
-insert into BZJ_Staff (code,role,authority,jurisdiction) values ('14308026','accountant',0,'430200、432900');
-insert into BZJ_Staff (code,role,authority,jurisdiction) values ('14308126','accountant',1,'430200、432900');
-insert into BZJ_Staff (code,role,authority,jurisdiction) values ('14308146','financial',null,'');
+insert into BZJ_Staff (code,role,authority,jurisdiction,agency_code) values ('14308026','accountant',0,'430200、432900','');
+insert into BZJ_Staff (code,role,authority,jurisdiction,agency_code) values ('14308126','accountant',1,'430200、432900','');
+insert into BZJ_Staff (code,role,authority,jurisdiction,agency_code) values ('14308146','financial',null,'','');
+insert into BZJ_Staff (code,role,authority,jurisdiction,agency_code) values ('14354826','leader',null,'','');
+insert into BZJ_Staff (code,role,authority,jurisdiction,agency_code) values ('14326854','worker',null,'','');
 
 insert into BZJ_Agency (code,p_code,name) values ('430000','','湖南省分公司本部');
 insert into BZJ_Agency (code,p_code,name) values ('430100','430000','长沙市分公司本部');

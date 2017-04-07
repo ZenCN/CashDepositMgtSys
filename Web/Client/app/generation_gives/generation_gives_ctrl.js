@@ -34,7 +34,7 @@
                     return false;
                 }
             case 'modify':
-                if (vm.user.level == 4 || vm.user.level == 2) {
+                if ([2, 4].exist(vm.user.level) || vm.user.level == 3 && vm.user.role == 'worker') {
                     return true;
                 } else {
                     return false;
@@ -125,7 +125,8 @@
                     return false;
                 }
             case 3:
-                if ([1, -3].exist(state) || state == -6 && vm.user.agency.code == _this.agency_code) {
+                if (vm.user.role == 'leader' && [1, -3].exist(state) ||
+                    vm.user.role == 'worker' && ([0, -2].exist(state) || state == -6 && vm.user.agency.code == _this.agency_code)) {
                     return true;
                 } else {
                     return false;
