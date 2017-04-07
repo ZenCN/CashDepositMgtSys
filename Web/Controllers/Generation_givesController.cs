@@ -96,7 +96,7 @@ namespace Web.Controllers
         {
             svr.Export(page_index, page_size, salesman_card_id, salesman_name, salesman_code, review_state, apply_start,
                 apply_end, Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value,
-                int.Parse(Request.Cookies["user_level"].Value));
+                int.Parse(Request.Cookies["user_level"].Value), Request.Cookies["user_role"].Value);
         }
 
         public string Search(int page_index, int page_size, string salesman_card_id, string salesman_name,

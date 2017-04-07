@@ -301,7 +301,6 @@ namespace Service
                             query.Where(
                                 t =>
                                     t.agency_code.StartsWith(code) &&
-                                    (t.reviewer_code == null || t.reviewer_code == user_code) &&
                                     t.review_state != 0 && t.review_state != -2);
                     }
                     else  //worker
@@ -309,14 +308,14 @@ namespace Service
                         query =
                         query.Where(
                             t =>
-                                t.agency_code == agency_code && t.recorder_code == user_code);
+                                t.agency_code == agency_code);
                     }
                     break;
                 case 4:
                     query =
                         query.Where(
                             t =>
-                                t.agency_code == agency_code && t.recorder_code == user_code);
+                                t.agency_code == agency_code);
                     break;
             }
 
@@ -495,7 +494,6 @@ namespace Service
                             query.Where(
                                 t =>
                                     t.agency_code.StartsWith(code) &&
-                                    (t.reviewer_code == null || t.reviewer_code == user_code) &&
                                     t.review_state != 0 && t.review_state != -2);
                     }
                     else  //worker
@@ -503,14 +501,14 @@ namespace Service
                         query =
                         query.Where(
                             t =>
-                                t.agency_code == agency_code && t.recorder_code == user_code);
+                                t.agency_code == agency_code);
                     }
                     break;
                 case 4:
                     query =
                         query.Where(
                             t =>
-                                t.agency_code == agency_code && t.recorder_code == user_code);
+                                t.agency_code == agency_code);
                     break;
             }
 
