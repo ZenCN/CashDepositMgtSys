@@ -234,7 +234,7 @@
                         window.refund_statement.operator = $.cookie("user_name");
                         window.refund_statement.operate_time = new Date().to_str("YYYY年MM月dd日 HH:mm");
 
-                        window.open("generation_gives/refundstatement");
+                        window.open((window.app_path ? window.app_path : '') + "generation_gives/refundstatement");
                     }
                 },
                 submit: function() {
@@ -271,12 +271,13 @@
                         generation_gives.salesman_hiredate = generation_gives.salesman_hiredate.to_str("-");
                     }
 
-                    generation_gives =
-                        $.extend(generation_gives, {
+                    if (!(Number(generation_gives.id) > 0)) {
+                        generation_gives = $.extend(generation_gives, {
                             recorder_code: $.cookie("user_code"),
                             review_state: 0,
                             agency_code: $.cookie("agency_code")
                         });
+                    }
 
                     var deducted_items = generation_gives.deducted_items;
                     delete generation_gives.deducted_items;

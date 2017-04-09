@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>打印退款声明</title>
-    <link href="../../../client/bower_component/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <script src="../../../client/bower_component/jquery/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <link href="../client/bower_component/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <script src="../client/bower_component/jquery/jquery-1.12.4.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         function init() {
             if (window.opener != null && typeof window.opener.refund_statement == 'object') {
                 $('#salesman_name').text(window.opener.refund_statement.salesman_name);
                 $('#salesman_code').text(window.opener.refund_statement.salesman_code);
-                $('#gather_serial_num').text(window.opener.refund_statement.gather_serial_num);
+                $('#gather_serial_num').text(window.opener.refund_statement.gather_serial_num == null ? '' :
+				window.opener.refund_statement.gather_serial_num);
                 $('#cash_deposit').text('￥' + window.opener.refund_statement.salesman_cash_deposit);
-                $('#cash_deducted').text('￥' + Number(window.opener.refund_statement.salesman_cash_deducted) > 0 ? window.opener.refund_statement.salesman_cash_deducted : 0);
+                $('#cash_deducted').text('￥' + (Number(window.opener.refund_statement.cash_deducted_total) > 0 ? window.opener.refund_statement.cash_deducted_total : 0));
                 $('#cash_return').text('￥' + window.opener.refund_statement.salesman_refunds);
                 $('#bank_name').text(window.opener.refund_statement.salesman_bank_name);
                 $('#bank_acc_number').text(window.opener.refund_statement.salesman_bank_account_number);
@@ -27,21 +28,36 @@
                 $('#operator').text(window.opener.refund_statement.operator);
                 $('#operate_time').text(window.opener.refund_statement.operate_time);
 
+                $('span[name="agency_name"]').text(query_unit(window.opener.refund_statement.agency_code.substr(0,4)));
+
                 window.print();
             } else {
                 alert('错误，未取到源数据！');
             }
         };
+
+        function query_unit(code) {
+            switch (code) {
+                case '4301':
+                    return "长沙市";
+                case '4302':
+                    return "株洲市";
+                case '4329':
+                    return "永州市";
+                default:
+                    return "湖南省";
+            }
+        }
     </script>
 </head>
 <body class="container" onload="init()">
 <div style="margin: 0 auto; width: 629px;">
-    <img src="../../../client/image/common/china-life.jpg" style="float: left; margin-left: -8px; margin-top: -10px; width: 88px;">
-    <h2>中国人寿保险股份有限公司长沙市分公司</h2>
+    <img src="../client/image/common/china-life.jpg" style="float: left; margin-left: -8px; margin-top: -10px; width: 88px;">
+    <h2>中国人寿保险股份有限公司<span name="agency_name"></span>分公司</h2>
     <h4 style="padding-left: 230px;">销售人员保证金转账退款申明书</h4>
 </div>
 <div style="margin: 15px auto; padding-left: 38px; width: 572px;">
-    &nbsp;&nbsp;&nbsp;&nbsp;本人因与中国人寿保险股份有限公司长沙市分公司（以下简称公司解除代理合同），已办理解约手续，
+    &nbsp;&nbsp;&nbsp;&nbsp;本人因与中国人寿保险股份有限公司<span name="agency_name"></span>分公司（以下简称公司解除代理合同），已办理解约手续，
     现委托公司将本人保证金余额转账到本人如下银行账户：
 </div>
 <div style="border: 1px #c7bdbd solid; border-radius: 7px; margin: 0 auto; padding: 10px 30px; width: 572px;">

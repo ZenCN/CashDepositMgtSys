@@ -119,14 +119,14 @@
             var state = Number(_this.review_state);
             switch (vm.user.level) {
             case 4:
-                if ([0, -2].exist(state) || state == -6 && vm.user.agency.code == _this.agency_code) {
+                if ([0, -2].exist(state) || state == -6 && vm.user.agency_code == _this.agency_code) {
                     return true;
                 } else {
                     return false;
                 }
             case 3:
                 if (vm.user.role == 'leader' && [1, -3].exist(state) ||
-                    vm.user.role == 'worker' && ([0, -2].exist(state) || state == -6 && vm.user.agency.code == _this.agency_code)) {
+                    vm.user.role == 'worker' && ([0, -2].exist(state) || state == -6 && vm.user.agency_code == _this.agency_code)) {
                     return true;
                 } else {
                     return false;

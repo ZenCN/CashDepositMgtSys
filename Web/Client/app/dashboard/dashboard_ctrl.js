@@ -13,187 +13,7 @@
             var userno = cur_url.substr(cur_url.indexOf('userno=') + 7, cur_url.indexOf('&pwd=') - cur_url.indexOf('userno=') - 7);
             var pwd = cur_url.substr(cur_url.indexOf('&pwd=') + 5);
 
-            var response = undefined;
-            switch (decodeURI(userno)) {
-                case '湖南-会计-初审':
-                    response = {
-                        data: {
-                            "Success": true,
-                            "ResultData": {
-                                "ErpNo": "14308026",
-                                "RealName": "湖南会计初审",
-                                "BranchNo": "430000",
-                                "BranchName": "湖南省分公司"
-                            },
-                            "ErrInfo": ""
-                        }
-                    };
-                    break;
-                case '湖南-会计-复审':
-                    response = {
-                        data: {
-                            "Success": true,
-                            "ResultData": {
-                                "ErpNo": "14308126",
-                                "RealName": "湖南会计复审",
-                                "BranchNo": "430000",
-                                "BranchName": "湖南省分公司"
-                            },
-                            "ErrInfo": ""
-                        }
-                    };
-                    break;
-                case '湖南-财务资金部':
-                    response = {
-                        data: {
-                            "Success": true,
-                            "ResultData": {
-                                "ErpNo": "14308146",
-                                "RealName": "湖南财务资金部",
-                                "BranchNo": "430000",
-                                "BranchName": "湖南省分公司"
-                            },
-                            "ErrInfo": ""
-                        }
-                    };
-                    break;
-                case '株洲1':
-                    response = {
-                        data: {
-                            "Success": true,
-                            "ResultData": {
-                                "ErpNo": "14354826",
-                                "RealName": "株洲1",
-                                "BranchNo": "430200",
-                                "BranchName": "湖南省株洲市分公司"
-                            },
-                            "ErrInfo": ""
-                        }
-                    };
-                    break;
-                case '株洲2':
-                    response = {
-                        data: {
-                            "Success": true,
-                            "ResultData": {
-                                "ErpNo": "14326854",
-                                "RealName": "株洲2",
-                                "BranchNo": "430200",
-                                "BranchName": "湖南省株洲市分公司"
-                            },
-                            "ErrInfo": ""
-                        }
-                    };
-                    break;
-                case '永州':
-                    response = {
-                        data: {
-                            "Success": true,
-                            "ResultData": {
-                                "ErpNo": "14354546",
-                                "RealName": "永州",
-                                "BranchNo": "432900",
-                                "BranchName": "湖南省永州市分公司"
-                            },
-                            "ErrInfo": ""
-                        }
-                    };
-                    break;
-                case '茶陵':
-                    response = {
-                        data: {
-                            "Success": true,
-                            "ResultData": {
-                                "ErpNo": "14372546",
-                                "RealName": "株洲茶陵",
-                                "BranchNo": "430224",
-                                "BranchName": "湖南省株洲市茶陵县分公司"
-                            },
-                            "ErrInfo": ""
-                        }
-                    };
-                    break;
-                case '零陵1':
-                    response = {
-                        data: {
-                            "Success": true,
-                            "ResultData": {
-                                "ErpNo": "14386546",
-                                "RealName": "零陵-1",
-                                "BranchNo": "432901",
-                                "BranchName": "湖南省永州市零陵县分公司"
-                            },
-                            "ErrInfo": ""
-                        }
-                    };
-                    break;
-                case '零陵2':
-                    response = {
-                        data: {
-                            "Success": true,
-                            "ResultData": {
-                                "ErpNo": "14382446",
-                                "RealName": "零陵-2",
-                                "BranchNo": "432901",
-                                "BranchName": "湖南省永州市零陵县分公司"
-                            },
-                            "ErrInfo": ""
-                        }
-                    };
-                    break;
-            }
-
-            if (response.data.Success) {
-                var level = undefined;
-                if (response.data.ResultData.BranchNo.slice(2) == '0000') {
-                    level = 2;
-                } else if (response.data.ResultData.BranchNo.slice(4) == '00') {
-                    level = 3;
-                } else {
-                    level = 4;
-                }
-
-                $.cookie('sso', 1);
-                $.cookie('user_level', level);
-                $.cookie('user_code', response.data.ResultData.ErpNo);
-                $.cookie('user_name', response.data.ResultData.RealName);
-                $.cookie('agency_code', response.data.ResultData.BranchNo);
-                $.cookie('agency_name', response.data.ResultData.BranchName);
-
-                if (level == 2) {
-                    $http.get('login/queryuserinfo?user_code=' + response.data.ResultData.ErpNo).then(function (response) {
-                        if (response.data.result == 'success') {
-                            $.cookie('user_role', response.data.extra.role);
-
-                            if (response.data.extra.authority != null) {
-                                $.cookie('user_authority', response.data.extra.authority);
-                            }
-
-                            if (response.data.extra.jurisdiction != null) {
-                                $.cookie('user_jurisdiction', response.data.extra.jurisdiction);
-                            }
-
-                            if (response.data.extra.agency != null) {
-                                $.cookie('agency', angular.toJson(response.data.extra.agency));
-                            }
-
-                            if (response.data.extra.account_pay != null) {
-                                $.cookie('account_pay', response.data.extra.account_pay);
-                            }
-
-                            if (response.data.extra.account_gather != null) {
-                                $.cookie('account_gather', response.data.extra.account_gather);
-                            }
-                        } else {
-                            msg('无使用权限，非法操作！');
-                        }
-                    });
-                }
-            } else {
-                msg('菜单登录出错！');
-            }
-
-            /*$.ajax({
+            $.ajax({
                 url: (window.app_path ? window.app_path : '') + 'login/decodeuserinfo?userno=' + userno + '&pwd=' + pwd,
                 async: false,
                 success: function (data) {
@@ -247,7 +67,7 @@
                         msg('菜单登录出错！');
                     }
                 }
-            });*/
+            });
         }
 
         vm.user = {
@@ -255,10 +75,8 @@
             level: Number($.cookie('user_level')),
             code: $.cookie('user_code'),
             name: $.cookie('user_name'),
-            agency: {
-                code: $.cookie('agency_code'),
-                name: $.cookie('agency_name')
-            }
+            agency_code: $.cookie('agency_code'),
+            agency_name: $.cookie('agency_name')
         }
 
         if (typeof vm.user.level != "number" || vm.user.sso && location.href.indexOf('?') < 0) {

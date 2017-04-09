@@ -45,8 +45,8 @@ namespace Service
             {
                 var query = db.Generation_gives.Where(t =>
                     t.channel == channel && t.review_state == 6 &&
-                    t.salesman_hiredate >= apply_start &&
-                    t.salesman_hiredate <= apply_end).AsQueryable();
+                    t.record_date >= apply_start &&
+                    t.record_date <= apply_end).AsQueryable();
 
                 if (!string.IsNullOrEmpty(agency_code))
                 {
@@ -110,8 +110,8 @@ namespace Service
             {
                 var query = db.Generation_gives.Where(t =>
                     t.channel == channel && t.review_state == 6 &&
-                    t.salesman_hiredate >= apply_start &&
-                    t.salesman_hiredate <= apply_end).AsQueryable();
+                    t.record_date >= apply_start &&
+                    t.record_date <= apply_end).AsQueryable();
 
                 if (!string.IsNullOrEmpty(agency_code))
                 {
@@ -175,8 +175,8 @@ namespace Service
             {
                 var query = db.Generation_gives.Where(t =>
                     t.channel == channel && t.review_state == 6 &&
-                    t.salesman_hiredate >= apply_start &&
-                    t.salesman_hiredate <= apply_end).AsQueryable();
+                    t.record_date >= apply_start &&
+                    t.record_date <= apply_end).AsQueryable();
 
                 if (!string.IsNullOrEmpty(agency_code))
                 {
@@ -252,8 +252,8 @@ namespace Service
             {
                 var query = db.Generation_gives.Where(t =>
                     t.channel == channel && t.review_state == 6 &&
-                    t.salesman_hiredate >= apply_start &&
-                    t.salesman_hiredate <= apply_end).AsQueryable();
+                    t.record_date >= apply_start &&
+                    t.record_date <= apply_end).AsQueryable();
 
                 if (!string.IsNullOrEmpty(agency_code))
                 {
@@ -432,7 +432,8 @@ namespace Service
             int record_count = 0;
             List<Generation_gives> list = null;
 
-            var query = db.Generation_gives.Where(t => t.is_deleted != 1 && t.salesman_hiredate >= apply_start && t.salesman_hiredate <= apply_end).AsQueryable();
+            var query = db.Generation_gives.Where(t => t.is_deleted != 1
+                && t.record_date >= apply_start && t.record_date <= apply_end).AsQueryable();
             switch (level)
             {
                 case 2:
@@ -573,7 +574,8 @@ namespace Service
                 int record_count = 0;
                 List<Generation_gives> list = null;
 
-                var query = db.Generation_gives.Where(t => t.is_deleted != 1 && t.salesman_hiredate >= apply_start && t.salesman_hiredate <= apply_end).AsQueryable();
+                var query = db.Generation_gives.Where(t => t.is_deleted != 1 &&
+                    t.record_date >= apply_start && t.record_date <= apply_end).AsQueryable();
                 switch (level)
                 {
                     case 2:
@@ -637,7 +639,7 @@ namespace Service
                             query =
                             query.Where(
                                 t =>
-                                    t.agency_code == code);
+                                    t.agency_code.StartsWith(code));
                         }
                         break;
                     case 4:
@@ -727,7 +729,7 @@ namespace Service
 
                 Entity.SaveChanges(db);
 
-                if (state == 5) //省财务推送
+                if (state == 5) //省级推送
                 {
                     Push(gives);
                 }
@@ -744,7 +746,7 @@ namespace Service
         {
             if (list.Count > 0)
             {
-                using (var scope = new TransactionScope())
+                //using (var scope = new TransactionScope())
                 {
                     decimal sum_amount = Convert.ToDecimal(list.Sum(t => t.salesman_cash_deposit));
 
@@ -811,8 +813,7 @@ namespace Service
                         mio.AccCurrencyType = "CNY"; //人民币：CNY, 港元：HKD，美元：USD。不填时，默认为人民币。
 
                         mio.FromUniqLine = "UnKnow"; //外部系统对于本条数据的唯一编码
-                        mio.BankCode = "UnKnow"; //中国人寿编码的银行代码，需转换为银联代码
-                        mio.BankCode = "?"; //中国人寿编码的银行代码，需转换为银联代码
+                        mio.BankCode = t.salesman_bank_name; //中国人寿编码的银行代码，需转换为银联代码
 
                         db_context.INTERFACE_MIO_LIST_BZJ.Add(mio);
                     });
@@ -820,7 +821,7 @@ namespace Service
                     db_context.SaveChanges();
                     db.SaveChanges();
 
-                    scope.Complete();
+                    //scope.Complete();
 
                     QuartzManager<QueryGivesInfo>.AddJob(mio_batch.batch_id, "0 1/1 * * * ?");
                     //1分钟之后执行第一次（对应“1/1”第一个1）,然后每隔1分钟执行一次（对应“1/1”第二个1）

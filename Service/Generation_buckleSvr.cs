@@ -44,8 +44,8 @@ namespace Service
             {
                 var query = db.Generation_buckle.Where(t =>
                     t.channel == channel && t.review_state == 5 &&
-                    t.salesman_hiredate >= apply_start &&
-                    t.salesman_hiredate <= apply_end).AsQueryable();
+                    t.record_date >= apply_start &&
+                    t.record_date <= apply_end).AsQueryable();
 
                 if (!string.IsNullOrEmpty(agency_code))
                 {
@@ -109,8 +109,8 @@ namespace Service
             {
                 var query = db.Generation_buckle.Where(t =>
                     t.channel == channel && t.review_state == 5 &&
-                    t.salesman_hiredate >= apply_start &&
-                    t.salesman_hiredate <= apply_end).AsQueryable();
+                    t.record_date >= apply_start &&
+                    t.record_date <= apply_end).AsQueryable();
 
                 if (!string.IsNullOrEmpty(agency_code))
                 {
@@ -169,8 +169,8 @@ namespace Service
             {
                 var query = db.Generation_buckle.Where(t =>
                     t.channel == channel && t.review_state == 5 &&
-                    t.salesman_hiredate >= apply_start &&
-                    t.salesman_hiredate <= apply_end).AsQueryable();
+                    t.record_date >= apply_start &&
+                    t.record_date <= apply_end).AsQueryable();
 
                 if (!string.IsNullOrEmpty(agency_code))
                 {
@@ -287,7 +287,8 @@ namespace Service
 
             IQueryable<Generation_buckle> query =
                 db.Generation_buckle.Where(
-                    t => t.is_deleted != 1 && t.salesman_hiredate >= apply_start && t.salesman_hiredate <= apply_end);
+                    t => t.is_deleted != 1 && t.record_date >= apply_start &&
+                        t.record_date <= apply_end);
             switch (level)
             {
                 case 2:
@@ -308,7 +309,7 @@ namespace Service
                         query =
                         query.Where(
                             t =>
-                                t.agency_code == code);
+                                t.agency_code.StartsWith(code));
                     }
                     break;
                 case 4:
@@ -404,8 +405,8 @@ namespace Service
             {
                 var query = db.Generation_buckle.Where(t =>
                     t.channel == channel && t.review_state == 5 &&
-                    t.salesman_hiredate >= apply_start &&
-                    t.salesman_hiredate <= apply_end).AsQueryable();
+                    t.record_date >= apply_start &&
+                    t.record_date <= apply_end).AsQueryable();
 
                 if (!string.IsNullOrEmpty(agency_code))
                 {
@@ -480,7 +481,8 @@ namespace Service
 
             IQueryable<Generation_buckle> query =
                 db.Generation_buckle.Where(
-                    t => t.is_deleted != 1 && t.salesman_hiredate >= apply_start && t.salesman_hiredate <= apply_end);
+                    t => t.is_deleted != 1 &&
+                        t.record_date >= apply_start && t.record_date <= apply_end);
             switch (level)
             {
                 case 2:
@@ -560,7 +562,7 @@ namespace Service
                 {
                     if (buckle_list.Count > 0)
                     {
-                        using (var buckle_scope = new TransactionScope())
+                        //using (var buckle_scope = new TransactionScope())
                         {
                             decimal sum_amount = Convert.ToDecimal(buckle_list.Sum(t => t.salesman_cash_deposit));
 
@@ -592,7 +594,7 @@ namespace Service
 
                             db.MioList.AddRange(mio_list);
 
-                            using (var gives_scope = new TransactionScope())
+                            //using (var gives_scope = new TransactionScope())
                             {
                                 DbInterface db_context = new DbInterface();
 
@@ -630,18 +632,17 @@ namespace Service
                                     mio.AccCurrencyType = "CNY"; //人民币：CNY, 港元：HKD，美元：USD。不填时，默认为人民币。
 
                                     mio.FromUniqLine = "UnKnow"; //外部系统对于本条数据的唯一编码
-                                    mio.BankCode = "UnKnow"; //中国人寿编码的银行代码，需转换为银联代码
-                                    mio.BankCode = "?"; //中国人寿编码的银行代码，需转换为银联代码
+                                    mio.BankCode = t.salesman_bank_name; //中国人寿编码的银行代码，需转换为银联代码
 
                                     db_context.INTERFACE_MIO_LIST_BZJ.Add(mio);
                                 });
 
                                 db_context.SaveChanges();
-                                gives_scope.Complete();
+                                //gives_scope.Complete();
                             }
 
                             db.SaveChanges();
-                            buckle_scope.Complete();
+                            //buckle_scope.Complete();
 
                             QuartzManager<QueryBuckleInfo>.AddJob(mio_batch.batch_id, "0 1/1 * * * ?");
                             //1分钟之后执行第一次（对应“1/1”第一个1）,然后每隔1分钟执行一次（对应“1/1”第二个1）
