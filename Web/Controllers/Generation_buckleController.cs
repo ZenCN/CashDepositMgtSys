@@ -25,7 +25,7 @@ namespace Web.Controllers
         {
             List<int> list = new List<int>();
 
-            var str_arr = ids.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries);
+            var str_arr = ids.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var id in str_arr)
             {
                 list.Add(int.Parse(id));
@@ -40,7 +40,7 @@ namespace Web.Controllers
             return
                 JsonConvert.SerializeObject(svr.SumDetails(page_index, page_size, agency_code, channel,
                     DateTime.Parse(apply_start),
-                    DateTime.Parse(apply_end), HttpUtility.UrlDecode(Request.Cookies["user_jurisdiction"].Value)));
+                    DateTime.Parse(apply_end), HttpUtility.UrlDecode(Request["user_jurisdiction"])));
         }
 
         public string QuerySchedule(int page_index, int page_size, string agency_code, string channel,
@@ -50,21 +50,21 @@ namespace Web.Controllers
             return
                 JsonConvert.SerializeObject(svr.QuerySchedule(page_index, page_size, agency_code, channel,
                     DateTime.Parse(apply_start),
-                    DateTime.Parse(apply_end), HttpUtility.UrlDecode(Request.Cookies["user_jurisdiction"].Value)));
+                    DateTime.Parse(apply_end), HttpUtility.UrlDecode(Request["user_jurisdiction"])));
         }
 
         public void ExportSchedule(int page_index, int page_size, string agency_code, string channel,
             DateTime apply_start, DateTime apply_end)
         {
             svr.ExportSchedule(page_index, page_size, agency_code, channel, apply_start,
-                apply_end, HttpUtility.UrlDecode(Request.Cookies["user_jurisdiction"].Value));
+                apply_end, HttpUtility.UrlDecode(Request["user_jurisdiction"]));
         }
 
         public string ChangeReviewState(string ids, int state)
         {
             List<int> list = new List<int>();
 
-            var str_arr = ids.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries);
+            var str_arr = ids.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var id in str_arr)
             {
                 list.Add(int.Parse(id));
@@ -96,8 +96,8 @@ namespace Web.Controllers
             return
                 JsonConvert.SerializeObject(svr.Search(page_index, page_size, salesman_card_id, salesman_name,
                     review_state, DateTime.Parse(apply_start), DateTime.Parse(apply_end),
-                    Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value,
-                    int.Parse(Request.Cookies["user_level"].Value), Request.Cookies["user_role"].Value));
+                    Request["user_code"], Request["agency_code"],
+                    int.Parse(Request["user_level"]), Request["user_role"]));
         }
 
         public void ExportSumDetails(int page_index, int page_size, string agency_code, string channel,
@@ -111,8 +111,8 @@ namespace Web.Controllers
             string review_state, string apply_start, string apply_end)
         {
             svr.Export(page_index, page_size, salesman_card_id, salesman_name, review_state, DateTime.Parse(apply_start), DateTime.Parse(apply_end),
-                Request.Cookies["user_code"].Value, Request.Cookies["agency_code"].Value,
-                int.Parse(Request.Cookies["user_level"].Value), Request.Cookies["user_role"].Value);
+                Request["user_code"], Request["agency_code"],
+                int.Parse(Request["user_level"]), Request["user_role"]);
         }
 
         public string Import(HttpPostedFileBase file, string channel)

@@ -308,7 +308,7 @@ namespace Service
                         query =
                         query.Where(
                             t =>
-                                t.agency_code == agency_code);
+                                t.agency_code == code);
                     }
                     break;
                 case 4:
